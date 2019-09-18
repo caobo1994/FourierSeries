@@ -21,16 +21,16 @@
 I intend to implement a library for Fourier series related computation. I will mainly implement the following functions.
 \begin{itemize}
 	\item Compute the Fourier series of a given function.
-	\item Compute the value of a function with given variable value and the Fourier series of a function.
-	\item Implement the addition, subtraction, multiplication and division of Fourier series.
-	\item Implement some basic functions (sin, exp, etc.) of Fourier series.
+	\item Compute the value of a function with given variable value and the Fourier series of this function.
+	\item Implement the addition, subtraction, multiplication and division of Fourier series. That is, suppose that the functions $f(t)$ and function $g(t)$ have Fourier series $F$ and $G$, respectively, this library computes the Fourier series of $f(t)+g(t)$, $f(t)-g(t)$, $f(t)*g(t)$, and $f(t)/g(t)$ from $F$ and $G$. 
+	\item Implement some basic functions (sin, exp, etc.) of Fourier series. That is, suppose a function $f(t)$ with known Fourier series $F$, and a known basic function $g()$, we would like to compute the Fourier series of $g(f(t))$ from $F$. 
 	\item Formatted input and output of Fourier series. 
 \end{itemize}
 
 The aforementioned function shall be a $\mathbb{R}\rightarrow\mathbb{R}$ function, whose Fourier series exists. Instead of verification by this library (due to foreseeable technical difficulties), this property shall be guaranteed by the users. 
 
 \section{Motivation}
-An equation solver, whose development I currently participate in, utilizes Taylor Series, and I intend to see if its Taylor Series parts can be replaced by Fourier series ones. For this purpose, I need to implement a basic library for the Fourier series related computations, hence this library.
+An equation solver, whose development I currently participate in, utilizes Taylor series, and I intend to see if its Taylor series parts can be replaced by Fourier series ones. For this purpose, I need to implement a basic library for the Fourier series related computations, hence this library.
 
 \section{Environment}
 This library is developed and tested on the 64-bit Ubuntu 18.04, and might be tested on the macOS 10.14 and 10.15 (after its release). 
