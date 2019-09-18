@@ -3,11 +3,13 @@
 \usepackage{tabularx}
 \usepackage{booktabs}
 
-\title{CAS 741: Problem Statement\\Title of Project}
+\usepackage{amsfonts}
 
-\author{Author name and macid}
+\title{CAS 741: Problem Statement\\A Fourier Series library}
 
-\date{}
+\author{Bo Cao, caob13@mcmaster.ca}
+
+\date{\today}
 
 \input{../Comments}
 
@@ -15,25 +17,45 @@
 
 \maketitle
 
-\begin{table}[hp]
-\caption{Revision History} \label{TblRevisionHistory}
-\begin{tabularx}{\textwidth}{llX}
-\toprule
-\textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
-\midrule
-Date1 & Name(s) & Description of changes\\
-Date2 & Name(s) & Description of changes\\
-... & ... & ...\\
-\bottomrule
-\end{tabularx}
-\end{table}
+\section{Goal}
+We intend to implement a library for Fourier Series related computation. We mainly implement the following functions.
+\begin{itemize}
+	\item Compute the Fourier series of a given function.
+	\item Compute the value of a function with given variable value and the Fourier Series of a function.
+	\item Implement the addition, subtraction, multiplication and division of Fourier Series.
+	\item Implement some basic functions (sin, exp, etc.) of Fourier Series.
+	\item Input and output of Fourier Series. 
+\end{itemize}
 
-Put your problem statement here.  Comments to you can be added, like this:
+The aforementioned function shall be a function $\mathbb{R}\rightarrow\mathbb{R}$, whose Fourier Series exists.
 
-\wss{comment}
+\section{Motivation}
+An equation solver, whose development I currently participate in, utilizes Taylor Series, and I intend to see if the Taylor Series in it can be replaced by Fourier Series. For this purpose, I need to implement a basic library for the Fourier Series related computations, hence this library.
 
-You can also leave comments for yourself, like this:
+\section{Environment}
+This library is developed and tested on a fully updated 64-bit Ubuntu 18.04, and might be tested on the macOS 10.14 and 10.15 (after its release). 
 
-\an{comment}
+This library's compatibility with other environments are not guaranteed nor tested, although I guess that it should be compatible with 64-bit Ubuntu 16.04.
+  
+%\begin{table}[hp]
+%\caption{Revision History} \label{TblRevisionHistory}
+%\begin{tabularx}{\textwidth}{llX}
+%\toprule
+%\textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
+%\midrule
+%Date1 & Name(s) & Description of changes\\
+%Date2 & Name(s) & Description of changes\\
+%... & ... & ...\\
+%\bottomrule
+%\end{tabularx}
+%\end{table}
+%
+%Put your problem statement here.  Comments to you can be added, like this:
+%
+%\wss{comment}
+%
+%You can also leave comments for yourself, like this:
+%
+%\an{comment}
 
 \end{document}
