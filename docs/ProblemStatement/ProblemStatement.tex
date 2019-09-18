@@ -5,7 +5,7 @@
 
 \usepackage{amsfonts}
 
-\title{CAS 741: Problem Statement\\A Fourier Series library}
+\title{CAS 741: Problem Statement\\A Fourier Series Library}
 
 \author{Bo Cao, caob13@mcmaster.ca}
 
@@ -18,22 +18,22 @@
 \maketitle
 
 \section{Goal}
-We intend to implement a library for Fourier Series related computation. We mainly implement the following functions.
+I intend to implement a library for Fourier series related computation. I will mainly implement the following functions.
 \begin{itemize}
 	\item Compute the Fourier series of a given function.
-	\item Compute the value of a function with given variable value and the Fourier Series of a function.
-	\item Implement the addition, subtraction, multiplication and division of Fourier Series.
-	\item Implement some basic functions (sin, exp, etc.) of Fourier Series.
-	\item Input and output of Fourier Series. 
+	\item Compute the value of a function with given variable value and the Fourier series of a function.
+	\item Implement the addition, subtraction, multiplication and division of Fourier series.
+	\item Implement some basic functions (sin, exp, etc.) of Fourier series.
+	\item Formatted input and output of Fourier series. 
 \end{itemize}
 
-The aforementioned function shall be a function $\mathbb{R}\rightarrow\mathbb{R}$, whose Fourier Series exists.
+The aforementioned function shall be a $\mathbb{R}\rightarrow\mathbb{R}$ function, whose Fourier series exists. Instead of verification by this library (due to foreseeable technical difficulties), this property shall be guaranteed by the users. 
 
 \section{Motivation}
-An equation solver, whose development I currently participate in, utilizes Taylor Series, and I intend to see if the Taylor Series in it can be replaced by Fourier Series. For this purpose, I need to implement a basic library for the Fourier Series related computations, hence this library.
+An equation solver, whose development I currently participate in, utilizes Taylor Series, and I intend to see if its Taylor Series parts can be replaced by Fourier series ones. For this purpose, I need to implement a basic library for the Fourier series related computations, hence this library.
 
 \section{Environment}
-This library is developed and tested on a fully updated 64-bit Ubuntu 18.04, and might be tested on the macOS 10.14 and 10.15 (after its release). 
+This library is developed and tested on the 64-bit Ubuntu 18.04, and might be tested on the macOS 10.14 and 10.15 (after its release). 
 
 This library's compatibility with other environments are not guaranteed nor tested, although I guess that it should be compatible with 64-bit Ubuntu 16.04.
   

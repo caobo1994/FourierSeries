@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# LaTeX related files
+*.out
+*.synctex.gz
+*.log
+*.aux
