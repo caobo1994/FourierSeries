@@ -1,0 +1,285 @@
+\documentclass{beamer}
+\title{CA presentation\\A Fourier Series Library}
+\author{Bo Cao, caob13@mcmaster.ca}
+\date{\today}
+\begin{document}
+	\titlepage
+	\section{Introduction}
+	\subsection{Purpose of Document}
+	\begin{frame}
+		\frametitle{Purpose of Document}
+		An overview of a library for Fourier Series related computation.
+		\begin{itemize}
+			\item Introduce underlying mathematical theory.
+			\item Introduce necessary adaptations of theory.
+			\item Define a data structure storing Fourier Series data.
+			\item Design and implement operations.
+			\item Review verification of library.
+		\end{itemize}
+	\end{frame}
+
+	\subsection{Scope of the Family}
+	\begin{frame}
+		\frametitle{Scope of the Family}
+		\begin{itemize}
+			\item Limited length of Fourier Series - limited accuracy.
+			\item Only accepts functions able to be converted to Fourier Series, no checking - hard to implement, leave to users.
+			\item Binary operations require frequency agreements - better with explicit frequency conversion.
+			\item Supports popular floating point types - but requires basic arithmetic operations and input/output.  
+		\end{itemize}
+	\end{frame}
+
+	\subsection{Characteristics of Intended Reader}
+	\begin{frame}
+		\frametitle{Characteristics of Intended Reader}
+		\begin{itemize}
+			\item Developers, maintainers and contributors.
+			\item Potential users who want deep knowledge of this library (for compatibility analysis, code audition, etc.)
+		\end{itemize}
+	\end{frame}
+
+	\subsection{Organization of Document}
+	\begin{frame}
+		\frametitle{Organization of Document}
+		Same as the template.
+	\end{frame}
+
+	\section{General System Description}
+	\subsection{Potential System Contexts}
+	\begin{frame}
+		\frametitle{Potential System Contexts}
+		User Responsibilities:
+		\begin{itemize}
+			\item Source code distribution, compatibility between compilers - compile by users.
+			\item Check of input legality - library can detect some, but not all. Users have better understanding of library's used environments.
+		\end{itemize}
+		Library responsibilities:
+		\begin{itemize}
+			\item Report found input illegality - wrong format, etc.
+			\item Perform operations in promised way.
+			\item Get results within promised accuracy, analyze error when possible.
+			\item Output within given format.
+			\item Crash only when it is a must - zero memory leakage, no excessive CPU usage, etc.
+		\end{itemize}
+	\end{frame}
+
+	\subsection{Potential User Characteristics}
+	\begin{frame}
+		\frametitle{Potential User Characteristics}
+		Who uses this library?
+		\begin{itemize}
+			\item Scientific/industrial software developers - almost everyone have degrees/abundant knowledge in coding and math.
+			\item Students preparing for these jobs - finished basic courses.
+		\end{itemize}
+		What do they know?
+		\begin{itemize}
+			\item Basic knowledge in Fourier Series - covered in advanced calculus courses, even real analysis
+			\item Basic analysis of error estimation - taught in introductory scientific computation courses. (CAS 4X03, CAS 708/ CSE 700 as examples)
+			\item Understanding of one of the languages in which this library provide APIs (C/C++, maybe Python, MATLAB, etc.) 		
+		\end{itemize}
+		These are the characteristics of potential users.
+	\end{frame}
+
+	\subsection{Potential System Constraints}
+	\begin{frame}
+		\frametitle{Potential System Constraints}
+		\begin{itemize}
+			\item None until now.
+			\item Possible suggestions welcomed.
+		\end{itemize}
+	\end{frame}
+
+	\section{Commonalities}
+	\subsection{Background Overview}
+	\begin{frame}
+		\frametitle{Overview of Related Libraries}
+			A list of related libraries
+		\begin{itemize}
+			\item FFTW: \url{www.fftw.org};
+			\item Java Fourier Transform Library: \url{Java Fourier Transform Library}, written in Java;
+			\item FINUFFT: \url{https://finufft.readthedocs.io/en/latest/};
+			\item Fourier Transform in MATLAB:
+			\url{https://www.mathworks.com/help/symbolic/fourier.html}, possible operations in other packages.
+		\end{itemize}
+		Analysis:
+		\begin{itemize}
+			\item Most written in C/C++;
+			\item Most only implement transformation;
+			\item Fast transformation.
+		\end{itemize}
+
+	\end{frame}
+
+	\begin{frame}
+	\frametitle{What do we focus on?}
+		Requirements on our library:
+\begin{itemize}
+	\item Focus on operation;
+	\item Might need to implement conversion to/from them.
+\end{itemize}
+	\end{frame}
+
+	\subsection{Terminology and Definitions}
+	\begin{frame}
+		\frametitle{Terminology and Definitions}
+		Fourier Series:
+		\begin{equation}
+			f(t) = A_0+\sum_{i=1}^{+\infty}A_i\cos(i\omega t)+\sum_{i=1}^{+\infty}B_i\sin(i\omega t).
+		\end{equation}
+		\begin{itemize}
+			\item $f(t)$: transformed function;
+			\item $\omega$: base frequency;
+			\item $A_i, B_i$: Fourier Series.
+		\end{itemize}
+	\end{frame}
+
+	\subsection{Data Definitions}
+	\begin{frame}
+	\frametitle{Data Definitions}
+	What is enough to describe a Fourier Series?
+\begin{itemize}
+	\item $\omega$;
+	\item $A_i, B_i$.
+\end{itemize}
+Can our library handle infinite series? No.
+
+What to do? Cut off!
+
+Where? Let users decide.
+
+Additional information: cut-off position $n$, only $A_i, i=0:n$ and $B_i, i=1:n$ are computed, stored and outputted.
+
+Will this library estimate error? Maybe. See if it is easy to implement.
+	\end{frame}
+
+	\subsection{Goal Statements}
+	\begin{frame}
+		\frametitle{Goal Statements: Quoted from Problem Statements}
+			I intend to implement a library for Fourier series related computation. I will mainly implement the following functions.
+		\begin{itemize}
+			\item Compute the Fourier series of a given function.
+			\item Compute the value of a function with given variable value and the Fourier series of this function.
+			\item Implement the addition, subtraction, multiplication and division of Fourier series. That is, suppose that the functions $f(t)$ and function $g(t)$ have Fourier series $F$ and $G$, respectively, this library computes the Fourier series of $f(t)+g(t)$, $f(t)-g(t)$, $f(t)*g(t)$, and $f(t)/g(t)$ from $F$ and $G$. 
+			\item Implement some basic functions (sin, exp, etc.) of Fourier series. That is, suppose a function $f(t)$ with known Fourier series $F$, and a known basic function $g()$, we would like to compute the Fourier series of $g(f(t))$ from $F$. 
+			\item Formatted input and output of Fourier series. 
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Possible Extensions}
+		\begin{itemize}
+			\item Comparison between Fourier series;
+			\item Amplitude of Fourier Series;
+			\item Base frequency reduction;
+			\item Conversion from/to other data formats.
+	\end{itemize}
+	\end{frame}
+
+	\subsection{Theoretical Models}
+	\begin{frame}
+		\frametitle{Theoretical Models}
+		\begin{itemize}
+		\item Conversion from functions: Fast Fourier Transform (FFT).
+\item Computation of function values: direct and easy.
+\item Addition, subtraction, multiplication: use the operations of two Fourier Series to find relationships between coefficients.
+\item Division: a little hard, covered later.
+\item Functions of Fourier Series: convert functions to Taylor Series, replace independent variables with Fourier Series, find relationships between coefficients.
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{How to define and compute division?}
+		Two ways for computing the Fourier Series of $f(t)/g(t)$ from $f(t)$'s Fourier Series $A_{f,i}, B_{f,i}$ and Fourier Series $A_{g,i}, B_{g,i}$.
+		
+		Define the solution by $A_{d,i}, B_{d,i}$.
+		
+		Ways:
+		\begin{enumerate}[W{a}y 1.]
+		\item Use $[f(t)/g(t)] * g(t) = f(t)$, build linear equations among $A_{f,i}, B_{f,i}$, $A_{g,i}, B_{g,i}$, $A_{d,i}, B_{d,i}$. Solve equations for $A_{d,i}, B_{d,i}$.
+
+		\item Calculate Fourier Series of $1/g(t)$ like Way 1, and multiply it with that of $f(t)$.
+		\end{enumerate}
+		Same? Not with cut-off errors, but can be proven equal within this error.
+		
+		Both throws exceptions when unique solution cannot be found for linear equations. (Same as division by zero in normal divisions?)
+		
+		Advantage compared to others.
+		\begin{enumerate}[W{a}y 1.]
+			\item Intuitive.
+			\item Reusability for multiple $f(t)$'s divided by one $g(t)$.
+		\end{enumerate}
+		Have not decided which one to use.
+		
+	\end{frame}
+
+	\section{Variabilities}
+		\subsection{Assumptions}
+		\begin{frame}
+		\frametitle{Variability in Assumptions}
+		\begin{itemize}
+			\item How long are the series before cut-off?
+			\item Data type to store coefficients and base frequency.
+			\item How to get the input? Conversion from what other data formats?
+		\end{itemize}
+		\end{frame}
+	
+		\subsection{Calculation}
+		\begin{frame}
+			\frametitle{Variability in Calculation}
+			\begin{itemize}
+				\item Fourier transform part: one algorithm, multiple ones chosen by user, or chosen by library?
+				\item What linear solver to use?
+				\item Cut-off method: just cut-off or let cut-off terms slightly modify remaining terms?
+			\end{itemize}
+		\end{frame}
+	
+		\begin{frame}
+			\frametitle{Variability in Output}
+			\begin{itemize}
+				\item Output/conversion format. Which ones to implement?
+				\item Accuracy in formatted output.
+				\item Too large to be outputted? Maybe not.
+			\end{itemize}
+		\end{frame}
+	
+	\section{Requirements}
+	\subsection{Functional Requirements}
+	\begin{frame}
+	\frametitle{Supplementary Information: Functional Requirements on Functions Converted to Fourier Series}
+	The aforementioned function shall be a $\mathbb{R}\rightarrow\mathbb{R}$ function, whose Fourier series exists. Instead of verification by this library (due to foreseeable technical difficulties), this property shall be guaranteed by the users. 
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Functional Requirements: Others}
+		\begin{itemize}
+			\item Size: not too large. (usually)
+			\item Overflow? Users shall prevent, library just throws exception.
+		\end{itemize}
+	\end{frame}
+	
+	\begin{frame}
+		\frametitle{Non-functional requirements}
+		\begin{itemize}
+			\item Implement easy algorithms first, no much need on speed - low data size.
+			\item Compiler/dependent library compatibility - copy/implement solvers or call them?
+		\end{itemize}
+	\end{frame}
+	
+	\section{Verification}
+	\begin{frame}
+		\frametitle{Verification}
+		\begin{itemize}
+			\item Verify with simple functions.
+			\item Error estimation needed for verification? Maybe implement a simple but relaxed error estimation.
+			\item How many kinds of input? All $f(t)$ and $g(t)$ cover as many types of functions as possible.
+		\end{itemize}
+		To be expanded in the future.
+	\end{frame}
+	
+	\section{Traceability}
+	\begin{frame}
+		\frametitle{Traceability}
+		TBD.
+	\end{frame}
+
+\end{document}
