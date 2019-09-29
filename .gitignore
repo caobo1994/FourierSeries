@@ -36,3 +36,6 @@
 *.synctex.gz
 *.log
 *.aux
+*.nav
+*.toc
+*.snm
