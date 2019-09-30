@@ -3,7 +3,16 @@
 \author{Bo Cao, caob13@mcmaster.ca}
 \date{\today}
 \begin{document}
-	\titlepage
+	\begin{frame}
+		\maketitle
+	\end{frame}
+\begin{frame}[allowframebreaks]
+\frametitle{Table of Contents}
+\tableofcontents[sections={1-3}]
+\framebreak
+\tableofcontents[sections={4-7}]
+\end{frame}
+
 	\section{Introduction}
 	\subsection{Purpose of Document}
 	\begin{frame}
@@ -13,8 +22,8 @@
 			\item Introduce underlying mathematical theory.
 			\item Introduce necessary adaptations of theory.
 			\item Define a data structure storing Fourier Series data.
-			\item Design and implement operations.
-			\item Review verification of library.
+			\item Design and implement operations. (implementation not covered in the following slides)
+			\item Review verification of library. (only a simple introduction shown)
 		\end{itemize}
 	\end{frame}
 
@@ -96,7 +105,7 @@
 			A list of related libraries
 		\begin{itemize}
 			\item FFTW: \url{www.fftw.org};
-			\item Java Fourier Transform Library: \url{Java Fourier Transform Library}, written in Java;
+			\item Java Fourier Transform Library: \url{https://github.com/tambapps/fourier-transform-library}, written in Java;
 			\item FINUFFT: \url{https://finufft.readthedocs.io/en/latest/};
 			\item Fourier Transform in MATLAB:
 			\url{https://www.mathworks.com/help/symbolic/fourier.html}, possible operations in other packages.
@@ -170,7 +179,7 @@ Will this library estimate error? Maybe. See if it is easy to implement.
 		\begin{itemize}
 			\item Comparison between Fourier series;
 			\item Amplitude of Fourier Series;
-			\item Base frequency reduction;
+			\item Base frequency reduction ($\omega \rightarrow(1/k)\omega$, $k\in\mathbb{Z}^{+}$); 
 			\item Conversion from/to other data formats.
 	\end{itemize}
 	\end{frame}
@@ -179,11 +188,12 @@ Will this library estimate error? Maybe. See if it is easy to implement.
 	\begin{frame}
 		\frametitle{Theoretical Models}
 		\begin{itemize}
-		\item Conversion from functions: Fast Fourier Transform (FFT).
-\item Computation of function values: direct and easy.
-\item Addition, subtraction, multiplication: use the operations of two Fourier Series to find relationships between coefficients.
-\item Division: a little hard, covered later.
-\item Functions of Fourier Series: convert functions to Taylor Series, replace independent variables with Fourier Series, find relationships between coefficients.
+			\item Conversion from functions: Fast Fourier Transform (FFT).
+			\item Computation of function values: direct and easy.
+			\item Addition, subtraction, multiplication: use the operations of two Fourier Series to find relationships between coefficients.
+			\item Division: a little hard, covered later.
+			\item Functions of Fourier Series: convert functions to Taylor Series, replace independent variables with Fourier Series, find relationships between coefficients.
+			\item Input/output: direct and easy.
 		\end{itemize}
 	\end{frame}
 
@@ -208,7 +218,7 @@ Will this library estimate error? Maybe. See if it is easy to implement.
 			\item Intuitive.
 			\item Reusability for multiple $f(t)$'s divided by one $g(t)$.
 		\end{enumerate}
-		Have not decided which one to use.
+		Have not decided which one to use. Any suggestions?
 		
 	\end{frame}
 
@@ -230,6 +240,7 @@ Will this library estimate error? Maybe. See if it is easy to implement.
 				\item Fourier transform part: one algorithm, multiple ones chosen by user, or chosen by library?
 				\item What linear solver to use?
 				\item Cut-off method: just cut-off or let cut-off terms slightly modify remaining terms?
+				\item Cut-off in Taylor Series. How long? Relationship with Fourier Series cut-off? Who makes the decision?
 			\end{itemize}
 		\end{frame}
 	
@@ -245,7 +256,9 @@ Will this library estimate error? Maybe. See if it is easy to implement.
 	\section{Requirements}
 	\subsection{Functional Requirements}
 	\begin{frame}
-	\frametitle{Supplementary Information: Functional Requirements on Functions Converted to Fourier Series}
+	\frametitle{Functional Requirements on Functions Converted to Fourier Series}
+	Quoted from the Problem Statement:
+	
 	The aforementioned function shall be a $\mathbb{R}\rightarrow\mathbb{R}$ function, whose Fourier series exists. Instead of verification by this library (due to foreseeable technical difficulties), this property shall be guaranteed by the users. 
 	\end{frame}
 	
