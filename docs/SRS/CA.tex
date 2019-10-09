@@ -22,7 +22,7 @@
 
 \usepackage{appendix}
 
-\usepackage{refcheck}
+%\usepackage{refcheck}
 
 \hypersetup{
     bookmarks=true,         % show bookmarks bar?
@@ -162,8 +162,8 @@ $[-\pi/\omega, \pi/\omega]$ & Set of real numbers that are neither smaller than 
 $\rightarrow$ & Indicate mapping\\
 $\mathbb{A}^{*}$ & Non-negative subset of set $\mathbb{A}$ (either $\mathbb{R}$ or $\mathbb{Z}$)\\
 $\mathbb{A}^{*}$ & Positive subset of set $\mathbb{A}$ (either $\mathbb{R}$ or $\mathbb{Z}$)\\
-$\sum_{i=m}^{n}a_i$ & Summation of $a_i, i=m, m+1, ..., n$\\
-$n$ & Length of cut-off Fourier series (definition not applicable to this table) \\ 
+$\sum_{i=m_1}^{m_2}a_i$ & Summation of $a_i, i=m_1, m_1+1, ..., m_2$\\
+$n$ & Length of cut-off Fourier series\\ 
 $\omega$ & Base frequency of Fourier series \\
 $\mathit{CFSf}$, $\mathit{CFSg}$ & $\mathit{CFS}(f(t), n, \omega)$ and $\mathit{CFS}(g(t), n, \omega)$ respectively.\\
 \bottomrule
@@ -206,7 +206,7 @@ $\mathit{CFSf}$, $\mathit{CFSg}$ & $\mathit{CFS}(f(t), n, \omega)$ and $\mathit{
 \section{Introduction}
 
 \subsection{Purpose of Document}
-This document introduces a library, \famname, mainly designed and implemented for Fourier series related calculations.
+This document introduces a library, \famname, mainly designed and implemented for Fourier series related calculations. This document is based on the template introduced in \cite{Smith2006}, \cite{SmithAndLai2005}, and \cite{SmithMcCutchanAndCarette2017}.
 
 \subsection{Scope of the Family} 
 The scope of the family is limited to calculations related to the Fourier series of mathematical functions.
@@ -221,9 +221,18 @@ The intended readers must have the following knowledge.
 \end{itemize}
 
 \subsection{Organization of Document}
-TBD
+This document consists of the following sections.
+\begin{itemize}
+	\item \autoref{Sc:GSD} generally describes this library, including what it is, who uses it, and what kinds of environment it needs.
+	\item \autoref{Sc:CA} introduces the common elements of this library. This section overviews its background, defines related data, introduces theories needed for calculation, and states the goals of this library.
+	\item \autoref{Sc:Var} covers the different functions of this library, and states its variability in assumptions, calculations, and outputs.
+	\item \autoref{Sc:Req} informs users, developers, maintainers, and reviewers of this library, about its requirements, both functional ones and nonfunctional ones.
+	\item \autoref{Sc:LC} states the changes of this library that are likely in the future.
+	\item \autoref{Sc:Trace} shows the traceability matrix of this library, to inform the developers of their changes' impacts.
+	\item \autoref{Appendix:Operations} gives proof of the operation-related theories in \autoref{Sc:CA}.
+\end{itemize}
 
-\section{General System Description}
+\section{General System Description}\label{Sc:GSD}
 
 This section identifies the interfaces between the system and its environment,
 describes the potential user characteristics and lists the potential system
@@ -239,14 +248,14 @@ The users provide the data for the library to  calculate, and the library return
 \begin{itemize}
 \item Provide the inputs of the functions in the library.
 \item Receive the corresponding outputs, and provide and manage the memory space storing them if mentioned in the following sections.
-\item For the conversion from mathematical functions to Fourier series, ensure that provided mathematical functions have Fourier series. 
+\item For the conversion from mathematical functions to Fourier series, ensure that provided mathematical functions are eligible for transformation. 
 
 \end{itemize}
 \item \famname{} Responsibilities:
 \begin{itemize}
 \item Detect data type mismatch, such as a string of characters instead of a
   floating point number.
-\item Unless otherwise mentioned in this document, detect legality input value, such as mismatched length of Fourier series included in one calculation.
+\item Unless otherwise mentioned in this document, detect illegality of input values, such as mismatched length of Fourier series for binary operations.
 \item Unless otherwise mentioned, manage the memory space required by this library.
 \end{itemize}
 \end{itemize}
@@ -259,10 +268,10 @@ The end user of \famname{} should have an understanding of undergraduate level 2
 The potential systems must contain the compilation/interpretation environment for the programming languages in which this library is developed, as well as dependent libraries.
 %\wss{You may not have any system constraints}
 
-\section{Commonalities}
+\section{Commonalities}\label{Sc:CA}
 
-\subsection{Background Overview} \label{Sec_Background}
-
+\subsection{Background Overview} \label{Sbsc:CA-Background}
+Fourier series are used in lots of analysis, analysis of signals as an example \cite{papoulis1977signal}. The Fourier series of a function mainly uses a linear combination of 'sin' and 'cos' functions to represent and approximate this function. In real-life research, we sometimes need to perform Fourier series related operations. For example, when we need to analyze the total effects of two signals, each approximated by its Fourier series, we need to calculated the summation of these two Fourier series. Or, when we need to calculate the strength of a signal from its Fourier series, we need to calculate this Fourier series' amplitude.
 \subsection{Terminology and  Definitions}
 
 This subsection provides a list of terms that are used in the subsequent
@@ -271,14 +280,14 @@ easier to correctly understand the requirements:
 
 \begin{itemize}
 
-\item 
+\item Binary operations: an operation that involves two operands.
 
 \end{itemize}
-
+\an{This section needs further expansion.}
 \subsection{Data Definitions} \label{sec_datadef}
 
 This section collects and defines all the data needed to build the instance
-models. The dimension of each quantity is also given.  
+models.
 ~\newline
 
 \noindent
@@ -306,7 +315,7 @@ Symbol &$\mathit{IFS}$\\
   	\item $B_{inf, i}\in\mathbb{R}, i=1, 2, ...$.
   \end{itemize}  \\
   \hline
-  Sources& Arthur L. Schoenstadt, An Introduction to Fourier Analysis, August 18, 2005\\
+  Sources& Tolstov, G.P. and Silverman, R.A., Fourier Series, Dover Books on Mathematics, 1976, Dover Publications, \cite{tolstov1976fourier}\\
   \hline
   Ref.\ By & \iref{DD:CFS}, \aref{Ass:FunctionProperty}, \calref{Cal:Normal}, \calref{Cal:Error}, \oref{Output:Faithful},  and \oref{Output:Error}\\
   \hline
@@ -330,7 +339,7 @@ Symbol &$\mathit{IFS}$\\
 		% \hline
 		%SI Units & \si{\watt\per\square\metre}\\
 		%\hline
-		Equation&$\mathit{CFS}(f(t), n, \omega)=f(t)\rightarrow \big[A_i, i=0, 1, ..., n; B_i, i=1, 2, ..., n\big]$, satisfying $A_i=A_{inf, i}, i=0, 1, ..., n; B_i=B_{inf, i}, i=1, 2, ..., n$, where $A_{inf, i}$'s and $B_{inf, i}$'s come from $\mathit{IFS}(f(t), \omega)$ \\
+		Equation&$\mathit{CFS}(f(t), n, \omega)=\big[A_i, i=0, 1, ..., n; B_i, i=1, 2, ..., n\big]$, satisfying $A_i=A_{inf, i}, i=0, 1, ..., n; B_i=B_{inf, i}, i=1, 2, ..., n$, where $A_{inf, i}$'s and $B_{inf, i}$'s come from $\mathit{IFS}(f(t), \omega)$ \\
 		\hline
 		Description & $n\in \mathbf{Z}^{*}$ is called cut-off length.\\
 		\hline
@@ -343,7 +352,7 @@ Symbol &$\mathit{IFS}$\\
 ~\newline
 
 From now on, denote $A_i$'s and $B_i$'s in $\mathit{CFSf}$ as $A_{f, i}$'s and $B_{f, i}$'s respectively, and same for $A_{g, i}$'s and $B_{g, i}$'s.
-
+~\newline
 
 \noindent
 \begin{minipage}{\textwidth}
@@ -361,7 +370,7 @@ From now on, denote $A_i$'s and $B_i$'s in $\mathit{CFSf}$ as $A_{f, i}$'s and $
 		% \hline
 		%SI Units & \si{\watt\per\square\metre}\\
 		%\hline
-		Equation& $App(CFSf, t_1)=\sum_{i=0}^{n}A_i\cos(i\omega t)+\sum_{i=1}^{n}B_{inf, i}\sin(i\omega t)$ \\
+		Equation& $App(CFSf, t_1)=\sum_{i=0}^{n}A_{f,i}\cos(i\omega t_1)+\sum_{i=1}^{n}B_{f,i}\sin(i\omega t_1)$ \\
 		\hline
 		Description & Define approximated function value of a function calculated from its CFS.\\
 		\hline
@@ -383,19 +392,19 @@ From now on, denote $A_i$'s and $B_i$'s in $\mathit{CFSf}$ as $A_{f, i}$'s and $
 		\hline
 		Label& \bf Addition of CFS's\\
 		\hline
-		Symbol &$\mathit{CFS}(f(t), n, \omega)+\mathit{CFS}(g(t), n, \omega)$\\
+		Symbol &$+$\\
 		\hline
 		% Units& $Mt^{-3}$\\
 		% \hline
 		%SI Units & \si{\watt\per\square\metre}\\
 		%\hline
-		Equation& $\mathit{CFS}(f(t), n, \omega)+\mathit{CFS}(g(t), n, \omega)=\mathit{CFS}(f(t)+g(t), n, \omega)$ \\
+		Equation& $\mathit{CFSf}+\mathit{CFSg}=\mathit{CFS}(f(t)+g(t), n, \omega)$ \\
 		\hline
 		Description & Define the rule of addition of two CFS's\\
 		\hline
 		Sources& Defined by author\\
 		\hline
-		Ref.\ By & \calref{Cal:Normal}, \calref{Cal:Error},  \oref{Output:Faithful}, and  \oref{Output:Error}\\
+		Ref.\ By & \iref{IM:Addition}, \calref{Cal:Normal}, \calref{Cal:Error},  \oref{Output:Faithful}, and  \oref{Output:Error}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -411,19 +420,19 @@ From now on, denote $A_i$'s and $B_i$'s in $\mathit{CFSf}$ as $A_{f, i}$'s and $
 		\hline
 		Label& \bf Subtraction of CFS's\\
 		\hline
-		Symbol &$\mathit{CFS}(f(t), n, \omega)-\mathit{CFS}(g(t), n, \omega)$\\
+		Symbol &$-$\\
 		\hline
 		% Units& $Mt^{-3}$\\
 		% \hline
 		%SI Units & \si{\watt\per\square\metre}\\
 		%\hline
-		Equation& $\mathit{CFS}(f(t), n, \omega)-\mathit{CFS}(g(t), n, \omega)=\mathit{CFS}(f(t)-g(t), n, \omega)$ \\
+		Equation& $\mathit{CFSf}-\mathit{CFSg}=\mathit{CFS}(f(t)-g(t), n, \omega)$ \\
 		\hline
 		Description & Define the rule of subtraction of two CFS's\\
 		\hline
 		Sources& Defined by author\\
 		\hline
-		Ref.\ By & \calref{Cal:Normal}, \calref{Cal:Error},  \oref{Output:Faithful}, and \oref{Output:Error}\\
+		Ref.\ By & \iref{IM:Subtraction}, \calref{Cal:Normal}, \calref{Cal:Error},  \oref{Output:Faithful}, and \oref{Output:Error}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -439,19 +448,19 @@ From now on, denote $A_i$'s and $B_i$'s in $\mathit{CFSf}$ as $A_{f, i}$'s and $
 		\hline
 		Label& \bf Multiplication of CFS's\\
 		\hline
-		Symbol &$\mathit{CFS}(f(t), n, \omega)*\mathit{CFS}(g(t), n, \omega)$\\
+		Symbol &$*$\\
 		\hline
 		% Units& $Mt^{-3}$\\
 		% \hline
 		%SI Units & \si{\watt\per\square\metre}\\
 		%\hline
-		Equation& $\mathit{CFS}(f(t), n, \omega)*\mathit{CFS}(g(t), n, \omega)=\mathit{CFS}(f(t)*g(t), n, \omega)$ \\
+		Equation& $\mathit{CFSf}*\mathit{CFSg}=\mathit{CFS}(f(t)*g(t), n, \omega)$ \\
 		\hline
 		Description & Define the rule of multiplication of two CFS's\\
 		\hline
 		Sources& Defined by author\\
 		\hline
-		Ref.\ By & \calref{Cal:Normal}, \calref{Cal:Error}, \oref{Output:Faithful}, and \oref{Output:Error}\\
+		Ref.\ By & \iref{IM:Multiplication}, \calref{Cal:Normal}, \calref{Cal:Error}, \oref{Output:Faithful}, and \oref{Output:Error}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -467,19 +476,19 @@ From now on, denote $A_i$'s and $B_i$'s in $\mathit{CFSf}$ as $A_{f, i}$'s and $
 		\hline
 		Label& \bf Division of CFS's\\
 		\hline
-		Symbol &$\mathit{CFS}(f(t), n, \omega)/\mathit{CFS}(g(t), n, \omega)$\\
+		Symbol &$/$\\
 		\hline
 		% Units& $Mt^{-3}$\\
 		% \hline
 		%SI Units & \si{\watt\per\square\metre}\\
 		%\hline
-		Equation& $\mathit{CFS}(f(t), n, \omega)/\mathit{CFS}(g(t), n, \omega)=\mathit{CFS}(f(t)/g(t), n, \omega)$ \\
+		Equation& $\mathit{CFSf}/\mathit{CFSg}=\mathit{CFS}(f(t)/g(t), n, \omega)$ \\
 		\hline
 		Description & Define the rule of division of two CFS's\\
 		\hline
 		Sources& Defined by author\\
 		\hline
-		Ref.\ By & \calref{Cal:Normal}, \calref{Cal:Error},  \oref{Output:Faithful}, and \oref{Output:Error}\\
+		Ref.\ By & \iref{IM:Division}, \calref{Cal:Normal}, \calref{Cal:Error},  \oref{Output:Faithful}, and \oref{Output:Error}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -497,17 +506,13 @@ From now on, denote $A_i$'s and $B_i$'s in $\mathit{CFSf}$ as $A_{f, i}$'s and $
 		\hline
 		Symbol &$g(\mathit{CFS}(f(t), n, \omega))$\\
 		\hline
-		% Units& $Mt^{-3}$\\
-		% \hline
-		%SI Units & \si{\watt\per\square\metre}\\
-		%\hline
 		Equation& $g(\mathit{CFS}(f(t), n, \omega))=\sum_{i=0}^{n}a_i \mathit{CFS}^i(f(t), n, \omega)$, in which $a_i, i=0:n$ is the first $(n+1)$ coefficients of the Taylor series of $g(t)$, and the $n$-th ($n\in\mathbb{Z}^{+}$) power of CFS is defined as $n$ copies of this CFS multiplied together. ($0$-th power is defined as the CFS of $f(t)=1$.)\\
 		\hline
 		Description & Define the rule of the function of a CFS\\
 		\hline
 		Sources& Defined by author\\
 		\hline
-		Ref.\ By & \aref{Ass:FunctionProperty},  \calref{Cal:Normal}, and  \oref{Output:Faithful}\\
+		Ref.\ By & \iref{IM:Function}, \aref{Ass:BasicFunction},  \calref{Cal:Normal}, and  \oref{Output:Faithful}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -537,7 +542,7 @@ From now on, denote $A_i$'s and $B_i$'s in $\mathit{CFSf}$ as $A_{f, i}$'s and $
 		\hline
 		Sources& Defined by author\\
 		\hline
-		Ref.\ By & \aref{Ass:FunctionProperty}, \calref{Cal:Normal}, and \oref{Output:Faithful}\\
+		Ref.\ By & \iref{IM:Amplitude}, \aref{Ass:FunctionProperty}, \calref{Cal:Normal}, and \oref{Output:Faithful}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -553,19 +558,19 @@ From now on, denote $A_i$'s and $B_i$'s in $\mathit{CFSf}$ as $A_{f, i}$'s and $
 		\hline
 		Label& \bf Tolerated equality of two CFS's\\
 		\hline
-		Symbol &$\mathit{CFSf}=\mathit{CFSg}$\\
+		Symbol &$=$\\
 		\hline
 		% Units& $Mt^{-3}$\\
 		% \hline
 		%SI Units & \si{\watt\per\square\metre}\\
 		%\hline
-		Equation& Same as $\mathit{Amp}(\mathit{CFSf}-\mathit{CFSg})\leq \mathit{err}$, where $\mathit{err}$ is an user-given tolerance.\\
+		Equation& $\mathit{CFSf}=\mathit{CFSg}$ is the same as $\mathit{Amp}(\mathit{CFSf}-\mathit{CFSg})\leq \mathit{err}$, where $\mathit{err}$ is an user-given tolerance.\\
 		\hline
 		Description & Define whether two CFS's are equal within a given tolerance\\
 		\hline
 		Sources& Defined by author\\
 		\hline
-		Ref.\ By & \calref{Cal:Normal}, and \oref{Output:Faithful}\\
+		Ref.\ By & \iref{IM:ToleratedEquality}, \calref{Cal:Normal}, and \oref{Output:Faithful}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -578,10 +583,10 @@ From now on, denote $A_i$'s and $B_i$'s in $\mathit{CFSf}$ as $A_{f, i}$'s and $
 
 \item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:ConvertFromFunc}:] When given a function $f(t)$, the cut-off length $n$, and a base frequency $\omega$, return the function's CFS $\mathit{CFS}(f(t), n, \omega)$.
 \item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:FuncValue}:] When given a CFS $\mathit{CFS}(f(t), n, \omega)$ and a value of $t$ as $t_1$, return the approximated value of $f(t_1)$ computed from the given values.
-\item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:Operation}:] When given two CFS's $\mathit{CFSf}$, $\mathit{CFSg}$, and an operation in {addition, subtraction, multiplication, division}, return the result of this operation on these two CFS's.
-\item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:Function}:] When given a CFS $\mathit{CFSf}$, and a function $g(t)$ from the base function sets defined by this library, return the CFS $g(CFSf)$.
-\item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:ConvertFromOther}:] When given values of $n$, $\omega$, $A_i$'s, and $B_i$'s, return the CFS built on these values.
-\item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:ConvertToOther}:] When given a CFS, store its values of $n$, $\omega$, $A_i$'s, and $B_i$'s in the user-designated space.
+\item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:Operation}:] When given two CFS's $\mathit{CFSf}$, $\mathit{CFSg}$, and one of the operations addition, subtraction, multiplication, and division, return the result of this operation on these two CFS's.
+\item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:Function}:] When given a CFS $\mathit{CFSf}$, and a function $g(t)$ from the basic function sets defined by this library, return the CFS $g(CFSf)$. \an{I don't know whether to define the basic function set here or not. I can, and I don't see any possible changes}
+\item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:ConvertFromOther}:] When given a set of values including $n$, $\omega$, $A_i$'s, and $B_i$'s, return the CFS built on these values.
+\item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:ConvertToOther}:] When given a CFS, store its values of $n$, $\omega$, $A_i$'s, and $B_i$'s in the user-designated spaces.
 \item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:Amp}:] When given a CFS, return its amplitude.
 \item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:ToleratedEquality}:] When given two CFS's and a tolerance, return whether they are equal within the tolerance.
 \end{itemize}
@@ -612,10 +617,10 @@ on.
   	\end{aligned}
   \end{equation}\\
   \hline
-  Description & The above equation calculates $A_i (i=0:n), B_i(i=1:n)$ in $\mathit{CFSf}$.\\
+  Description & The above equation calculates   $A_i$'s and $B_i$'s, thus $A_i (i=0:n)$, $B_i(i=1:n)$ in $\mathit{CFSf}$ from given $f(t)$, $n$ and $\omega$.\\
                 
   \hline
-  Source & Arthur L. Schoenstadt, An Introduction to Fourier Analysis, August 18, 2005\\
+  Source & Tolstov, G.P. and Silverman, R.A., Fourier Series, Dover Books on Mathematics, 1976, Dover Publications, \cite{tolstov1976fourier}\\
   \hline
   Ref.\ By & \aref{Ass:FunctionProperty}, \calref{Cal:Normal}, \calref{Cal:Error}, \oref{Output:Faithful}, and \oref{Output:Error}\\
   \hline
@@ -643,7 +648,7 @@ on.
 		\end{aligned}
 		\end{equation}\\
 		\hline
-		Description & The above equation calculates $A_i (i=0:n), B_i(i=1:n)$ in $\mathit{CFS(f(t)+g(t), n, \omega}$ (represented by $A_{f+g, i}$ and $B_{f+g, i}$ respectively) from $\mathit{CFSf}$ and $\mathit{CFSg}$.\\
+		Description & The above equation calculates $A_i (i=0:n)$, $B_i(i=1:n)$ in $\mathit{CFS}(f(t)+g(t), n, \omega)$ (represented by $A_{f+g, i}$ and $B_{f+g, i}$ respectively) from $\mathit{CFSf}$ and $\mathit{CFSg}$.\\
 		
 		\hline
 		Source & Developed by author in \autoref{Appendix:Operations}\\
@@ -673,7 +678,7 @@ on.
 		\end{aligned}
 		\end{equation}\\
 		\hline
-		Description & The above equation calculates $A_i (i=0:n), B_i(i=1:n)$ in $\mathit{CFS(f(t)-g(t), n, \omega} $ (represented by $A_{f-g, i}$ and $B_{f-g, i}$ respectively) from $\mathit{CFSf}$ and $\mathit{CFSg}$.\\
+		Description & The above equation calculates $A_i(i=0:n)$, $B_i(i=1:n)$ in $\mathit{CFS}(f(t)-g(t), n, \omega)$ (represented by $A_{f-g, i}$ and $B_{f-g, i}$ respectively) from $\mathit{CFSf}$ and $\mathit{CFSg}$.\\
 		
 		\hline
 		Source & Developed by author in \autoref{Appendix:Operations}\\
@@ -684,6 +689,7 @@ on.
 \end{minipage}\\
 
 ~\newline
+
 \noindent
 \begin{minipage}{\textwidth}
 	\renewcommand*{\arraystretch}{1.5}
@@ -700,11 +706,11 @@ on.
 		A_{f*g, i}
 		&=\frac{1}{2}\sum_{j=0}^{n-i}(A_{f,i}A_{g,i+j}+A_{f, i+j}A_{g, i}+B_{f,i}B_{g,i+j}+B_{f,i+j}B_{g,i})\\&+\frac{1}{2}\sum_{j=0}^{i}(A_{f,j}A_{g,i-j}-B_{f,j}B_{g,i-j}),~i=0:n\\
 		B_{f*g, i}
-		&=\frac{1}{2}\sum_{j=0}^{n-i}(A_{f,i}B_{g,i+j}+A{f, i+j}B_{g, i}+B_{f,i}A_{g,i+j}+B_{f,i+j}A_{g,i})\\&+\frac{1}{2}\sum_{j=0}^{i}(A_{f,j}B_{g,i-j}+B_{f,j}A_{g,i-j}),~i=1:n\\
+		&=\frac{1}{2}\sum_{j=0}^{n-i}(A_{f,i}B_{g,i+j}+A_{f, i+j}B_{g, i}+B_{f,i}A_{g,i+j}+B_{f,i+j}A_{g,i})\\&+\frac{1}{2}\sum_{j=0}^{i}(A_{f,j}B_{g,i-j}+B_{f,j}A_{g,i-j}),~i=1:n\\
 		\end{aligned}
 		\end{equation}\\
 		\hline
-		Description & The above equation calculates $A_i (i=0:n), B_i(i=1:n)$ in $\mathit{CFS(f(t)*g(t), n, \omega}$  (represented by $A_{f*g, i}$ and $B_{f*g, i}$ respectively) from $\mathit{CFSf}$ and $\mathit{CFSg}$.\\
+		Description & The above equation calculates $A_i(i=0:n)$, $B_i(i=1:n)$ in $\mathit{CFS}(f(t)*g(t), n, \omega)$  (represented by $A_{f*g, i}$ and $B_{f*g, i}$ respectively) from $\mathit{CFSf}$ and $\mathit{CFSg}$.\\
 		
 		\hline
 		Source & Developed by author in \autoref{Appendix:Operations}\\
@@ -735,7 +741,7 @@ B_{f, i}
 \end{aligned}
 \end{equation}\\
 		\hline
-		Description & We solve the above equations for $A_i (i=0:n), B_i(i=1:n)$ in $\mathit{CFS(f(t)/g(t), n, \omega}$ when $\mathit{CFSf}$ and $\mathit{CFSg}$ are given.\\
+		Description & We solve the above equations for $A_i(i=0:n)$, $B_i(i=1:n)$ in $\mathit{CFS}(f(t)/g(t), n, \omega)$ (represented by $A_{f/g, i}$'s and $B_{f/g, i}$'s respectively) from given $\mathit{CFSf}$ and $\mathit{CFSg}$.\\
 		
 		\hline
 		Source & Developed by author in \autoref{Appendix:Operations}\\
@@ -772,7 +778,7 @@ B_{f, i}
 \end{minipage}\\
 
 
-\section{Variabilities}
+\section{Variabilities}\label{Sc:Var}
 \subsection{Instance Models}
 \noindent
 \begin{minipage}{\textwidth}
@@ -784,9 +790,9 @@ B_{f, i}
 		\hline
 		Label& \bf Calculate coefficients of CFS's\\
 		\hline
-		Input& $f(t)$, a $[-\pi/\omega, \pi/\omega]$ function\\
-			& $n\in\mathbb{Z}^{*}$, cut-off length\\
-			& $\omega\in\mathbb{R}^{+}$, base frequency\\
+		Input& $f(t)$, a $[-\pi/\omega, \pi/\omega]\rightarrow\mathbb{R}$ function\\
+			& $n\in\mathbb{Z}^{*}$\\
+			& $\omega\in\mathbb{R}^{+}$\\
 		\hline
 		Output& An object $\mathit{CFSf}$, containing the following data:\\
 		&$n$, $\omega$: same as the input\\
@@ -794,6 +800,7 @@ B_{f, i}
 		\hline
 		Description&Input:\\
 		&$f(t)$: function to be transformed into Fourier series\\
+		&Input \& Output:\\
 		& $n$: cut-off length\\
 		& $\omega$: base frequency\\
 		&Output:\\
@@ -801,10 +808,7 @@ B_{f, i}
 		\hline
 		Sources&Same as \tref{T:Transformation}		\\
 		\hline
-		Ref.\ By & \aref{Ass:FunctionProperty}, \calref{Cal:Normal}, \calref{Cal:Error},  \oref{Output:Faithful}, and \oref{Output:Error}
-		
-		
-		\\
+		Ref.\ By & \aref{Ass:FunctionProperty}, \calref{Cal:Normal}, \calref{Cal:Error},  \oref{Output:Faithful}, and \oref{Output:Error}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -832,10 +836,7 @@ B_{f, i}
 		\hline
 		Sources&Same as \tref{T:Addition}		\\
 		\hline
-		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, and \oref{Output:Faithful}
-		
-		
-		\\
+		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, and \oref{Output:Faithful}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -862,10 +863,7 @@ B_{f, i}
 		\hline
 		Sources&Same as \tref{T:Subtraction}		\\
 		\hline
-		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, and \oref{Output:Faithful}
-		
-		
-		\\
+		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, and \oref{Output:Faithful}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -892,9 +890,7 @@ B_{f, i}
 		\hline
 		Sources&Same as \tref{T:Multiplication}		\\
 		\hline
-		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, and \oref{Output:Faithful}
-		
-		\\
+		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, and \oref{Output:Faithful}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -921,10 +917,7 @@ B_{f, i}
 		\hline
 		Sources&Same as \tref{T:Division}		\\
 		\hline
-		Ref.\ By & \aref{Ass:CFSPropertyMatch},  \calref{Cal:Normal}, \calref{Cal:Error},  \oref{Output:Faithful}, and \oref{Output:Error}
-		
-		
-		\\
+		Ref.\ By & \aref{Ass:CFSPropertyMatch},  \calref{Cal:Normal}, \calref{Cal:Error},  \oref{Output:Faithful}, and \oref{Output:Error}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -942,20 +935,17 @@ B_{f, i}
 		\hline
 		Input& $\mathit{CFSf}$, $g(t)$\\
 		\hline
-		Output& A CFS $g(CFSf)$, whose $A_i$'s and $B_i$'s are computed using the theory \tref{T:Function}\\
+		Output& A CFS $g(CFSf)$, whose $A_i$'s and $B_i$'s are computed using the theory \tref{T:Multiplication} and \tref{T:Addition}\\
 		\hline
 		Description&Input:\\
 		& $g(t)$, a basic function chosen by user from a basic fiction set.\\
 		&$\mathit{CFSf}$: dependent variable of the function $g(t)$\\
 		&Output:\\
-		& $g(CFSf)$: An CFS being the computed result\\
+		& $g(CFSf)$: A CFS being the computed result\\
 		\hline
-		Sources&Same as \tref{T:Function}		\\
+		Sources&Easily derived from \tref{T:Multiplication} and \tref{T:Addition}		\\
 		\hline
-		Ref.\ By & \aref{Ass:FunctionProperty}, \calref{Cal:Normal}, and  \oref{Output:Faithful}
-		
-		
-		\\
+		Ref.\ By & \aref{Ass:BasicFunction}, \calref{Cal:Normal}, and  \oref{Output:Faithful}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -982,10 +972,7 @@ B_{f, i}
 		\hline
 		Sources&Same as \tref{T:Amplitude}		\\
 		\hline
-		Ref.\ By & \calref{Cal:Normal}, and  \oref{Output:Faithful}
-		
-		
-		\\
+		Ref.\ By & \calref{Cal:Normal}, and  \oref{Output:Faithful}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -1003,7 +990,7 @@ B_{f, i}
 		\hline
 		Input& $\mathit{CFSf}$, $\mathit{CFSg}$, $\mathit{tol}$\\
 		\hline
-		Output& boolean value\texttt{True} if $\mathit{Amp}(\mathit{CFSf}-\mathit{CFSg})\leq \mathit{tol}$\\
+		Output& boolean value \texttt{True} if $\mathit{Amp}(\mathit{CFSf}-\mathit{CFSg})\leq \mathit{tol}$\\
 		&boolean value \texttt{False} otherwise\\
 		\hline
 		Description&Input:\\
@@ -1011,13 +998,11 @@ B_{f, i}
 		&$\mathit{tol}\in\mathbb{R}^{*}$\\
 		&Output:\\
 		& A boolean value: Whether the two operands are equal within the given error tolerance\\
+		&Note: The calculation of difference's amplitude relies on \iref{IM:Subtraction} and \iref{IM:Amplitude}.\\
 		\hline
-		Sources&Same as \tref{T:ToleratedEquality}		\\
+		Sources&Same as \tref{T:Subtraction} and \tref{T:Amplitude}\\
 		\hline
-		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, and \oref{Output:Faithful}
-		
-		
-		\\
+		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, and \oref{Output:Faithful}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -1035,16 +1020,14 @@ B_{f, i}
 		\hline
 		Input& $n$, $\omega$, $n+1$ real numbers $\mathit{Ain}_{i} (i=0:n)$, and $n$ real numbers $\mathit{Bin}_{i} (i=1:n)$\\
 		\hline
-		Output& An CFS object constructed from the input data\\
+		Output& A CFS object $\mathit{CFSf}$ constructed from the input data\\
+		\hline
 		Description&Input: Data needed for construction\\
 		&Output: Constructed CSF object containing the input data\\
 		\hline
 		Sources&None		\\
 		\hline
-		Ref.\ By &  \aref{Ass:Memory}, \calref{Cal:Normal}, \calref{Cal:Memory}, and \oref{Output:Faithful}
-		
-		
-		\\
+		Ref.\ By &  \aref{Ass:Memory}, \calref{Cal:Normal}, \calref{Cal:Memory}, and \oref{Output:Faithful}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -1063,14 +1046,13 @@ B_{f, i}
 		Input& $\mathit{CFSf}$\\
 		\hline
 		Output& $n$, $\omega$, $\mathit{Aout}_{i}=A_i (i=0:n)$, and $\mathit{Bout}_{i}=B_i (i=1:n)$\\
-		Description&Input: The CFS object to convert to\\
+		\hline
+		Description&Input: The CFS object to be converted to\\
 		&Output: The data extracted from the input CFS object.\\
 		\hline
 		Sources&None\\
 		\hline
-		Ref.\ By &   \aref{Ass:Memory}, \calref{Cal:Normal}, \calref{Cal:Memory}, and \oref{Output:Faithful}
-		
-		\\
+		Ref.\ By &   \aref{Ass:Memory}, \calref{Cal:Normal}, \calref{Cal:Memory}, and \oref{Output:Faithful}\\
 		\hline
 	\end{tabular}
 \end{minipage}\\
@@ -1080,8 +1062,9 @@ B_{f, i}
 
 \begin{itemize}
 
-\item[A\refstepcounter{assumpnum}\theassumpnum \label{Ass:FunctionProperty}:] The functions $f(t)$ and $g(t)$ mentioned above must have definitions on $[-\pi/\omega, \pi/\omega]$, in which $\omega$ is given by the user, and they must be able to be transformed into Fourier series.
-\item[A\refstepcounter{assumpnum}\theassumpnum \label{Ass:CFSPropertyMatch}:] For any two-operand operations, the $n$ and $\omega$ of these operands must be the same. 
+\item[A\refstepcounter{assumpnum}\theassumpnum \label{Ass:FunctionProperty}:] The functions $f(t)$ and $g(t)$ mentioned above must have definitions on $[-\pi/\omega, \pi/\omega]$, in which $\omega$ is given by the user, and must have corresponding Fourier series.
+\item[A\refstepcounter{assumpnum}\theassumpnum \label{Ass:BasicFunction}:] Only the basic functions of CFS's are to be calculated. The aforementioned basic functions are those in a library-defined set.
+\item[A\refstepcounter{assumpnum}\theassumpnum \label{Ass:CFSPropertyMatch}:] For any two-operand operations, the data $n$ and $\omega$ of these operands must be the same. 
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{Ass:Memory}:] User shall allocate memory space for any variable other than CFS's in \iref{IM:ConvertTo} and \iref{IM:ConvertFrom}.
 \end{itemize}
 
@@ -1089,7 +1072,7 @@ B_{f, i}
 \begin{itemize}
 \item[C\refstepcounter{calnum}\thecalnum \label{Cal:Normal}:] Calculate the result based on the called function and input variables.
 \item[C\refstepcounter{calnum}\thecalnum \label{Cal:Error}:] If the called function detects that the input variables do not meet the requirements, generate an error message describing the detected error.
-\item[C\refstepcounter{calnum}\thecalnum \label{Cal:Memory}:] Manage the memory spaces required by this library, and destroy them the moment they are not needed.
+\item[C\refstepcounter{calnum}\thecalnum \label{Cal:Memory}:] Manage the memory spaces required by this library (mainly for CFS's), and destroy them the moment they are not needed.
 
 \end{itemize}
 \subsection{Output} \label{sec_Output}    
@@ -1097,7 +1080,7 @@ B_{f, i}
 \item[O\refstepcounter{outputnum}\theoutputnum \label{Output:Faithful}:] Return the results faithfully.
 \item[O\refstepcounter{outputnum}\theoutputnum \label{Output:Error}:] Report any detected errors to the user of the library.
 \end{itemize}
-\section{Requirements}
+\section{Requirements}\label{Sc:Req}
 
 This section provides the functional requirements, the business tasks that the
 software is expected to complete, and the nonfunctional requirements, the
@@ -1107,9 +1090,9 @@ qualities that the software is expected to exhibit.
 
 \noindent \begin{itemize}
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs}:] The data type in the inputs $f(t)$, $A_i$'s and/or $B_i$'s must be same as that of $\omega$. 
-
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Output}:] The floating point data type of the output must be the same one as that of the input.
+\item[R\refstepcounter{reqnum}\thereqnum \label{R:InputDataType}:] When applicable, functions of this library accept inputs with the same data type for $f(t)$, $A_i$'s and/or $B_i$'s, and $\omega$. 
+\item[R\refstepcounter{reqnum}\thereqnum \label{R:OutputError}:] The error of the output must be decreasing as the $n$ in CFS's is decreasing.
+\item[R\refstepcounter{reqnum}\thereqnum \label{R:OutputDataType}:] Output the result with the same floating point data type as that of the input.
 \end{itemize}
 
 \subsection{Nonfunctional Requirements}
@@ -1123,86 +1106,86 @@ qualities that the software is expected to exhibit.
 	\item The time complexity of \iref{IM:Amplitude} and \iref{IM:ToleratedEquality} shall be $O(n)$.
 \end{itemize}
 
-\section{Likely Changes}    
-None currently.
-%\noindent \begin{itemize}
-%\item[LC\refstepcounter{lcnum}\thelcnum\label{LC_meaningfulLabel}:]
-%\end{itemize}
+\section{Likely Changes}\label{Sc:LC}    
+\noindent \begin{itemize}
+\item[LC\refstepcounter{lcnum}\thelcnum\label{LC:NewOperation}:] We might add new operations in the future.
+\item[LC\refstepcounter{lcnum}\thelcnum\label{LC:BasicFunction}:] The set of basic functions in \iref{IM:Function} will be decided in the future.
+\end{itemize}
 
-\section{Traceability Matrices and Graphs}
-The following matrices and graphs demonstrates the traceability of this project. The purpose is to provide easy references to the impacts on other components if a certain component is changed. That is, if one component has been changed, other components that share an 'X' with it may need to be changed accordingly. Table \ref{Table:Traceability} shows the the dependencies of goals, theoretical models, data definitions, and instances models with the assumptions, calculations, and outputs.
+\section{Traceability Matrices and Graphs}\label{Sc:Trace}
+The following matrices and graphs demonstrates the traceability of this project. The purpose is to provide easy references to the impacts on other components if a certain component is changed. That is, if one component has been changed, other components that share an 'X' with it may need change. Table \ref{Table:Traceability} shows the the dependencies of goals, theoretical models, data definitions, and instances models with the assumptions, calculations, and outputs.
 \begin{table}
 	\centering
-	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
 		\hline
-		&\aref{Ass:FunctionProperty}&\aref{Ass:CFSPropertyMatch}&\aref{Ass:Memory}&\calref{Cal:Normal}&\calref{Cal:Error}&\calref{Cal:Memory}&\oref{Output:Faithful}&\oref{Output:Error}\\
+		&\aref{Ass:FunctionProperty}&\aref{Ass:BasicFunction}&\aref{Ass:CFSPropertyMatch}&\aref{Ass:Memory}&\calref{Cal:Normal}&\calref{Cal:Error}&\calref{Cal:Memory}&\oref{Output:Faithful}&\oref{Output:Error}\\
 		\hline
 		\gsref{GS:ConvertFromFunc}
-		&X& & &X&X&  &X&X\\\hline
+		&X& & & &X&X&  &X&X\\\hline
 		\gsref{GS:FuncValue}
-		& & & &X& & &X& \\\hline
+		& &X& & &X& & &X& \\\hline
 		\gsref{GS:Operation}
-		& &X& &X&X& &X&X \\\hline
+		& & &X& &X&X& &X&X \\\hline
 		\gsref{GS:Function}
-		&X& & &X&X& &X&X\\\hline
+		&X& & & &X&X& &X&X\\\hline
 		\gsref{GS:ConvertFromOther}
-		& & &X&X& &X&X& \\\hline
+		& & & &X&X& &X&X& \\\hline
 		\gsref{GS:ConvertToOther}
-		& & &X&X& &X&X& \\\hline
+		& & & &X&X& &X&X& \\\hline
 		\gsref{GS:Amp}
-		& & &X& & & &X& \\\hline
+		& & & &X& & & &X& \\\hline
 		\gsref{GS:ToleratedEquality}
-		& &X& &X&X& &X&X\\\hline
+		& & &X& &X&X& &X&X\\\hline
 		\ddref{DD:IFS}
-		&X& & &X&X& &X&X\\\hline
+		&X& & & &X&X& &X&X\\\hline
 		\ddref{DD:CFS}
-		&X& & &X&X&X&X&X\\\hline
+		&X& & & &X&X&X&X&X\\\hline
 		\ddref{DD:Approximation}
-		& & & &X&X& &X&X\\\hline
+		& & & & &X&X& &X&X\\\hline
 		\ddref{DD:Addition}
-		& &X& &X&X& &X&X\\\hline
+		& & &X& &X&X& &X&X\\\hline
 		\ddref{DD:Subtraction}
-		& &X& &X&X& &X&X\\\hline
+		& & &X& &X&X& &X&X\\\hline
 		\ddref{DD:Multiplication}
-		& &X& &X&X& &X&X\\\hline
+		& & &X& &X&X& &X&X\\\hline
 		\ddref{DD:Division}
-		& &X& &X&X& &X&X\\\hline
+		& & &X& &X&X& &X&X\\\hline
 		\ddref{DD:Function}
-		&X& & &X& & &X& \\\hline
+		& &X& & &X& & &X& \\\hline
 		\ddref{DD:Amplitude}
-		& & & &X& & &X& \\\hline
+		& & & & &X& & &X& \\\hline
 		\tref{T:Transformation}
-		&X& & &X&X& &X&X\\\hline
+		&X& & & &X&X& &X&X\\\hline
 		\tref{T:Addition}
-		& &X& &X& & &X& \\\hline
+		& & &X& &X& & &X& \\\hline
 		\tref{T:Subtraction}
-		& &X& &X& & &X& \\\hline
+		& & &X& &X& & &X& \\\hline
 		\tref{T:Multiplication}
-		& &X& &X& & &X& \\\hline
+		& & &X& &X& & &X& \\\hline
 		\tref{T:Division}
-		& &X& &X&X& &X&X\\\hline
+		& & &X& &X&X& &X&X\\\hline
 		\tref{T:Amplitude}
-		& & & &X& & &X& \\\hline
+		& & & & &X& & &X& \\\hline
 		\iref{IM:CFScoeff}
-		&X& & &X&X& &X&X\\\hline
+		&X& & & &X&X& &X&X\\\hline
 		\iref{IM:Addition}
-		& &X& &X& & &X& \\\hline
+		& & &X& &X& & &X& \\\hline
 		\iref{IM:Subtraction}
-		& &X& &X& & &X& \\\hline
+		& & &X& &X& & &X& \\\hline
 		\iref{IM:Multiplication}
-		& &X& &X& & &X& \\\hline
+		& & &X& &X& & &X& \\\hline
 		\iref{IM:Division}
-		& &X& &X&X& &X&X\\\hline
+		& & &X& &X&X& &X&X\\\hline
 		\iref{IM:Function}
-		&X& & &X& & &X& \\\hline
+		& &X& & &X& & &X& \\\hline
 		\iref{IM:Amplitude}
-		& & & &X& & &X& \\\hline
+		& & & & &X& & &X& \\\hline
 		\iref{IM:ToleratedEquality}
-		& &X& &X& & &X& \\\hline
+		& & &X& &X& & &X& \\\hline
 		\iref{IM:ConvertTo}
-		& & &X&X& &X&X& \\\hline
+		& & & &X&X& &X&X& \\\hline
 		\iref{IM:ConvertFrom}
-		& & &X&X& &X&X& \\\hline		
+		& & & &X&X& &X&X& \\\hline		
 	\end{tabular}
 	\caption{The traceability matrix between goals, theoretical models, data definitions, and instances models with the assumptions, calculations, and outputs}
 	\label{Table:Traceability}

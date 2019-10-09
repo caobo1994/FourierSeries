@@ -1,9 +1,17 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{5}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Papoulis(1977)]{papoulis1977signal}
+A.~Papoulis.
+\newblock \emph{Signal analysis}.
+\newblock McGraw-Hill electrical and electronic engineering series.
+  McGraw-Hill, 1977.
+\newblock ISBN 9780070484603.
+\newblock URL \url{https://books.google.ca/books?id=Re5SAAAAMAAJ}.
 
 \bibitem[Smith(2006)]{Smith2006}
 W.~Spencer Smith.
@@ -13,5 +21,29 @@ W.~Spencer Smith.
   Engineering Conference, RE 2006}, pages 209--218, Minneapolis / St.\ Paul,
   Minnesota, 2006.
 \newblock URL \url{http://www.ifi.unizh.ch/req/events/RE06/}.
+
+\bibitem[Smith and Lai(2005)]{SmithAndLai2005}
+W.~Spencer Smith and Lei Lai.
+\newblock A new requirements template for scientific computing.
+\newblock In J.~Ralyt\'{e}, P.~\.{A}gerfalk, and N.~Kraiem, editors,
+  \emph{Proceedings of the First International Workshop on Situational
+  Requirements Engineering Processes -- Methods, Techniques and Tools to
+  Support Situation-Specific Requirements Engineering Processes, SREP'05},
+  pages 107--121, Paris, France, 2005. In conjunction with 13th IEEE
+  International Requirements Engineering Conference.
+
+\bibitem[Smith et~al.(2017)Smith, McCutchan, and
+  Carette]{SmithMcCutchanAndCarette2017}
+W.~Spencer Smith, John McCutchan, and Jacques Carette.
+\newblock Commonality analysis for a family of material models.
+\newblock Technical Report CAS-17-01-SS, McMaster University, Department of
+  Computing and Software, 2017.
+
+\bibitem[Tolstov and Silverman(1976)]{tolstov1976fourier}
+G.P. Tolstov and R.A. Silverman.
+\newblock \emph{Fourier Series}.
+\newblock Dover Books on Mathematics. Dover Publications, 1976.
+\newblock ISBN 9780486633176.
+\newblock URL \url{https://books.google.ca/books?id=XqqNDQeLfAkC}.
 
 \end{thebibliography}
