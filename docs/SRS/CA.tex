@@ -526,12 +526,7 @@ $A_{g, i}$'s and $B_{g, i}$'s.
 		\hline
 		Symbol &$g(\mathit{CFS}(f(t), n, \omega))$\\
 		\hline
-		Equation& $g(\mathit{CFS}(f(t), n, \omega))=\sum_{i=0}^{n}a_i 
-		\mathit{CFS}^i(f(t), n, \omega)$, in which $a_i, i=0:n$ is 
-		the first $(n+1)$ coefficients of the Taylor series of $g(t)$, and 
-		the $n$-th ($n\in\mathbb{Z}^{+}$) power of CFS is defined as $n$ 
-		copies of this CFS multiplied together. ($0$-th power is defined 
-		as the CFS of $f(t)=1$.)\\
+		Equation& $g(\mathit{CFS}(f(t), n, \omega))=\mathit{CFS}(g(f(t)), n, \omega)$.\\
 		\hline
 		Description & Define the rule of the function of a CFS\\
 		\hline
@@ -834,6 +829,34 @@ on.
 		\hline
 		\rowcolor[gray]{0.9}
 		Number& T\refstepcounter{theorynum}\thetheorynum 
+		\label{T:Function}\\
+		\hline
+		Label&\bf Function of a CFS\\
+		\hline
+		Equation&$g(\mathit{CFS}(f(t), n, \omega))=\sum_{i=0}^{n}a_i 
+		\mathit{CFS}^i(f(t), n, \omega)$\\
+		\hline
+		Description & The above equation calculates the result of a function being applied to a CFS. $a_i, i=0:n$ is 
+		the first $(n+1)$ coefficients of the Taylor series of $g(t)$, and 
+		the $n$-th ($n\in\mathbb{Z}^{+}$) power of CFS is defined as $n$ 
+		copies of this CFS multiplied together. ($0$-th power is defined 
+		as the CFS of $f(t)=1$.)\\
+		\hline
+		Source & Developed by author in \autoref{Appendix:Operations}\\
+		\hline
+		Ref.\ By & \calref{Cal:Normal} and \oref{Output:Faithful}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& T\refstepcounter{theorynum}\thetheorynum 
 		\label{T:Amplitude}\\
 		\hline
 		Label&\bf Amplitude of a CFS\\
@@ -854,7 +877,7 @@ on.
 		\hline
 	\end{tabular}
 \end{minipage}\\
-
+~\newline
 
 \section{Variabilities}\label{Sc:Var}
 \subsection{Instance Models}
