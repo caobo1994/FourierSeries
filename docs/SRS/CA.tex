@@ -121,10 +121,10 @@ This section is not applicable, due to the fact that this library is a pure math
 
 \subsection{Table of Symbols}
 
-The table that follows summarizes the symbols used in this document along with
-their units.  The choice of symbols was made to be consistent with the Fourier 
+The table that follows summarizes the symbols used in this document. 
+The choice of symbols is made to be consistent with the Fourier 
 series literature and with existing documentation for Fourier series 
-libraries. The symbols are listed in alphabetical order.
+libraries.
 
 \renewcommand{\arraystretch}{1.2}
 \noindent \begin{longtable*}{l l p{12cm}} \toprule
@@ -139,7 +139,7 @@ than $-\pi/\omega$, nor greater than $\pi/\omega$ \\
 $\rightarrow$ & Indicate mapping\\
 $\mathbb{A}^{*}$ & Non-negative subset of set $\mathbb{A}$ (either $\mathbb{R}$ 
 or $\mathbb{Z}$)\\
-$\mathbb{A}^{*}$ & Positive subset of set $\mathbb{A}$ (either $\mathbb{R}$ 
+$\mathbb{A}^{+}$ & Positive subset of set $\mathbb{A}$ (either $\mathbb{R}$ 
 or $\mathbb{Z}$)\\
 $\sum_{i=m_1}^{m_2}a_i$ & Summation of $a_i, i=m_1, m_1+1, ..., m_2$\\
 $n$ & Length of cut-off Fourier series\\ 
@@ -159,6 +159,7 @@ $\mathit{CFS}(g(t), n, \omega)$ respectively.\\
   A & Assumption\\
   API & Application Programming Interface\\
   CA & Commonality Analysis\\
+  CFS & Cut-off Fourier Series\\
   DD & Data Definition\\
   FS & Fourier Series\\
   GD & General Definition\\
@@ -350,10 +351,11 @@ Symbol &$\mathit{IFS}$\\
 		\hline
 		Equation&$\mathit{CFS}(f(t), n, \omega)=\big[A_i, i=0, 1, ..., n; 
 		B_i, i=1, 2, ..., n\big]$, satisfying $A_i=A_{inf, i}, i=0, 1, ..., n; 
-		B_i=B_{inf, i}, i=1, 2, ..., n$, where $A_{inf, i}$'s 
+		B_i=B_{inf, i}, i=1, 2, ..., n$, where 
+		$\omega$, $A_{inf, i}$'s 
 		and $B_{inf, i}$'s come from $\mathit{IFS}(f(t), \omega)$ \\
 		\hline
-		Description & $n\in \mathbf{Z}^{*}$ is called cut-off length.\\
+		Description & $n\in \mathbb{Z}^{*}$ is called cut-off length.\\
 		\hline
 		Sources& Defined by author\\
 		\hline
@@ -384,9 +386,9 @@ $A_{g, i}$'s and $B_{g, i}$'s.
 		\hline
 		Label& \bf Approximation of function values from CFS\\
 		\hline
-		Symbol &$App(CFSf, t_1)$\\
+		Symbol &$\mathit{App}$\\
 		\hline
-		Equation& $App(CFSf, t_1)=\sum_{i=0}^{n}A_{f,i}\cos(i\omega t_1)+
+		Equation& $\mathit{App}(\mathit{CFSf}, t_1)=\sum_{i=0}^{n}A_{f,i}\cos(i\omega t_1)+
 		\sum_{i=1}^{n}B_{f,i}\sin(i\omega t_1)$ \\
 		\hline
 		Description & Define approximated function value of a function 
@@ -1404,8 +1406,8 @@ with \autoref{Eq:fDef} and \autoref{Eq:gDef}, we have
 By comparing the coefficients in \autoref{Eq:f+gCoeff}, we have
 \begin{equation}\label{Eq:f+gConclusion}
 	\begin{aligned}
-	A_{f+g, i}=A_{f,i}+A_{g, i}
-	B_{f+g, i}=B_{f,i}+B_{g, i}
+	A_{f+g, i}&=A_{f,i}+A_{g, i}\\
+	B_{f+g, i}&=B_{f,i}+B_{g, i}\\
 	\end{aligned}
 \end{equation}
 for the IFS and CFS of $f(t)+g(t)$.
@@ -1419,7 +1421,7 @@ From \autoref{Eq:fDef} and \autoref{Eq:gDef}, we have
 	*[\sum_{i=0}^{+\infty}A_{g, i}\cos(i\omega t)
 	+\sum_{i=1}^{+\infty}B_{g, i}\sin(i\omega t)]\\
 \end{equation}
-which consists of the following 3 major terms
+which is the summation the following 3 terms
 \begin{equation}
 	\begin{aligned}
 	\textit{Term A:} &\sum_{i=0, j=0}^{+\infty}A_{f,i}A_{g,j}
@@ -1466,14 +1468,14 @@ $A_{f,k}$, $B_{f,k}$, $A_{g,k}$,
 and $B_{g,k}$ for any $k\geq n$ 
 ($k$ being either $i$, $j$, $i-j$, $i+j$, or $j-1$) 
 as the result of a cut-off, 
-and get the equation in \tref{T:Multiplication}.
+and get the equations in \tref{T:Multiplication}.
 \paragraph{Amplitude}\label{App-Para:Amplitude}
 Quoted from \ddref{DD:Amplitude}, we have
 \begin{equation}\label{Eq:Amp}
 	\mathit{Amp}(\mathit{CFSf})=\sqrt{\frac{\omega}{2\pi}
 	\int_{-\pi/\omega}^{\pi/\omega}\mathit{App}^2(\mathit{CFSf}, t)\text{d} t}
 \end{equation}
-In \autoref{Eq:Amp}, replacing $\mathit{App}^2
+In \autoref{Eq:Amp}, replacing $\mathit{App}
 (\mathit{CFSf}, t)$ with its definition in \ddref{DD:Approximation}, 
 we have
 \begin{equation}\label{Eq:Amp1}
