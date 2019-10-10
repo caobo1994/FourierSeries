@@ -242,8 +242,7 @@ returns the calculation results.
 \item User Responsibilities:
 \begin{itemize}
 \item Provide the inputs of the functions in the library.
-\item Receive the corresponding outputs, and provide and manage 
-the memory space storing them if mentioned in the following sections.
+\item When needed, allocate memory space, and pass their location to the library, so that the library can store the output in this user-provided space.
 \item For the conversion from mathematical functions to Fourier series, 
 ensure that provided mathematical functions are eligible for transformation. 
 \end{itemize}
@@ -1184,10 +1183,10 @@ on.
 ~\newline
 
 \subsection{Assumptions}
-
+\newcommand{\aitem}[1]{\item[A\refstepcounter{assumpnum}\theassumpnum \label{Ass:#1}:] }
 \begin{itemize}
 
-\item[A\refstepcounter{assumpnum}\theassumpnum \label{Ass:FunctionProperty}:] 
+\aitem{FunctionProperty}
 The functions $f(t)$ and $g(t)$ mentioned above must have definitions on 
 $[-\pi/\omega, \pi/\omega]$, in which $\omega$ is given by the user, 
 and must have corresponding Fourier series.
@@ -1206,13 +1205,6 @@ CFS's in \iref{IM:ConvertTo} and \iref{IM:ConvertFrom}.
 \begin{itemize}
 \item[C\refstepcounter{calnum}\thecalnum \label{Cal:Normal}:] 
 Calculate the result based on the called function and input variables.
-\item[C\refstepcounter{calnum}\thecalnum \label{Cal:Error}:] 
-If the called function detects that the input variables do not 
-meet the requirements, generate an error message describing 
-the detected error.
-\item[C\refstepcounter{calnum}\thecalnum \label{Cal:Memory}:] 
-Manage the memory spaces required by this library 
-(mainly for CFS's), and destroy them the moment they are not needed.
 
 \end{itemize}
 \subsection{Output} \label{sec_Output}    
@@ -1231,14 +1223,22 @@ qualities that the software is expected to exhibit.
 \subsection{Functional Requirements}
 
 \noindent \begin{itemize}
-
-\item[R\refstepcounter{reqnum}\thereqnum \label{R:InputDataType}:] 
+\newcommand{\ritem}[1]{\item[R\refstepcounter{reqnum}\thereqnum \label{R:#1}:]}
+\ritem{InputDataType} 
 When applicable, functions of this library accept inputs with the same 
 data type for $f(t)$, $A_i$'s and/or $B_i$'s, and $\omega$. 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R:OutputError}:] 
+\ritem{OutputError} 
 The error of the output must be decreasing as the $n$ in CFS's is decreasing.
-\item[R\refstepcounter{reqnum}\thereqnum \label{R:OutputDataType}:] 
+\ritem{OutputDataType} 
 Output the result with the same floating point data type as that of the input.
+\ritem{ErrorMessage}
+If the called function detects that the input variables do not 
+meet the requirements, generate an error message describing 
+the detected error.
+\ritem{Memory} 
+Manage the memory spaces required by this library 
+(mainly for CFS's), and destroy them the moment they are not needed.
+
 \end{itemize}
 
 \subsection{Nonfunctional Requirements}
