@@ -605,9 +605,9 @@ $A_{g, i}$'s and $B_{g, i}$'s.
 
 \item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:ConvertFromFunc}:] 
 When given a function $f(t)$, the cut-off length $n$, and a base frequency 
-$\omega$, return the function's CFS $\mathit{CFS}(f(t), n, \omega)$.
+$\omega$, return the function's CFS $\mathit{CFSf}=\mathit{CFS}(f(t), n, \omega)$.
 \item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:FuncValue}:] 
-When given a CFS $\mathit{CFS}(f(t), n, \omega)$ and a value of $t$ as $t_1$, 
+When given a CFS $\mathit{CFSf}=\mathit{CFS}(f(t), n, \omega)$ and a value of $t$ as $t_1$, 
 return the approximated value of $f(t_1)$ computed from the given values.
 \item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:Operation}:] 
 When given two CFS's $\mathit{CFSf}$, $\mathit{CFSg}$, and one of the 
@@ -921,6 +921,40 @@ on.
 	\end{tabular}
 \end{minipage}\\
 ~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& IM\refstepcounter{instnum}\theinstnum 
+		\label{IM:Approximation}\\
+		\hline
+		Label& \bf Calculate approximate function value from CFS\\
+		\hline
+		Input& $\mathit{CFSf}=[n, \omega, A_i(i=0:n), B_i(i=1:n)]$\\
+		&$t_1\in\mathbb{R}$\\
+		\hline
+		Output& $\mathit{App}(\mathit{CFSf}, t_1)$ using \ddref{DD:Approximation}\\
+		\hline
+		Description&Input:\\
+		&$CFSf$: CFS used for function approximation\\
+		& $t_1$: variable value\\
+		&Output:\\
+		&$\mathit{App}(\mathit{CFSf}, t_1)$: approximated function value\\ 
+		\hline
+		Sources&Same as \tref{DD:Approximation}		\\
+		\hline
+		Ref.\ By & 
+		\calref{Cal:Normal} and
+		\oref{Output:Faithful}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
+
+
 \noindent
 \begin{minipage}{\textwidth}
 	\renewcommand*{\arraystretch}{1.5}
