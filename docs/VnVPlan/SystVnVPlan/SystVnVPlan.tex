@@ -17,8 +17,8 @@
 
 \begin{document}
 
-\title{Project Title: System Verification and Validation Plan for \progname{}} 
-\author{Author Name}
+\title{A Fourier Series Library: System Verification and Validation Plan for FSL} 
+\author{Bo Cao}
 \date{\today}
 	
 \maketitle
@@ -30,7 +30,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
+Oct. 28, 2019  & 1.0 & First draft.\\
 Date 2 & 1.1 & Notes\\
 \bottomrule
 \end{tabularx}
@@ -47,6 +47,10 @@ Date 2 & 1.1 & Notes\\
 
 \section{Symbols, Abbreviations and Acronyms}
 
+Some symbols, abbreviations and acronyms are defined in the Common Analysis (CA) document \footnote{This document is available at \url{https://github.com/caobo1994/FourierSeries/blob/master/docs/SRS/CA.pdf}.}. For simplicity and maintainability, they are not redefined here. Readers shall refer to the CA documents when a certain item is not defined here.
+
+\vspace{1cm}
+
 \renewcommand{\arraystretch}{1.2}
 \begin{tabular}{l l} 
   \toprule		
@@ -56,40 +60,34 @@ Date 2 & 1.1 & Notes\\
   \bottomrule
 \end{tabular}\\
 
-\wss{symbols, abbreviations or acronyms -- you can simply reference the SRS
-  tables, if appropriate}
-
 \newpage
 
 \pagenumbering{arabic}
 
-This document ... \wss{provide an introductory blurb and roadmap of the
-  Verification and Validation plan}
+This document provides an overview of the Verification and Validation (VnV) plan for the Fourier Series Library (FSL). It lays out the purpose, methods, and test cases for the VnV procedure. 
 
 \section{General Information}
 
 \subsection{Summary}
 
-\wss{Say what software is being tested.  Give its name and a brief overview of
-  its general functions.}
+The library to be tested is called the Fourier Series Library (FSL). This library performs a set of computations, transformations, and/or input/output at the request of the library user.
 
 \subsection{Objectives}
 
-\wss{State what is intended to be accomplished.  The objective will be around
-  the qualities that are most important for your project.  You might have
-  something like: ``build confidence in the software correctness,''
-  ``demonstrate adequate usability.'' etc.  You won't list all of the qualities,
-  just those that are most important.}
+The intended objective of the VnV procedure is to verify that this library has generally met the requirements described in the CA document. These requirements include the functional requirements (FRs) and the non-functional requirements (NFRs).
+
+Note that if a small part of the NFRs has not been met, the library is still acceptable when the not-met NFRs' impact has been analyzed and deemed non-essential.
 
 \subsection{Relevant Documentation}
 
-\wss{Reference relevant documentation.  This will definitely include your SRS}
+As we said before, this document relies on the CA document. This document is also the base of the Unit Test Plan document.
+
 
 \section{Plan}
 	
 \subsection{Verification and Validation Team}
 
-\wss{Probably just you.  :-)}
+The major member of the team is the author himself. Other contributors might assist in the VnV procedure, but their contributions are not guaranteed.
 
 \subsection{SRS Verification Plan}
 
