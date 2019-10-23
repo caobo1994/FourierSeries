@@ -39,3 +39,7 @@
 *.nav
 *.toc
 *.snm
+*.bbl
+*.blg
+*.lof
+*.lot
