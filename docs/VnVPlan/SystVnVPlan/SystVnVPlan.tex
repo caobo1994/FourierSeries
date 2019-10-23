@@ -89,15 +89,14 @@ As we said before, this document relies on the CA document. This document is als
 
 The major member of the team is the author himself. Other contributors might assist in the VnV procedure, but their contributions are not guaranteed.
 
-\subsection{SRS Verification Plan}
+\subsection{CA Verification Plan}
 
-\wss{List any approaches you intend to use for SRS verification.  This may just
-  be ad hoc feedback from reviewers, like your classmates, or you may have
-  something more rigorous/systematic in mind..}
+The verification of the CA document mainly consists of the feedback from reviewers, and the author's experience in developing and verifying this library. 
+
 
 \subsection{Design Verification Plan}
 
-\wss{Plans for design verification}
+The design of this library will be verified by reviewing how the functions in this library relies on each other, and how they are integrated.
 
 \subsection{Implementation Verification Plan}
 
@@ -108,11 +107,13 @@ The major member of the team is the author himself. Other contributors might ass
   the implementation.  Potential techniques include code walkthroughs, code
   inspection, static analyzers, etc.}
 
+The verification of the implementation of this library is mainly done by unit testing. The detail of unit testing can be found in the Unit Test Plan document. Mainly, the unit test will be done by first testing the basic functions in this library, and then testing the advanced functions. Please note that the test result of any function in this library is acceptable, if and only if the reliant functions of this function is tested to be right.
+  
+
+
 \subsection{Software Validation Plan}
 
-\wss{If there is any external data that can be used for validation, you should
-  point to it here.  If there are no plans for validation, you should state that
-  here.}
+The transformation part of this library will be validated by comparing its result with the MATLAB pseudo-oracle.
 
 \section{System Test Description}
 	
