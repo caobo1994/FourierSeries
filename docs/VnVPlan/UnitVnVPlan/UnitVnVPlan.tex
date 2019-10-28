@@ -1,5 +1,5 @@
 \documentclass[12pt, titlepage]{article}
-
+\usepackage{xspace}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
@@ -15,10 +15,12 @@
 \input{../../Comments}
 \input{../../Common}
 
+\newcommand{\li}[1]{\texttt{#1}\xspace}
+
 \begin{document}
 
-\title{Project Title: Unit Verification and Validation Plan for \progname{}} 
-\author{Author Name}
+\title{A Fourier Series Library: Unit Verification and Validation Plan for FSL} 
+\author{Bo Cao}
 \date{\today}
 	
 \maketitle
@@ -30,7 +32,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
+Oct. 28, 2019  & 1.0 & First draft.\\
 Date 2 & 1.1 & Notes\\
 \bottomrule
 \end{tabularx}
@@ -39,17 +41,11 @@ Date 2 & 1.1 & Notes\\
 
 \tableofcontents
 
-\listoftables
-
-\wss{Do not include if not relevant}
-
-\listoffigures
-
-\wss{Do not include if not relevant}
-
 \newpage
 
 \section{Symbols, Abbreviations and Acronyms}
+
+Some symbols, abbreviations and acronyms are defined in the Common Analysis (CA) document \footnote{This document is available at \url{https://github.com/caobo1994/FourierSeries/blob/master/docs/SRS/CA.pdf}.}. For simplicity and maintainability, they are not redefined here. Readers shall refer to the CA documents when a certain item is not defined here.
 
 \renewcommand{\arraystretch}{1.2}
 \begin{tabular}{l l} 
@@ -60,172 +56,286 @@ Date 2 & 1.1 & Notes\\
   \bottomrule
 \end{tabular}\\
 
-\wss{symbols, abbreviations or acronyms -- you can reference the SRS, MG or MIS
-  tables if needed}
 
 \newpage
 
 \pagenumbering{arabic}
 
-This document ... \wss{provide an introductory blurb and roadmap of the
-  unit V\&V plan}
+This document provides an overview of the Verification and Validation (VnV) plan for the Fourier Series Library (FSL). It lays out the purpose, methods, and test cases for the VnV procedure. 
 
 \section{General Information}
 
 \subsection{Purpose}
 
-\wss{Identify software that is being unit tested (verified).}
+The library to be tested is called the Fourier Series Library (FSL). This library performs a set of computations, transformations, and/or input/output at the request of the library user.
 
 \subsection{Scope}
 
-\wss{What modules are outside of the scope.  If there are modules that are
-  developed by someone else, then you would say here if you aren't planning on
-  verifying them.  There may also be modules that are part of your software, but
-  have a lower priority for verification than others.  If this is the case,
-  explain your rationale for the ranking of module importance.}
+The intended objective of the VnV procedure is to verify that this library has generally met the requirements described in the CA document. These requirements include the functional requirements (FRs) and the non-functional requirements (NFRs).
+
+Note that if a small part of the NFRs has not been met, the library is still acceptable when the not-met NFRs' impact has been analyzed and deemed non-essential.
+
+The transformation from a function to its CFS involves numerical integration, and we plan to use existing libraries for it. Instead of test these libraries, we will trust them on the ground of their developers' and other users' through testing.
 
 \section{Plan}
 	
 \subsection{Verification and Validation Team}
 
-\wss{Probably just you.  :-)}
+The major member of the team is the author himself. Other contributors might assist in the VnV procedure, but their contributions are not guaranteed.
 
 \subsection{Automated Testing and Verification Tools}
 
-\wss{What tools are you using for automated testing.  Likely a unit testing
-  framework and maybe a profiling tool, like ValGrind.  Other possible tools
-  include a static analyzer, make, continuous integration tools, test coverage
-  tools, etc.  Explain your plans for summarizing code coverage metrics.
-  Linters are another important class of tools.  For the programming language
-  you select, you should look at the available linters.  There may also be tools
-  that verify that coding standards have been respected, like flake9 for
-  Python.}
+We have decided that this library will be implemented in \li{C++}.
+
+The unit test library we choose is \li{Catch2}\footnote{Available at \url{https://github.com/catchorg/Catch2}}. This library is designed for simple unit testing in both \li{C} and \li{C++}. We choose this library because it is light-weight, thus easy to install and use. These two properties are especially helpful in our situation, since I expect that most of the other collaborators have little knowledge in C++ and unit testing.
+
+The static analysis will be done by \li{cpplint}. This is a classic \li{C++} program static analysis tool. It is maintain by Google for checking a \li{C++} program's consistency with Google's \li{C++} code style guidance. This tool and guidance can be found at \url{https://github.com/google/styleguide}.
+
+The code coverage of the designed unit test cases will be tested by \li{gcov}. This is the standard code coverage tool that is assisted by the GNU program/library family's \li{C++} compiler, \li{g++}. An detailed introduction can be found in \url{https://gcc.gnu.org/onlinedocs/gcc/Gcov.html}.
+
+The (pseudo-)oracles for unit testing come from manual computation and/or the results computed by MATLAB.
 
 \subsection{Non-Testing Based Verification}
 
-\wss{List any approaches like code inspection, code walkthrough, symbolic
-  execution etc.  Enter not applicable if you do not plan on any non-testing
-  based verification.}
+We will have a code inspection and walkthrough of some functions in this library, if they are deemed too complex. This test will be assisted by the result of \li{cpplint}. 
 
 \section{Unit Test Description}
 
-\wss{Reference your MIS and explain your overall philosophy for test case
-  selection.}
+The general principle for selecting test cases is to reach maximum coverage with minimum number of test cases and minimum text time.
+
+In this case, the length of CFS's shall be neither too small nor too large. For simplicity, we choose an uniform $n=2$ for all test cases.
+
 
 \subsection{Tests for Functional Requirements}
 
-\wss{Most of the verification will be through automated unit testing.  If
-  appropriate specific modules can be verified by a non-testing based
-  technique.  That can also be documented in this section.}
+\subsubsection{Module 1: Basic comparison function}
 
-\subsubsection{Module 1}
-
-\wss{Include a blurb here to explain why the subsections below cover the module.
-  References to the MIS would be good.  You will want tests from a black box
-  perspective and from a white box perspective.  Explain to the reader how the
-  tests were selected.}
+The tests here are selected to cover the tolerated comparison function and its base, subtraction function. The tolerated comparison function will be used in later tests to compare the resulted CFS of the tested function with its (pseudo-)oracle counterpart, so we need to test this function first to ensure that the following test results are reliable.
 
 \begin{enumerate}
 
-\item{test-id1\\}
+\item{Test of subtraction: \\}
 
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
+Type: Automatic
 					
-Initial State: 
+Initial State: The subtract function of the loaded FSL library.
 					
-Input: 
+Input: $\mathit{CFSf}=[n=2, \omega=1.0, A=\{1.0, 0.0, 0.0\}, B=\{0.0, 1.0\}]$ and 
+	$\mathit{CFSg}=[n=2, \omega=1.0, A=\{0.0, 2.0, 1.0\}, B=\{1.0, 0.0\}]$	 
 					
-Output: \wss{The expected result for the given inputs}
+Output: $\mathit{CFSf}-\mathit{CFSg}$, which should be $[n=2, \omega=1.0, A=\{1.0, -2.0, -1.0\}, B=\{-1.0, 1.0\}]$
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
+Test Case Derivation: Manual computation
 
-How test will be performed: 
+How test will be performed: Feed function with the aforementioned input, and compare the function output to the aforementioned standard output by comparing its $n$, $\omega$, $A_i$'s and $B_i$'s.
 					
-\item{test-id2\\}
+\item{Test of amplitude function: \\}					
 
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
+Type: Automatic
+
+Initial State: None.
+
+Input: $\mathit{CFSf}=[n=2, \omega=1.0, A=\{1.0, 0.0, 2.0\}, B=\{2.0, 0.0\}]$ and $\epsilon=10^{-6}$.
+
+Output: $|\mathit{Amp}(\mathit{CFSf})-3.0|\leq\epsilon$, which should be \li{True}.
+
+Test Case Derivation: Manual computation
+
+How test will be performed: Compute and compare.
+
 					
-Initial State: 
+\item{Test of tolerated comparison  (\li{True} result): \\}
+
+Type: Automatic
 					
-Input: 
+Initial State: Verified amplitude function.
 					
-Output: \wss{The expected result for the given inputs}
+Input: $\mathit{CFSf}=[n=2, \omega=1.0, A=\{1.0, 0.0, 0.0\}, B=\{0.0, 1.0\}]$, 
+$\mathit{CFSg}=[n=2, \omega=1.0, A=\{0.0, 2.0, 1.0\}, B=\{1.0, 0.0\}]$, and error $\epsilon=10.0$
+					
+Output: Comparison result which should be \li{True}
 
-Test Case Derivation: \wss{Justify the expected value given in the Output field}
+Test Case Derivation: Manual computation
 
-How test will be performed: 
+How test will be performed: Compute and compare.
 
-\item{...\\}
-    
+\item{Test of tolerated comparison  (\li{False} result):\\}
+
+Same as \textit{Test of tolerated comparison  (\li{True} result)}, but with $\epsilon=1.0$ and Output as \li{False}.    
 \end{enumerate}
 
-\subsubsection{Module 2}
+\subsubsection{Module 2: Fourier transformation and approximation}
+This module tests the functions that compute Fourier transformation and approximated values of functions.
 
-...
+\begin{enumerate}
+	\item{Test of coefficient (even function):\\}
+	
+	Type: Automatic
+	
+	Initial State: Verified tolerated equality function.
+	
+	Input: $f(t)=t^2$, $\omega=1$, $n=2$, $\epsilon=10^{-6}$, $\mathit{CFSstd}=[n=2,\omega=1, A=\{\pi^2/3, -4.0, 1.0\}, B=\{0.0, 0.0\}]$
+	
+	Output: $\mathit{TolEq}(\mathit{CFSf}, \mathit{CFSstd}, \epsilon)$, which should be \li{True}.
+	
+	Test Case Derivation: Manual Computation, verified by MATLAB computation.
+	
+	How test will be performed: Compute and compare.
+	
+	\item{Test of coefficient (odd function):\\}
+	
+	Type: Automatic	
+	
+	Initial State: Verified tolerated equality function.
+	
+	Input: $f(t)=t$, $\omega=1$, $n=2$, $\epsilon=10^{-6}$, $\mathit{CFSstd}=[n=2,\omega=1, A=\{0.0, 0.0, 0.0\}, B=\{-2.0, 1.0\}]$
+	
+	Output: $\mathit{TolEq}(\mathit{CFSf}, \mathit{CFSstd}, \epsilon)$, which should be \li{True}.
+
+	Test Case Derivation: Manual Computation, verified by MATLAB computation.
+
+	How test will be performed: Compute and compare.
+	
+	\item{Test of approximated function value: \\}
+	
+	Type: Automatic
+	
+	Initial State: None.
+	
+	Input: $\mathit{CFSstd}=[n=2,\omega=1, A=\{0.0, 2.0, 0.0\}, B=\{-2.0, 1.0\}]$, $t=\pi/4$, $\epsilon=10^{-6}$.
+	
+	Output: $|\mathit{App}(\mathit{CFSstd}, t)-(2+\sqrt{2}/2)|\leq\epsilon$, which should be \li{True}.
+	
+	Test Case Derivation: Manual Computation, verified by MATLAB computation.
+
+	How test will be performed: Compute and compare.
+
+\end{enumerate}
+
+\subsubsection{Module 3: Operations and functions}
+
+\begin{enumerate}
+	\item{Test of addition: \\}
+	
+	Type: Automatic
+	
+	Initial State: Verified tolerated equality function.
+	
+	Input: $\mathit{CFSf}=[n=2,\omega=1, A=\{0.0, 2.0, 0.0\}, B=\{-2.0, 0.0\}]$, $\mathit{CFSg}=[n=2,\omega=1, A=\{1.0, 0.0, 2.0\}, B=\{0.0, 1.0\}]$,
+	$\mathit{CFSstd}=[n=2,\omega=1, A=\{1.0, 2.0, 1.0\}, B=\{-2.0, 1.0\}]$,
+	$\epsilon=10^{-6}$
+	
+	Output: $\mathit{TolEq}(\mathit{CFSf}+\mathit{CFSg}, \mathit{CFSstd}, \epsilon)$, which should be \li{True}.
+	
+	Test Case Derivation: Manual Computation.
+
+	How test will be performed: Compute and compare.
+	
+	\item{Test of multiplication:\\}
+	
+	Type: Automatic
+	
+	Initial State: Verified tolerated equality function.
+	
+	Input: $\mathit{CFSf}=[n=2, \omega=1, A=\{1.0, 0.0, 1.0\}, B=\{1.0, 0.0\}]$,
+	$\mathit{CFSg}=[n=2, \omega=1, A=\{1.0, 1.0, 0.0\}, B=\{1.0, 0.0\}]$, 
+	$\mathit{CFSstd}=[n=2, \omega=1, A=\{2.0, 2.0, 0.0\}, B=\{2.0, 1.0\}]$,
+	$\epsilon=10^{-6}$
+	
+	Output: $\mathit{TolEq}(\mathit{CFSf}*\mathit{CFSg}, \mathit{CFSstd}, \epsilon)$, which should be \li{True}.
+	
+	Test Case Derivation: Manual Computation.
+	
+	How test will be performed: Compute and compare.
+	
+	\item{Test of division: \\}
+	
+	Same as \textit{Test of multiplication}, but swap $\mathit{CFSf}$ and $\mathit{CFSstd}$, while change $*$ to $/$.
+	
+	\item{Test of function of CFS: \\}
+	
+	Type: Automatic
+	
+	Initial State: Verified tolerated equality, addition and multiplication function.
+	
+	Input: $\mathit{CFSf}=[n=2, \omega=1, A=\{1.0, 0.0, 1.0\}, B=\{1.0, 0.0\}]$, $g(t)=e^t$, and $\epsilon=10^{-6}$.
+	
+	Output: $\mathit{TolEq}(g(\mathit{CFSf}), 1+\mathit{CFSf}+0.5\mathit{CFSf}^2, \epsilon)$, which should be \li{True}.
+	
+	Test Case Derivation: Manual Computation.
+
+	How test will be performed: Compute and compare.
+	
+\end{enumerate}
+
+\subsubsection{Test of conversion}
+
+\begin{enumerate}
+	\item{Test of conversion from other data format:\\}
+	
+	Type: Automatic
+	
+	Initial State: Verified tolerated equality function
+	
+	Input: $n=2$, $\omega=1$, $A={1.0, 0.0, 2.0}$, $B={2.0, 0.0}$.
+	
+	Output: constructed CFS
+	
+	Test Case Derivation: None
+	
+	How the test will be performed: convert and compare the result with a standard CFS using tolerated equality and $\epsilon=10^{-6}$.
+	
+	\item{Test of conversion to other data format:\\}
+	
+	Same as \textit{Test of conversion from other data format}, while exchanging input and output, and compare each coefficients with tolerance as $\epsilon$.
+	
+\end{enumerate}
 
 \subsection{Tests for Nonfunctional Requirements}
 
-\wss{If there is a module that needs to be independently assessed for
-  performance, those test cases can go here.  In some projects, planning for
-  nonfunctional tests of units will not be that relevant.}
 
-\wss{These tests may involve collecting performance data from previously
-  mentioned functional tests.}
-
-\subsubsection{Module ?}
+\subsubsection{Speed evaluation}
 		
+For each test, generate random CFS's with same $\omega$ and various $n$, clock the execution time with the generated CFS's as input, and check whether the relationship between $n$ and the execution time follows the requirements in the NFR. 		
+
+We will demonstrate how the test is performed by showing one example.
 \begin{enumerate}
-
-\item{test-id1\\}
-
-Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
-  be automatic}
-					
-Initial State: 
-					
-Input/Condition: 
-					
-Output/Result: 
-					
-How test will be performed: 
-					
-\item{test-id2\\}
-
-Type: Functional, Dynamic, Manual, Static etc.
-					
-Initial State: 
-					
-Input: 
-					
-Output: 
-					
-How test will be performed: 
-
+	
+	\item{Test the speed of addition\\}
+	
+	Type: Automatic
+	
+	Initial State: Addition
+	
+	Input/Condition: Various pair of CFS's, with the same $\omega$, $n=100:100:1000$ respectively, and $A_i$'s and $B_i$'s generated from a random number generator. In this test, this generator is chosen as the uniform random number generator on $[-1.0, 1.0]$. 
+	
+	Output/Result: Whether the execution time of addition is linear in regards to $n$.
+	
+	How test will be performed: For each $n$, generate 10 pairs of CFS's, clock their execution time to take average value as the execution time for CFS's of size $n$, find the $r$ value of a linear fitting between $n$ and the execution time. This test succeeds when $|r|>0.9$, otherwise fails. 
+		
 \end{enumerate}
 
-\subsubsection{Module ?}
-
-...
-
 \subsection{Traceability Between Test Cases and Modules}
+We show each instance module's covering tests.
 
-\wss{Provide evidence that all of the modules have been considered.}
+\begin{itemize}
+	\item IM1: \textit{Test of transformation (even function)} and \textit{Test of transformation (odd function)}.
+	\item IM2: \textit{Test of approximated function value}
+	\item IM3: \textit{Test of addition}
+	\item IM4: \textit{Test of subtraction}
+	\item IM5: \textit{Test of multiplication}
+	\item IM6: \textit{Test of division}
+	\item IM7: \textit{Test of function of CFS}
+	\item IM8: \textit{Test of amplitude}
+	\item IM9: \textit{Test of tolerated equality}
+	\item IM10: \textit{Test of conversion from other data format}
+	\item IM11: \textit{Test of conversion to other data format}
+\end{itemize}
+
+
 
 \bibliographystyle{plainnat}
 
 \bibliography{SRS}
-
-\newpage
-
-\section{Appendix}
-
-\wss{This is where you can place additional information, as appropriate}
-
-\subsection{Symbolic Parameters}
-
-\wss{The definition of the test cases may call for SYMBOLIC\_CONSTANTS.
-Their values are defined in this section for easy maintenance.}
 
 \end{document}

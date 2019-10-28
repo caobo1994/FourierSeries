@@ -680,6 +680,9 @@ on.
 \end{minipage}\\
 
 ~\newline
+
+For the following operations, one of the CFS's can be a constant $a$. In this case, the corresponding CFS shall be one with $A_0=a$, $A_i=0, B_i=0 (i=1:n)$.
+
 \noindent
 \begin{minipage}{\textwidth}
 	\renewcommand*{\arraystretch}{1.5}
@@ -1162,7 +1165,8 @@ on.
 		\hline
 		Input& $\mathit{CFSf}$, $\mathit{CFSg}$, $\mathit{tol}$\\
 		\hline
-		Output& boolean value \texttt{True} if 
+		Output&$\mathit{TolEq}(\mathit{CFSf}, \mathit{CFSg}, \mathit{tol})$\\
+		& boolean value \texttt{True} if 
 		$\mathit{Amp}(\mathit{CFSf}-\mathit{CFSg})\leq \mathit{tol}$\\
 		&boolean value \texttt{False} otherwise\\
 		\hline
