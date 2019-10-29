@@ -101,16 +101,18 @@ We will have a code inspection and walkthrough of some functions in this library
 
 \section{Unit Test Description}
 
-The general principle for selecting test cases is to reach maximum coverage with minimum number of test cases and minimum text time.
+The general principle for selecting test cases is to reach maximum coverage with minimum number of test cases and minimum test time.
 
-In this case, the length of CFS's shall be neither too small nor too large. For simplicity, we choose an uniform $n=2$ for all test cases.
+To achieve this goal, the length of CFS's shall be neither too small nor too large. For simplicity, we choose an uniform $n=2$ for all test cases.
 
 
 \subsection{Tests for Functional Requirements}
 
 \subsubsection{Module 1: Basic comparison function}
 
-The tests here are selected to cover the tolerated comparison function and its base, subtraction function. The tolerated comparison function will be used in later tests to compare the resulted CFS of the tested function with its (pseudo-)oracle counterpart, so we need to test this function first to ensure that the following test results are reliable.
+The tests here are selected to cover the tolerated comparison function and its base, subtraction operation and amplitude function. The tolerated comparison function will be used in later tests to compare the resulted CFS of the tested function with its (pseudo-)oracle counterpart, so we need to test this function first to ensure that the following test results are reliable.
+
+\textbf{NOTE: Do not proceed with other modules unless you have succeed in this module. For each round of test, the result of other modules is trustworthy if and only if the test results of this module are all successes.}
 
 \begin{enumerate}
 
@@ -127,7 +129,7 @@ Output: $\mathit{CFSf}-\mathit{CFSg}$, which should be $[n=2, \omega=1.0, A=\{1.
 
 Test Case Derivation: Manual computation
 
-How test will be performed: Feed function with the aforementioned input, and compare the function output to the aforementioned standard output by comparing its $n$, $\omega$, $A_i$'s and $B_i$'s.
+How test will be performed: Feed function with the aforementioned input, and compare the function output to the aforementioned standard output by comparing its $n$, $\omega$, $A_i$'s and $B_i$'s variable-by-variable.
 					
 \item{Test of amplitude function: \\}					
 
@@ -202,9 +204,9 @@ This module tests the functions that compute Fourier transformation and approxim
 	
 	Initial State: None.
 	
-	Input: $\mathit{CFSstd}=[n=2,\omega=1, A=\{0.0, 2.0, 0.0\}, B=\{-2.0, 1.0\}]$, $t=\pi/4$, $\epsilon=10^{-6}$.
+	Input: $\mathit{CFSf}=[n=2,\omega=1, A=\{0.0, 2.0, 0.0\}, B=\{-2.0, 1.0\}]$, $t=\pi/4$, $\epsilon=10^{-6}$.
 	
-	Output: $|\mathit{App}(\mathit{CFSstd}, t)-(2+\sqrt{2}/2)|\leq\epsilon$, which should be \li{True}.
+	Output: $|\mathit{App}(\mathit{CFSf}, t)-(2+\sqrt{2}/2)|\leq\epsilon$, which should be \li{True}.
 	
 	Test Case Derivation: Manual Computation, verified by MATLAB computation.
 
@@ -295,6 +297,7 @@ This module tests the functions that compute Fourier transformation and approxim
 
 
 \subsubsection{Speed evaluation}
+We test the speed of IM1, IM3, IM4, IM5, IM8 and IM9.	
 		
 For each test, generate random CFS's with same $\omega$ and various $n$, clock the execution time with the generated CFS's as input, and check whether the relationship between $n$ and the execution time follows the requirements in the NFR. 		
 
