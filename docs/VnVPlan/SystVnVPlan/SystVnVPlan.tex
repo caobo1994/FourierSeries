@@ -109,6 +109,10 @@ The transformation part of this library will be validated by comparing its resul
 \subsection{Tests for Functional Requirements}
 All tests in this section will be done by unit testing, the detail of which will be covered in the Unit Test VnV Plan document.
 
+Since these tests involve comparing floating point numbers, and there are intrinsic errors regarding floating point computations, we have to set a tolerance, so that two floating numbers with difference smaller than this tolerance are considered equal. We use $\epsilon$ to represent this tolerance, and choose its value as $10^{-6}$ for all tests. This value is chosen because it is large enough to include all computation-related error, but small enough to detect any error in the result of the library. This value can be changed if we have good reasons to support this change.
+
+
+
 \subsubsection{Module 1: Basic comparison function}
 
 The tests here are selected to cover the tolerated comparison function and its base, subtraction operation and amplitude function. The tolerated comparison function will be used in later tests to compare the resulted CFS of the tested function with its (pseudo-)oracle counterpart, so we need to test this function first to ensure that the following test results are reliable.
