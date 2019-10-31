@@ -126,7 +126,7 @@ The tests here are selected to cover the tolerated comparison function and its b
 	Input: $\mathit{CFSf}=[n=2, \omega=1.0, A=\{1.0, 0.0, 0.0\}, B=\{0.0, 1.0\}]$ and 
 	$\mathit{CFSg}=[n=2, \omega=1.0, A=\{0.0, 2.0, 1.0\}, B=\{1.0, 0.0\}]$	 
 	
-	Output: $\mathit{CFSf}-\mathit{CFSg}$, which should be $[n=2, \omega=1.0, A=\{1.0, -2.0, -1.0\}, B=\{-1.0, 1.0\}]$
+	Output: Evaluated result of $\mathit{CFSf}-\mathit{CFSg}$, which should be a CFS object $[n=2, \omega=1.0, A=\{1.0, -2.0, -1.0\}, B=\{-1.0, 1.0\}]$
 	
 	Test Case Derivation: Manual computation
 	
@@ -140,7 +140,7 @@ The tests here are selected to cover the tolerated comparison function and its b
 	
 	Input: $\mathit{CFSf}=[n=2, \omega=1.0, A=\{1.0, 0.0, 2.0\}, B=\{2.0, 0.0\}]$ and $\epsilon=10^{-6}$.
 	
-	Output: $|\mathit{Amp}(\mathit{CFSf})-3.0|\leq\epsilon$, which should be \li{True}.
+	Output: Evaluated result of $|\mathit{Amp}(\mathit{CFSf})-3.0|\leq\epsilon$, which should be \li{True}.
 	
 	Test Case Derivation: Manual computation
 	
@@ -179,7 +179,7 @@ This module tests the functions that compute Fourier transformation and approxim
 	
 	Input: $f(t)=t^2$, $\omega=1$, $n=2$, $\epsilon=10^{-6}$, $\mathit{CFSstd}=[n=2,\omega=1, A=\{\pi^2/3, -4.0, 1.0\}, B=\{0.0, 0.0\}]$
 	
-	Output: $\mathit{TolEq}(\mathit{CFSf}, \mathit{CFSstd}, \epsilon)$, which should be \li{True}.
+	Output: Evaluated result of $\mathit{TolEq}(\mathit{CFSf}, \mathit{CFSstd}, \epsilon)$, which should be \li{True}.
 	
 	Test Case Derivation: Manual Computation, verified by MATLAB computation.
 	
@@ -207,7 +207,7 @@ This module tests the functions that compute Fourier transformation and approxim
 	
 	Input: $\mathit{CFSf}=[n=2,\omega=1, A=\{0.0, 2.0, 0.0\}, B=\{-2.0, 1.0\}]$, $t=\pi/4$, $\epsilon=10^{-6}$.
 	
-	Output: $|\mathit{App}(\mathit{CFSf}, t)-(2+\sqrt{2}/2)|\leq\epsilon$, which should be \li{True}.
+	Output: Evaluated result of $|\mathit{App}(\mathit{CFSf}, t)-(2+\sqrt{2}/2)|\leq\epsilon$, which should be \li{True}.
 	
 	Test Case Derivation: Manual Computation, verified by MATLAB computation.
 	
@@ -228,7 +228,7 @@ This module tests the functions that compute Fourier transformation and approxim
 	$\mathit{CFSstd}=[n=2,\omega=1, A=\{1.0, 2.0, 1.0\}, B=\{-2.0, 1.0\}]$,
 	$\epsilon=10^{-6}$
 	
-	Output: $\mathit{TolEq}(\mathit{CFSf}+\mathit{CFSg}, \mathit{CFSstd}, \epsilon)$, which should be \li{True}.
+	Output: Evaluated result of $\mathit{TolEq}(\mathit{CFSf}+\mathit{CFSg}, \mathit{CFSstd}, \epsilon)$, which should be \li{True}.
 	
 	Test Case Derivation: Manual Computation.
 	
@@ -245,7 +245,7 @@ This module tests the functions that compute Fourier transformation and approxim
 	$\mathit{CFSstd}=[n=2, \omega=1, A=\{2.0, 2.0, 0.0\}, B=\{2.0, 1.0\}]$,
 	$\epsilon=10^{-6}$
 	
-	Output: $\mathit{TolEq}(\mathit{CFSf}*\mathit{CFSg}, \mathit{CFSstd}, \epsilon)$, which should be \li{True}.
+	Output: Evaluated result of $\mathit{TolEq}(\mathit{CFSf}*\mathit{CFSg}, \mathit{CFSstd}, \epsilon)$, which should be \li{True}.
 	
 	Test Case Derivation: Manual Computation.
 	
@@ -263,7 +263,7 @@ This module tests the functions that compute Fourier transformation and approxim
 	
 	Input: $\mathit{CFSf}=[n=2, \omega=1, A=\{1.0, 0.0, 1.0\}, B=\{1.0, 0.0\}]$, $g(t)=e^t$, and $\epsilon=10^{-6}$.
 	
-	Output: $\mathit{TolEq}(g(\mathit{CFSf}), 1+\mathit{CFSf}+0.5\mathit{CFSf}^2, \epsilon)$, which should be \li{True}.
+	Output: Evaluated result of $\mathit{TolEq}(g(\mathit{CFSf}), 1+\mathit{CFSf}+0.5\mathit{CFSf}^2, \epsilon)$, which should be \li{True}.
 	
 	Test Case Derivation: Manual Computation.
 	
@@ -297,14 +297,16 @@ This module tests the functions that compute Fourier transformation and approxim
 We design input test for detecting mismatch $n$ and $\omega$ for functions that accept two CFS's as inputs. For each test in the following list, we derive tests for input constraints based on it.
 
 \begin{itemize}
-	\item Test for addition
-	\item Test for subtraction
-	\item Test for multiplication
-	\item Test for division
-	\item Test for tolerated equality
+	\item Test of addition
+	\item Test of subtraction
+	\item Test of multiplication
+	\item Test of division
+	\item Test of tolerated equality
 \end{itemize}
 
-For each test in this list, we derive two tests. One is to change the $\omega$ in the second CFS to the half of its original value, and the other is to change the $n$ in the second CFS to $1$, and remove $A_2$ and $B_2$ of the second CFS accordingly.
+For each test in this list, we derive two tests. One is to change the $\omega$ in the second CFS to the half of its original value, and the other is to change the $n$ in the second CFS to $1$, and remove $A_2$ and $B_2$ of the second CFS accordingly. Error message indicating a pair of mismatched CFS's shall appear.
+ 
+Additionally, we do input constraint check on the tests of conversion from other data formats. We make $n$ in the original test from 2 to 3, and error message indicating mismatched $n$, number of $A_i(i\neq0)$'s, and number of $B_i$'s. 
 
 \subsection{Tests for Nonfunctional Requirements}
 The tests in this section will also be done by unit testing.
@@ -327,7 +329,7 @@ We will demonstrate how the test is performed by showing one example.
 	
 	Output/Result: Whether the execution time of addition is linear in regards to $n$.
 	
-	How test will be performed: For each $n$, generate 10 pairs of CFS's, clock their execution time to take average value as the execution time for CFS's of size $n$, find the $r$ value of a linear fitting between $n$ and the execution time. This test succeeds when $|r|>0.9$, otherwise fails. 
+	How test will be performed: For each $n$, generate 10 pairs of CFS's, clock their execution time to take average value as the execution time for CFS's of size $n$, find the $r$ value of a linear fitting between $n$ and the execution time. This test succeeds when $|r|>0.9$, otherwise fails. However, when the test fails, tester can examine the value of $|r|$, and choose to make it acceptable failure, if he/she has good reasons to do so. 
 	
 \end{enumerate}
 
