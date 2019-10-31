@@ -296,6 +296,18 @@ This module tests the functions that compute Fourier transformation and approxim
 	Same as \textit{Test of conversion from other data format}, while exchanging input and output, and compare each coefficients with tolerance as $\epsilon$.
 	
 \end{enumerate}
+\subsection{Test for input constraints}
+We design input test for detecting mismatch $n$ and $\omega$ for functions that accept two CFS's as inputs. For each test in the following list, we derive tests for input constraints based on it.
+
+\begin{itemize}
+	\item Test for addition
+	\item Test for subtraction
+	\item Test for multiplication
+	\item Test for division
+	\item Test for tolerated equality
+\end{itemize}
+
+For each test in this list, we derive two tests. One is to change the $\omega$ in the second CFS to the half of its original value, and the other is to change the $n$ in the second CFS to $1$, and remove $A_2$ and $B_2$ of the second CFS accordingly.
 
 \subsection{Tests for Nonfunctional Requirements}
 
