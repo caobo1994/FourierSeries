@@ -1,5 +1,5 @@
 \documentclass[12pt, titlepage]{article}
-
+\usepackage{xspace}
 \usepackage{fullpage}
 \usepackage[round]{natbib}
 \usepackage{multirow}
@@ -16,6 +16,7 @@
     urlcolor=blue
 }
 
+\newcommand{\li}[1]{\texttt{#1}\xspace}
 \input{../../Comments}
 \input{../../Common}
 
@@ -29,12 +30,12 @@
 
 \newcounter{mnum}
 \newcommand{\mthemnum}{M\themnum}
-\newcommand{\mref}[1]{M\ref{#1}}
+\newcommand{\mref}[1]{M\ref{m:#1}}
 
 \begin{document}
 
-\title{Module Guide for \progname{}} 
-\author{Author Name}
+\title{Module Guide for \progname} 
+\author{Bo Cao}
 \date{\today}
 
 \maketitle
@@ -153,15 +154,14 @@ unlikely changes are listed in Section \ref{SecUchange}.
 Anticipated changes are the source of the information that is to be hidden
 inside the modules. Ideally, changing one of the anticipated changes will only
 require changing the one module that hides the associated decision. The approach
-adapted here is called design for
-change.
-
+adapted here is called design for change.
+\newcommand{\acitem}[1]{\item[\refstepcounter{acnum} \actheacnum \label{ac:#1}:] }
 \begin{description}
-\item[\refstepcounter{acnum} \actheacnum \label{acHardware}:] The specific
-  hardware on which the software is running.
-\item[\refstepcounter{acnum} \actheacnum \label{acInput}:] The format of the
-  initial input data.
-\item ...
+\acitem{HardwareOS} The specific hardware and OS on which the software is running.
+\acitem{Conversion} The format of the data that the conversion functions accept.
+\acitem{FunctionType} The type used in the API's languages that represents a function transformed into a CFS.
+\acitem{LinearSolver} The linear solver used in the division operation.
+\acitem{Integral} The integral function used in transformation to CFS.
 \end{description}
 
 \subsection{Unlikely Changes} \label{SecUchange}
@@ -172,11 +172,9 @@ decisions at the system architecture stage can simplify the software design. If
 these decision should later need to be changed, then many parts of the design
 will potentially need to be modified. Hence, it is not intended that these
 decisions will be changed.
-
+\newcommand{\ucitem}[1]{\item[\refstepcounter{ucnum} \uctheucnum \label{uc:#1}:] }
 \begin{description}
-\item[\refstepcounter{ucnum} \uctheucnum \label{ucIO}:] Input/Output devices
-  (Input: File and/or Keyboard, Output: File, Memory, and/or Screen).
-\item ...
+	\ucitem{DataStruct} The data structure to store $A_i$'s and $B_i$'s in the CFS's.
 \end{description}
 
 \section{Module Hierarchy} \label{SecMH}
@@ -185,10 +183,16 @@ This section provides an overview of the module design. Modules are summarized
 in a hierarchy decomposed by secrets in Table \ref{TblMH}. The modules listed
 below, which are leaves in the hierarchy tree, are the modules that will
 actually be implemented.
-
+\newcommand{\mitem}[1]{\item [\refstepcounter{mnum} \mthemnum \label{m:#1}:] }
 \begin{description}
-\item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
-\item ...
+\mitem{BasicEnv} The module that provides basic functions. Part of the implementing languages' runtime libraries.
+\mitem{LinearSolver} The linear solver module, implemented by others, and used by our library's division operation.
+\mitem{Integral} The integral module, implemented by others, and used by the function in our library that transforms a mathematical function to a CFS.
+\mitem{DataDef} The data definition module. 
+\mitem{Conversion} The conversion module to convert other data formats from/to CFS's.
+\mitem{Transformation} The transformation module to transform mathematical functions from/to CFS's
+\mitem{BasicOp} The basic operation module including the addition, subtraction, multiplication, division and amplitude operation.
+\mitem{AdvancedOp} The advanced operation module including the function of CFS, and tolerated equality operations.
 \end{description}
 
 
@@ -199,22 +203,20 @@ actually be implemented.
 \textbf{Level 1} & \textbf{Level 2}\\
 \midrule
 
-{Hardware-Hiding Module} & ~ \\
+{Hardware-Hiding Module} & \mref{BasicEnv} Basic functions module \\
 \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\ 
-& ?\\
+\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} 
+& \mref{DataDef} Data definition module\\
+& \mref{Conversion} Conversion module\\
+& \mref{Transformation} Transformation module\\
+& \mref{BasicOp} Basic operations module\\
+& \mref{AdvancedOp} Advanced operations module\\
 \midrule
 
-\multirow{3}{0.3\textwidth}{Software Decision Module} & {?}\\
-& ?\\
-& ?\\
+\multirow{3}{0.3\textwidth}{Software Decision Module} 
+& \mref{LinearSolver} Linear solver (external)\\
+& \mref{Integral} Integral (external)\\
 \bottomrule
 
 \end{tabular}
@@ -253,55 +255,63 @@ Only the leaf modules in the hierarchy have to be implemented. If a dash
 (\emph{--}) is shown, this means that the module is not a leaf and will not have
 to be implemented.
 
-\subsection{Hardware Hiding Modules (\mref{mHH})}
+\subsection{Basic functions module (\mref{BasicEnv})}
 
 \begin{description}
-\item[Secrets:]The data structure and algorithm used to implement the virtual
-  hardware.
-\item[Services:]Serves as a virtual hardware used by the rest of the
-  system. This module provides the interface between the hardware and the
-  software. So, the system can use it to display outputs or to accept inputs.
-\item[Implemented By:] OS
+\item[Secrets:]The basic data structure and algorithm used to implement the library.
+\item[Services:]Serves as the basic functions and data structure used by the rest of the
+  system. This module provides the interface between the hardware, the OS and the
+  software. So, the system can use it to build data structures, perform operations related to basic data types, display outputs or to accept inputs.
+\item[Implemented By:] OS and run-time library of our implementing language.
 \end{description}
-
-\subsection{Behaviour-Hiding Module}
+\subsection{Software Decision Modules}
+\subsubsection{Linear solver module \mref{LinearSolver}}
 
 \begin{description}
-\item[Secrets:]The contents of the required behaviours.
-\item[Services:]Includes programs that provide externally visible behaviour of
-  the system as specified in the software requirements specification (SRS)
-  documents. This module serves as a communication layer between the
-  hardware-hiding module and the software decision module. The programs in this
-  module will need to change if there are changes in the SRS.
-\item[Implemented By:] --
+\item[Secrets:]A linear equation solver.
+\item[Services:]Solves the linear equation generated by \progname.
+\item[Implemented By:] Third party.
 \end{description}
-
-\subsubsection{Input Format Module (\mref{mInput})}
+\subsubsection{Integral module \mref{Integral}}
 
 \begin{description}
-\item[Secrets:]The format and structure of the input data.
-\item[Services:]Converts the input data into the data structure used by the
-  input parameters module.
-\item[Implemented By:] [Your Program Name Here]
+	\item[Secrets:]A function that implements the integral of a function on a given interval.
+	\item[Services:]Calculates the integration in the transformation from a mathematical function to its CFS.
+	\item[Implemented By:] Third party
 \end{description}
 
-\subsubsection{Etc.}
-
-
-\subsection{Software Decision Module}
-
+\subsection{Behaviour-hiding modules}
+\subsubsection{Data definition module \mref{DataDef}}
 \begin{description}
-\item[Secrets:] The design decision based on mathematical theorems, physical
-  facts, or programming considerations. The secrets of this module are
-  \emph{not} described in the SRS.
-\item[Services:] Includes data structure and algorithms used in the system that
-  do not provide direct interaction with the user. 
-  % Changes in these modules are more likely to be motivated by a desire to
-  % improve performance than by externally imposed changes.
-\item[Implemented By:] --
+\item[Secrets:] Define the computational data structure of a CFS 
+\item[Services:] Provide CFS's getters and setters.
+\item[Implemented By:] \progname
 \end{description}
-
-\subsubsection{Etc.}
+\subsubsection{Conversion module \mref{Conversion}}
+\begin{description}
+	\item[Secrets:] Stores passed-in data in a CFS, and writes data in a CFS to user-designated spaces.
+	\item[Services:] Provide conversion from/to data in other formats. 
+	\item[Implemented By:] \progname
+\end{description}
+\subsubsection{Transformations \mref{Transformation}}
+\begin{description}
+	\item[Secrets:] Task1: Calculate the $A_i$'s and $B_i$'s in a CFS with given mathematical function $f(t)$, $n$, and $\omega$, and store $n$, $\omega$, $A_i$'s and $B_i$'s in a CFS. \\
+	Task2: Calculate function values based on variable values and function's CFS.
+	\item[Services:] Provide transformation from/to a mathematical function.
+	\item[Implemented By:] \progname
+\end{description}
+\subsubsection{Basic operation \mref{DataDef}}
+\begin{description}
+	\item[Secrets:] Calculate the $A_i$'s and $B_i$'s for results of addition, subtraction, multiplication, and division operations, and calculate the result of amplitude operation. 
+	\item[Services:] Provide addition, subtraction, multiplication, division and amplitude operations.
+	\item[Implemented By:] \progname
+\end{description}
+\subsubsection{Advanced operation \mref{DataDef}}
+\begin{description}
+	\item[Secrets:] Calculate the $A_i$'s and $B_i$'s for functions of CFS's, and calculate the result of tolerated equality operation. 
+	\item[Services:] Provide function of CFS and tolerated equality operations.
+	\item[Implemented By:] \progname
+\end{description}
 
 \section{Traceability Matrix} \label{SecTM}
 
@@ -379,7 +389,7 @@ because they use modules from the lower levels.
 
 %\section*{References}
 
-\bibliographystyle {plainnat}
-\bibliography{../../../refs/References}
+%\bibliographystyle {plainnat}
+%\bibliography{../../../refs/References}
 
 \end{document}
