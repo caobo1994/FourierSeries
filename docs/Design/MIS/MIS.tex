@@ -1,7 +1,6 @@
 \documentclass[12pt, titlepage]{article}
 
 \usepackage{amsmath, mathtools}
-
 \usepackage[round]{natbib}
 \usepackage{amsfonts}
 \usepackage{amssymb}
@@ -19,7 +18,7 @@
 \usepackage[section]{placeins}
 \usepackage{caption}
 \usepackage{fullpage}
-
+\usepackage{makecell}
 \hypersetup{
 bookmarks=true,     % show bookmarks bar?
 colorlinks=true,       % false: boxed links; true: colored links
@@ -32,10 +31,8 @@ urlcolor=cyan          % color of external links
 \usepackage{array}
 
 \externaldocument{../../SRS/SRS}
-
+\input{../../Common}
 \input{../../Comments}
-
-\newcommand{\progname}{Program Name}
 
 \begin{document}
 
@@ -174,16 +171,36 @@ The following table is taken directly from the Module Guide document for this pr
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
+None.
+\subsubsection{Exported Data Type}
+There is one exported data type, CSF. (abstract, with one abstract type \li{FLOAT}, indicating floating point types)
+The structure of CSF is
+\begin{itemize}
+	\item $n$: integer
+	\item $\omega$: \li{FLOAT}
+	\item $A$: sequence of \li{FLOAT}
+	\item $B$: sequence of \li{FLOAT}
+\end{itemize}
+During implementation, it is recommended that $A$ and $B$ are random accessible.
 
 \subsubsection{Exported Access Programs}
-
+\newcommand{\func}[1]{\\\hline\li{#1}}
 \begin{center}
-\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
+\begin{tabular}{p{4cm} p{4cm} p{4cm} p{3cm}}
 \hline
-\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
-\hline
-\wss{accessProg} & - & - & - \\
-\hline
+\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} 
+\func{ConvertFrom} &\makecell{$n$: integer\\$\omega$: \li{FLOAT}\\$A$: sequence of \li{FLOAT}\\$B$: sequence of \li{FLOAT}} & Constructed CSF & Mismatch between $n$, (size of $A$ -1), and size of $B$
+\func{ConvertTo} &\makecell{CSF\\pointers to the space \\for outputs}&Same as inputs of \li{ConvertFrom} & None
+\func{TransformTo} & function $f$, $n$, $\omega$&Constructed CSF&Any exception raised by integral module
+\func{FunctionValue} & CSF, $t$ & Value of $f(t)$, where CSF comes from $f$&None.
+\func{Addition} & Two CSF's & A CSF as result & mismatch of $n$ and $\omega$
+\func{Subtraction} & Same as \li{Addition} & Same as \li{Addition} & Same as \li{Addition}
+\func{Multplication} & Same as \li{Addition} & Same as \li{Addition} & Same as \li{Addition}
+\func{Divison} & Same as \li{Addition} & Same as \li{Addition} & Same as \li{Addition}, plus any exception raised by linear solver.
+\func{ToleratedEquality} & Same as \li{Addition} & Same as \li{Addition} & Same as \li{Addition}
+\func{Function}&CFS, Taylor series at least the size of CFS&Resulted CFS&None.
+\func{Amplitude}&CFS&Result of type \li{FLOAT}&None.
+\\\hline 
 \end{tabular}
 \end{center}
 
