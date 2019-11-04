@@ -43,3 +43,6 @@
 *.blg
 *.lof
 *.lot
+
+# DS Store (for Macs)
+*.DS_Store
