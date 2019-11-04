@@ -145,8 +145,8 @@ $\sum_{i=m_1}^{m_2}a_i$ & Summation of $a_i, i=m_1, m_1+1, ..., m_2$\\
 $n$ & Length of cut-off Fourier series\\ 
 $\omega$ & Base frequency of Fourier series \\
 $\mathit{CFSf}$, $\mathit{CFSg}$ & $\mathit{CFS}(f(t), n, \omega)$ and 
-$\mathit{CFS}(g(t), n, \omega)$ respectively.\\
-$A_i$, $B_i$& coeffecients of 'sin' and 'cos' functions in a CFS.\\
+$\mathit{CFS}(g(t), n, \omega)$, respectively.\\
+$A_i$, $B_i$& coeffecients of `sin' and `cos' functions in a CFS.\\
 $\mathit{App}$& Approximation operation on a CFS\\
 $\mathit{Amp}$& Amplitude function of a CFS\\
 $\mathit{tol}$& Tolerance used for equality of CFS.\\
@@ -279,13 +279,14 @@ as dependent libraries.
 \subsection{Background Overview} \label{Sbsc:CA-Background}
 Fourier series are used in lots of analysis, analysis of signals as an example 
 \cite{papoulis1977signal}. The Fourier series of a function mainly uses 
-a linear combination of 'sin' and 'cos' functions to represent and approximate 
+a linear combination of `sin' and `cos' functions to represent and approximate 
 this function. In real-life research, we sometimes need to perform Fourier 
 series related operations. For example, when we need to analyze the total 
 effects of two signals, each approximated by its Fourier series, 
 we need to calculated the summation of these two Fourier series. 
 Or, when we need to calculate the strength of a signal from its Fourier 
 series, we need to calculate this Fourier series' amplitude.
+
 \subsection{Terminology and Definitions}
 
 This subsection provides a list of terms that are used in the subsequent
@@ -295,10 +296,14 @@ easier to correctly understand the requirements:
 \begin{itemize}
 
 \item Binary operations: an operation that involves two operands.
-\item Fourier series: a series of real numbers acting as weights in the weighed sum of 'sin' and 'cos' functions, to represent/approximate a function.
+\item Fourier series: a series of real numbers acting as weights in the weighed
+  sum of 'sin' and 'cos' functions, to represent/approximate a function.
 \item Amplitude: a map $\mathit{CFS}\rightarrow \mathbb{R}^{*}$ to measure this CFS's strength.
 \end{itemize}
-\an{This section needs further expansion.}
+\an{This section needs further expansion.}  \wss{Yes, I agree.  In particular,
+  you haven't said what CFS stands for.  (Terms should not only be defined in
+  the table of symbols.}
+
 \subsection{Data Definitions} \label{sec_datadef}
 
 This section collects and defines all the data needed to build the instance
@@ -323,7 +328,9 @@ Symbol &$\mathit{IFS}$\\
   \hline
   Description & In this equation, \begin{itemize}
   	\item $f(t)$ is an $[-\pi/\omega, \pi/\omega]]
-  	\rightarrow\mathbb{R}$ function, whose IFS exists;
+  	\rightarrow\mathbb{R}$ function, whose IFS exists; \wss{Do you want to
+          add an assumption that the IFS exists?  Otherwise, this is something
+          you will need to detect.}
   	\item $\omega$ is the base frequency of this IFS, 
   	and it is designated by the user;
   	\item $A_{inf, i}\in\mathbb{R}, i=0, 1, ...$; and
@@ -351,7 +358,8 @@ Symbol &$\mathit{IFS}$\\
 		\hline
 		Label& \bf Cut-off Fourier Series (CFS) of mathematical functions\\
 		\hline
-		Symbol &$\mathit{CFS}$\\
+		Symbol &$\mathit{CFS}$\wss{What is the type signature for CFS?
+                         Is it different than the type for CFSf?}\\
 		\hline
 		Equation&$\mathit{CFS}(f(t), n, \omega)=\big[A_i, i=0, 1, ..., n; 
 		B_i, i=1, 2, ..., n\big]$, satisfying $A_i=A_{inf, i}, i=0, 1, ..., n; 
@@ -390,7 +398,8 @@ $A_{g, i}$'s and $B_{g, i}$'s.
 		\hline
 		Label& \bf Approximation of function values from CFS\\
 		\hline
-		Symbol &$\mathit{App}$\\
+		Symbol &$\mathit{App}$ \wss{This function would be clearer if
+                         you gave its type signature here.}\\
 		\hline
 		Equation& $\mathit{App}(\mathit{CFSf}, t_1)=\sum_{i=0}^{n}A_{f,i}\cos(i\omega t_1)+
 		\sum_{i=1}^{n}B_{f,i}\sin(i\omega t_1)$ \\
@@ -415,14 +424,21 @@ $A_{g, i}$'s and $B_{g, i}$'s.
 		\rowcolor[gray]{0.9}
 		Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{DD:Addition}\\
 		\hline
-		Label& \bf Addition of CFS's\\
+		Label& \bf Addition of CFS's \wss{Adding the type signature
+                       would be helpful.}\\
 		\hline
 		Symbol &$+$\\
 		\hline
 		Equation& $\mathit{CFSf}+\mathit{CFSg}=\mathit{CFS}(f(t)+g(t), 
 		n, \omega)$ \\
 		\hline
-		Description & Define the rule of addition of two CFS's\\
+		Description & Define the rule of addition of two CFS's \wss{Do
+                              you want to be able to vary $n$ and $\omega$?, or
+                              do you want the input to be the CFSf already
+                              calculated for a given $n$ and $\omega$?.  The
+                              difference in one case is that addition needs to
+                              determine the CFS.  In the other case the CFS
+                              comes in as an ``object.''}\\
 		\hline
 		Sources& Defined by author\\
 		\hline
@@ -588,7 +604,8 @@ $A_{g, i}$'s and $B_{g, i}$'s.
 		\hline
 		Equation& $\mathit{CFSf}=\mathit{CFSg}$ is the same as $\mathit{Amp}
 		(\mathit{CFSf}-\mathit{CFSg})\leq \mathit{err}$, 
-		where $\mathit{err}$ is an user-given tolerance.\\
+		where $\mathit{err}$ is an user-given tolerance.  \wss{Would a
+                          relative error make more sense than an absolute error?}\\
 		\hline
 		Description & Define whether two CFS's are equal within a given 
 		tolerance\\
@@ -621,7 +638,10 @@ the result of this operation on these two CFS's.
 When given a CFS $\mathit{CFSf}$, and a function $g(t)$ from the basic 
 function sets defined by this library, return the CFS $g(CFSf)$. 
 \an{I don't know whether to define the basic function set here or not. 
-I can, and I don't see any possible changes}
+I can, and I don't see any possible changes} \wss{The requirements should be
+complete, so you should define the basic function set.  I suggest introducing a
+data definition for the basic function set.  If the set should change, you can
+always document the change, or ``fake it''.}
 \item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:ConvertFromOther}:] 
 When given a set of values including $n$, $\omega$, $A_i$'s, and $B_i$'s, 
 return the CFS built on these values.
@@ -666,7 +686,7 @@ on.
   \hline
   Description & The above equation calculates $A_{inf,i}$'s and $B_{inf,i}$'s, 
   thus $A_i (i=0:n)$, $B_i(i=1:n)$ in $\mathit{CFSf}$ from given $f(t)$, $n$ 
-  and $\omega$.\\
+  and $\omega$.  \wss{There should be a reference to DD1 here.}\\
                 
   \hline
   Source & Tolstov, G.P. and Silverman, R.A., Fourier Series, Dover 
@@ -681,7 +701,8 @@ on.
 
 ~\newline
 
-For the following operations, one of the CFS's can be a constant $a$. In this case, the corresponding CFS shall be one with $A_0=a$, $A_i=0, B_i=0 (i=1:n)$.
+For the following operations, one of the CFS's can be a constant $a$. In this
+case, the corresponding CFS shall be one with $A_0=a$, $A_i=0, B_i=0, (i=1:n)$.
 
 \noindent
 \begin{minipage}{\textwidth}
@@ -705,7 +726,10 @@ For the following operations, one of the CFS's can be a constant $a$. In this ca
 		Description & The above equation calculates $A_i (i=0:n)$, $B_i(i=1:n)$ in $\mathit{CFS}(f(t)+g(t), n, \omega)$ (represented by $A_{f+g, i}$ and $B_{f+g, i}$ respectively) from $\mathit{CFSf}$ and $\mathit{CFSg}$.\\
 		
 		\hline
-		Source & Developed by author in \autoref{Appendix:Operations}\\
+		Source & Developed by author in \autoref{Appendix:Operations}
+                         \wss{Great!  I was just going to ask how you know the
+                         above relation holds, and then I saw your appendix.
+                         Good work!}\\
 		\hline
 		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, 
 		and \oref{Output:Faithful}\\
@@ -849,7 +873,9 @@ For the following operations, one of the CFS's can be a constant $a$. In this ca
 		copies of this CFS multiplied together. ($0$-th power is defined 
 		as the CFS of $f(t)=1$.)\\
 		\hline
-		Source & Developed by author in \autoref{Appendix:Operations}\\
+		Source & Developed by author in \autoref{Appendix:Operations}
+                         \wss{Is the proof in the Appendix?  I didn't see it?
+                         This one definitely isn't intuitive.}\\
 		\hline
 		Ref.\ By & \calref{Cal:Normal} and \oref{Output:Faithful}\\
 		\hline
@@ -1255,16 +1281,22 @@ For the following operations, one of the CFS's can be a constant $a$. In this ca
 \aitem{FunctionProperty}
 The functions $f(t)$ and $g(t)$ mentioned above must have definitions on 
 $[-\pi/\omega, \pi/\omega]$, in which $\omega$ is given by the user, 
-and must have corresponding Fourier series.
+and must have corresponding Fourier series. \wss{I think you use this assumption
+  in DD1.   You should invoke it there.  All assumptions need to be invoked
+  somewhere, or else they aren't really assumptions that are being used.  This
+  point is part of the SRS checklist.}
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{Ass:BasicFunction}:] 
 Only the basic functions of CFS's are to be calculated. The aforementioned 
-basic functions are those in a library-defined set.
+basic functions are those in a library-defined set. \wss{As discussed elsewhere,
+  you should explicitly define the functions that are basic.}
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{Ass:CFSPropertyMatch}:] 
 For any two-operand operations, the data $n$ and $\omega$ of these operands 
-must be the same. 
+must be the same.  \wss{Is this an assumption, or is it something that you can
+  test?  From your MIS presentation, it looks like this is something you can test.}
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{Ass:Memory}:] 
 User shall allocate memory space for any variable other than 
-CFS's in \iref{IM:ConvertTo} and \iref{IM:ConvertFrom}.
+CFS's in \iref{IM:ConvertTo} and \iref{IM:ConvertFrom}. \wss{This assumption
+  might be better in the design documentation.}
 \end{itemize}
 
 \subsection{Calculation} \label{sec_Calculation}
@@ -1275,8 +1307,14 @@ Calculate the result based on the called function and input variables.
 \end{itemize}
 \subsection{Output} \label{sec_Output}    
 \begin{itemize}
-\item[O\refstepcounter{outputnum}\theoutputnum \label{Output:Faithful}:] 
-Return the results faithfully. That is, return the constructed CFS in \iref{IM:CFScoeff} and \iref{IM:ConvertTo}; fill the user-provided space with data from user-designated CFS in \iref{IM:ConvertFrom}; return the calculated value in \iref{IM:Approximation}, \iref{IM:Amplitude}, and \iref{IM:TruncatedEquaity}; and return the calculated CFS in \iref{IM:Addition}, \iref{IM:Subtraction}, \iref{IM:Multiplication}, \iref{IM:Division}, and \iref{IM:Function}. 
+\item[O\refstepcounter{outputnum}\theoutputnum \label{Output:Faithful}:] Return
+  the results faithfully. That is, return the constructed CFS in
+  \iref{IM:CFScoeff} and \iref{IM:ConvertTo}; fill the user-provided space with
+  data from user-designated CFS in \iref{IM:ConvertFrom}; return the calculated
+  value in \iref{IM:Approximation}, \iref{IM:Amplitude}, and
+  \iref{IM:ToleratedEquality}; and return the calculated CFS in
+  \iref{IM:Addition}, \iref{IM:Subtraction}, \iref{IM:Multiplication},
+  \iref{IM:Division}, and \iref{IM:Function}.
 \item[O\refstepcounter{outputnum}\theoutputnum \label{Output:Error}:] 
 Report any detected errors to the user of the library.
 \end{itemize}
@@ -1340,6 +1378,20 @@ an 'X' with it may need change. Table \ref{Table:Traceability}
 shows the the dependencies of goals, theoretical models, 
 data definitions, and instances models with the assumptions, 
 calculations, and outputs.
+
+\wss{Great work Bo.  I have added some comments above, but overall you are
+  definitely on the right track.  I have also made a few fixes directly, rather
+  than ask you to make them.  You should review the diff so that you can see
+  those fixes.}
+\wss{My main comment is that you haven't really documented a CA; you have
+  documented an SRS, but called it a CA.  In a CA you should identify different
+  family members.  In particular, you need to know the parameters of variation
+  for each variability.  Rather than cast your problem as a CA, I think it makes
+  more sense to document your problem as an SRS.  I don't think it will take
+  much for you to convert your document to follow the SRS template.  It will be
+  a useful change though, because, as it is right now, the input, output,
+  variability, etc headings are confusing.}
+
 \begin{table}
 	\centering
 	\begin{tabular}{|c|c|c|c|c|c|c|c|}
