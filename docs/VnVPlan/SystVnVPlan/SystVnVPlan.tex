@@ -14,7 +14,7 @@
 
 \input{../../Comments}
 \input{../../Common}
-\newcommand{\li}[1]{\texttt{#1}}
+%\newcommand{\li}[1]{\texttt{#1}}
 \begin{document}
 
 \title{A Fourier Series Library: System Verification and Validation Plan for FSL} 
@@ -43,7 +43,11 @@ Date 2 & 1.1 & Notes\\
 
 \section{Symbols, Abbreviations and Acronyms}
 
-Some symbols, abbreviations and acronyms are defined in the Common Analysis (CA) document \footnote{This document is available at \url{https://github.com/caobo1994/FourierSeries/blob/master/docs/SRS/CA.pdf}.}. For simplicity and maintainability, they are not redefined here. Readers shall refer to the CA documents when a certain item is not defined here.
+Some symbols, abbreviations and acronyms are defined in the Common Analysis (CA)
+document\footnote{This document is available at
+\url{https://github.com/caobo1994/FourierSeries/blob/master/docs/SRS/CA.pdf}.}. For
+simplicity and maintainability, they are not redefined here. Readers shall refer
+to the CA documents when a certain item is not defined here.
 
 \vspace{1cm}
 
@@ -61,63 +65,95 @@ Some symbols, abbreviations and acronyms are defined in the Common Analysis (CA)
 \pagenumbering{arabic}
 
 
-\section{General Information}
-This document provides an overview of the Verification and Validation (VnV) plan for the Fourier Series Library (FSL). It lays out the purpose, methods, and test cases for the VnV procedure. 
+\section{General Information} This document provides an overview of the
+Verification and Validation (VnV) plan for the Fourier Series Library (FSL). It
+lays out the purpose, methods, and test cases for the VnV procedure.
 
 \subsection{Summary}
 
-The library to be tested is called the Fourier Series Library (FSL). This library performs a set of computations, transformations, and/or input/output at the request of the library user.
+The library to be tested is called the Fourier Series Library (FSL). This
+library performs a set of computations, transformations, and/or input/output at
+the request of the library user.
 
 \subsection{Objectives}
 
-The intended objective of the VnV procedure is to verify that this library has generally met the requirements described in the CA document. These requirements include the functional requirements (FRs) and the non-functional requirements (NFRs).
+The intended objective of the VnV procedure is to verify that this library has
+generally met the requirements described in the CA document. These requirements
+include the functional requirements (FRs) and the non-functional requirements
+(NFRs).
 
-Note that if a small part of the NFRs has not been met, the library is still acceptable when the not-met NFRs' impact has been analyzed and deemed non-essential.
+Note that if a small part of the NFRs has not been met, the library is still
+acceptable when the not-met NFRs' impact has been analyzed and deemed
+non-essential.
 
 \subsection{Relevant Documentation}
 
-As we said before, this document relies on the CA document. This document is also the base of the Unit Test Plan document.
+As we said before, this document relies on the CA document. This document is
+also the base of the Unit Test Plan document.
 
 
 \section{Plan}
 	
 \subsection{Verification and Validation Team}
 
-The major member of the team is the author himself. Other contributors might assist in the VnV procedure, but their contributions are not guaranteed.
+The major member of the team is the author himself. Other contributors might
+assist in the VnV procedure, but their contributions are not guaranteed.
 
 \subsection{CA Verification Plan}
 
-The verification of the CA document mainly consists of the feedback from reviewers, and the author's experience in developing and verifying this library. 
+The verification of the CA document mainly consists of the feedback from
+reviewers, and the author's experience in developing and verifying this library.
 
 
 \subsection{Design Verification Plan}
 
-The design of this library will be verified by reviewing how the functions in this library relies on each other, and how they are integrated.
+The design of this library will be verified by reviewing how the functions in
+this library relies on each other, and how they are integrated.
 
 \subsection{Implementation Verification Plan}
 
-The verification of the implementation of this library is mainly done by unit testing. The detail of unit testing can be found in the Unit Test Plan document. Mainly, the unit test will be done by first testing the basic functions in this library, and then testing the advanced functions. Please note that the test result of any function in this library is acceptable, if and only if the reliant functions of this function is tested to be right.
+The verification of the implementation of this library is mainly done by unit
+testing. The detail of unit testing can be found in the Unit Test Plan
+document. Mainly, the unit test will be done by first testing the basic
+functions in this library, and then testing the advanced functions. Please note
+that the test result of any function in this library is acceptable, if and only
+if the reliant functions of this function is tested to be right.
   
 
 
 \subsection{Software Validation Plan}
 
-The transformation part of this library will be validated by comparing its result with the MATLAB pseudo-oracle.
+The transformation part of this library will be validated by comparing its
+result with the MATLAB pseudo-oracle.
 
 \section{System Test Description}
 	
-\subsection{Tests for Functional Requirements}
-All tests in this section will be done by unit testing, the detail of which will be covered in the Unit Test VnV Plan document.
+\subsection{Tests for Functional Requirements} All tests in this section will be
+done by unit testing, the detail of which will be covered in the Unit Test VnV
+Plan document.
 
-Since these tests involve comparing floating point numbers, and there are intrinsic errors regarding floating point computations, we have to set a tolerance, so that two floating numbers with difference smaller than this tolerance are considered equal. We use $\epsilon$ to represent this tolerance, and choose its value as $10^{-6}$ for all tests. This value is chosen because it is large enough to include all computation-related error, but small enough to detect any error in the result of the library. This value can be changed if we have good reasons to support this change.
+Since these tests involve comparing floating point numbers, and there are
+intrinsic errors regarding floating point computations, we have to set a
+tolerance, so that two floating numbers with difference smaller than this
+tolerance are considered equal. We use $\epsilon$ to represent this tolerance,
+and choose its value as $10^{-6}$ for all tests. This value is chosen because it
+is large enough to include all computation-related error, but small enough to
+detect any error in the result of the library. This value can be changed if we
+have good reasons to support this change.
 
 
 
 \subsubsection{Module 1: Basic comparison function}
 
-The tests here are selected to cover the tolerated comparison function and its base, subtraction operation and amplitude function. The tolerated comparison function will be used in later tests to compare the resulted CFS of the tested function with its (pseudo-)oracle counterpart, so we need to test this function first to ensure that the following test results are reliable.
+The tests here are selected to cover the tolerated comparison function and its
+base, subtraction operation and amplitude function. The tolerated comparison
+function will be used in later tests to compare the resulted CFS of the tested
+function with its (pseudo-)oracle counterpart, so we need to test this function
+first to ensure that the following test results are reliable.
 
-\textbf{NOTE: Do not proceed with other modules unless you have succeed in this module. For each round of test, the result of other modules is trustworthy if and only if the test results of this module are all successes.}
+\textbf{NOTE: Do not proceed with other modules unless you have succeed in this
+module. For each round of test, the result of other modules is trustworthy if
+and only if the test results of this module are all successes.}
 
 \begin{enumerate}
 	
@@ -130,11 +166,15 @@ The tests here are selected to cover the tolerated comparison function and its b
 	Input: $\mathit{CFSf}=[n=2, \omega=1.0, A=\{1.0, 0.0, 0.0\}, B=\{0.0, 1.0\}]$ and 
 	$\mathit{CFSg}=[n=2, \omega=1.0, A=\{0.0, 2.0, 1.0\}, B=\{1.0, 0.0\}]$	 
 	
-	Output: Evaluated result of $\mathit{CFSf}-\mathit{CFSg}$, which should be a CFS object $[n=2, \omega=1.0, A=\{1.0, -2.0, -1.0\}, B=\{-1.0, 1.0\}]$
+	Output: Evaluated result of $\mathit{CFSf}-\mathit{CFSg}$, which should
+        be a CFS object
+        $[n=2, \omega=1.0, A=\{1.0, -2.0, -1.0\}, B=\{-1.0, 1.0\}]$
 	
 	Test Case Derivation: Manual computation
 	
-	How test will be performed: Feed function with the aforementioned input, and compare the function output to the aforementioned standard output by comparing its $n$, $\omega$, $A_i$'s and $B_i$'s variable-by-variable.
+	How test will be performed: Feed function with the aforementioned input,
+        and compare the function output to the aforementioned standard output by
+        comparing its $n$, $\omega$, $A_i$'s and $B_i$'s variable-by-variable.
 	
 	\item{Test of amplitude function: \\}					
 	
@@ -172,7 +212,8 @@ The tests here are selected to cover the tolerated comparison function and its b
 \end{enumerate}
 
 \subsubsection{Module 2: Fourier transformation and approximation}
-This module tests the functions that compute Fourier transformation and approximated values of functions.
+This module tests the functions that compute Fourier transformation and
+approximated values of functions.
 
 \begin{enumerate}
 	\item{Test of coefficient (even function):\\}
@@ -181,11 +222,16 @@ This module tests the functions that compute Fourier transformation and approxim
 	
 	Initial State: Verified tolerated equality function.
 	
-	Input: $f(t)=t^2$, $\omega=1$, $n=2$, $\epsilon=10^{-6}$, $\mathit{CFSstd}=[n=2,\omega=1, A=\{\pi^2/3, -4.0, 1.0\}, B=\{0.0, 0.0\}]$
+	Input: $f(t)=t^2$, $\omega=1$, $n=2$, $\epsilon=10^{-6}$,
+        $\mathit{CFSstd}=[n=2,\omega=1, A=\{\pi^2/3, -4.0, 1.0\}, B=\{0.0,
+        0.0\}]$
 	
-	Output: Evaluated result of $\mathit{TolEq}(\mathit{CFSf}, \mathit{CFSstd}, \epsilon)$, which should be \li{True}.
+	Output: Evaluated result of
+        $\mathit{TolEq}(\mathit{CFSf}, \mathit{CFSstd}, \epsilon)$, which should
+        be \li{True}.
 	
-	Test Case Derivation: Manual Computation, verified by MATLAB computation.
+	Test Case Derivation: Manual Computation, verified by MATLAB
+        computation.
 	
 	How test will be performed: Compute and compare.
 	
@@ -195,9 +241,11 @@ This module tests the functions that compute Fourier transformation and approxim
 	
 	Initial State: Verified tolerated equality function.
 	
-	Input: $f(t)=t$, $\omega=1$, $n=2$, $\epsilon=10^{-6}$, $\mathit{CFSstd}=[n=2,\omega=1, A=\{0.0, 0.0, 0.0\}, B=\{-2.0, 1.0\}]$
+	Input: $f(t)=t$, $\omega=1$, $n=2$, $\epsilon=10^{-6}$,
+        $\mathit{CFSstd}=[n=2,\omega=1, A=\{0.0, 0.0, 0.0\}, B=\{-2.0, 1.0\}]$
 	
-	Output: $\mathit{TolEq}(\mathit{CFSf}, \mathit{CFSstd}, \epsilon)$, which should be \li{True}.
+	Output: $\mathit{TolEq}(\mathit{CFSf}, \mathit{CFSstd}, \epsilon)$,
+        which should be \li{True}.
 	
 	Test Case Derivation: Manual Computation, verified by MATLAB computation.
 	
@@ -209,11 +257,15 @@ This module tests the functions that compute Fourier transformation and approxim
 	
 	Initial State: None.
 	
-	Input: $\mathit{CFSf}=[n=2,\omega=1, A=\{0.0, 2.0, 0.0\}, B=\{-2.0, 1.0\}]$, $t=\pi/4$, $\epsilon=10^{-6}$.
+	Input: $\mathit{CFSf}=[n=2,\omega=1, A=\{0.0, 2.0, 0.0\}, B=\{-2.0,
+        1.0\}]$, $t=\pi/4$, $\epsilon=10^{-6}$.
 	
-	Output: Evaluated result of $|\mathit{App}(\mathit{CFSf}, t)-(2+\sqrt{2}/2)|\leq\epsilon$, which should be \li{True}.
+	Output: Evaluated result of
+        $|\mathit{App}(\mathit{CFSf}, t)-(2+\sqrt{2}/2)|\leq\epsilon$, which
+        should be \li{True}.
 	
-	Test Case Derivation: Manual Computation, verified by MATLAB computation.
+	Test Case Derivation: Manual Computation, verified by MATLAB
+        computation.
 	
 	How test will be performed: Compute and compare.
 	
@@ -228,11 +280,15 @@ This module tests the functions that compute Fourier transformation and approxim
 	
 	Initial State: Verified tolerated equality function.
 	
-	Input: $\mathit{CFSf}=[n=2,\omega=1, A=\{0.0, 2.0, 0.0\}, B=\{-2.0, 0.0\}]$, $\mathit{CFSg}=[n=2,\omega=1, A=\{1.0, 0.0, 2.0\}, B=\{0.0, 1.0\}]$,
-	$\mathit{CFSstd}=[n=2,\omega=1, A=\{1.0, 2.0, 1.0\}, B=\{-2.0, 1.0\}]$,
-	$\epsilon=10^{-6}$
+	Input: $\mathit{CFSf}=[n=2,\omega=1, A=\{0.0, 2.0, 0.0\}, B=\{-2.0,
+        0.0\}]$,
+        $\mathit{CFSg}=[n=2,\omega=1, A=\{1.0, 0.0, 2.0\}, B=\{0.0, 1.0\}]$,
+        $\mathit{CFSstd}=[n=2,\omega=1, A=\{1.0, 2.0, 1.0\}, B=\{-2.0, 1.0\}]$,
+        $\epsilon=10^{-6}$
 	
-	Output: Evaluated result of $\mathit{TolEq}(\mathit{CFSf}+\mathit{CFSg}, \mathit{CFSstd}, \epsilon)$, which should be \li{True}.
+	Output: Evaluated result of
+        $\mathit{TolEq}(\mathit{CFSf}+\mathit{CFSg}, \mathit{CFSstd},
+        \epsilon)$, which should be \li{True}.
 	
 	Test Case Derivation: Manual Computation.
 	
@@ -249,7 +305,9 @@ This module tests the functions that compute Fourier transformation and approxim
 	$\mathit{CFSstd}=[n=2, \omega=1, A=\{2.0, 2.0, 0.0\}, B=\{2.0, 1.0\}]$,
 	$\epsilon=10^{-6}$
 	
-	Output: Evaluated result of $\mathit{TolEq}(\mathit{CFSf}*\mathit{CFSg}, \mathit{CFSstd}, \epsilon)$, which should be \li{True}.
+	Output: Evaluated result of
+        $\mathit{TolEq}(\mathit{CFSf}*\mathit{CFSg}, \mathit{CFSstd},
+        \epsilon)$, which should be \li{True}.
 	
 	Test Case Derivation: Manual Computation.
 	
@@ -257,7 +315,8 @@ This module tests the functions that compute Fourier transformation and approxim
 	
 	\item{Test of division: \\}
 	
-	Same as \textit{Test of multiplication}, but swap $\mathit{CFSf}$ and $\mathit{CFSstd}$, while change $*$ to $/$.
+          Same as \textit{Test of multiplication}, but swap $\mathit{CFSf}$ and
+          $\mathit{CFSstd}$, while change $*$ to $/$.
 	
 	\item{Test of function of CFS: \\}
 	
@@ -265,9 +324,12 @@ This module tests the functions that compute Fourier transformation and approxim
 	
 	Initial State: Verified tolerated equality, addition and multiplication function.
 	
-	Input: $\mathit{CFSf}=[n=2, \omega=1, A=\{1.0, 0.0, 1.0\}, B=\{1.0, 0.0\}]$, $g(t)=e^t$, and $\epsilon=10^{-6}$.
+	Input: $\mathit{CFSf}=[n=2, \omega=1, A=\{1.0, 0.0, 1.0\}, B=\{1.0,
+        0.0\}]$, $g(t)=e^t$, and $\epsilon=10^{-6}$.
 	
-	Output: Evaluated result of $\mathit{TolEq}(g(\mathit{CFSf}), 1+\mathit{CFSf}+0.5\mathit{CFSf}^2, \epsilon)$, which should be \li{True}.
+	Output: Evaluated result of
+        $\mathit{TolEq}(g(\mathit{CFSf}), 1+\mathit{CFSf}+0.5\mathit{CFSf}^2,
+        \epsilon)$, which should be \li{True}.
 	
 	Test Case Derivation: Manual Computation.
 	
@@ -290,15 +352,20 @@ This module tests the functions that compute Fourier transformation and approxim
 	
 	Test Case Derivation: None
 	
-	How the test will be performed: convert and compare the result with a standard CFS using tolerated equality and $\epsilon=10^{-6}$.
+	How the test will be performed: convert and compare the result with a
+        standard CFS using tolerated equality and $\epsilon=10^{-6}$.
 	
 	\item{Test of conversion to other data format:\\}
 	
-	Same as \textit{Test of conversion from other data format}, while exchanging input and output, and compare each coefficients with tolerance as $\epsilon$.
+          Same as \textit{Test of conversion from other data format}, while
+          exchanging input and output, and compare each coefficients with
+          tolerance as $\epsilon$.
 	
 \end{enumerate}
 \subsection{Test for input constraints}
-We design input test for detecting mismatch $n$ and $\omega$ for functions that accept two CFS's as inputs. For each test in the following list, we derive tests for input constraints based on it.
+We design input test for detecting mismatch $n$ and $\omega$ for functions that
+accept two CFS's as inputs. For each test in the following list, we derive tests
+for input constraints based on it.
 
 \begin{itemize}
 	\item Test of addition
@@ -308,9 +375,14 @@ We design input test for detecting mismatch $n$ and $\omega$ for functions that 
 	\item Test of tolerated equality
 \end{itemize}
 
-For each test in this list, we derive two tests. One is to change the $\omega$ in the second CFS to the half of its original value, and the other is to change the $n$ in the second CFS to $1$, and remove $A_2$ and $B_2$ of the second CFS accordingly. Error message indicating a pair of mismatched CFS's shall appear.
+For each test in this list, we derive two tests. One is to change the $\omega$
+in the second CFS to the half of its original value, and the other is to change
+the $n$ in the second CFS to $1$, and remove $A_2$ and $B_2$ of the second CFS
+accordingly. Error message indicating a pair of mismatched CFS's shall appear.
  
-Additionally, we do input constraint check on the tests of conversion from other data formats. We make $n$ in the original test from 2 to 3, and error message indicating mismatched $n$, number of $A_i(i\neq0)$'s, and number of $B_i$'s. 
+Additionally, we do input constraint check on the tests of conversion from other
+data formats. We make $n$ in the original test from 2 to 3, and error message
+indicating mismatched $n$, number of $A_i(i\neq0)$'s, and number of $B_i$'s.
 
 \subsection{Tests for Nonfunctional Requirements}
 The tests in this section will also be done by unit testing.
@@ -318,7 +390,10 @@ The tests in this section will also be done by unit testing.
 \subsubsection{Speed evaluation}
 We test the speed of IM1, IM3, IM4, IM5, IM8 and IM9.	
 
-For each test, generate random CFS's with same $\omega$ and various $n$, clock the execution time with the generated CFS's as input, and check whether the relationship between $n$ and the execution time follows the requirements in the NFR. 		
+For each test, generate random CFS's with same $\omega$ and various $n$, clock
+the execution time with the generated CFS's as input, and check whether the
+relationship between $n$ and the execution time follows the requirements in the
+NFR.
 
 We will demonstrate how the test is performed by showing one example.
 \begin{enumerate}
@@ -329,11 +404,20 @@ We will demonstrate how the test is performed by showing one example.
 	
 	Initial State: Addition
 	
-	Input/Condition: Various pair of CFS's, with the same $\omega$, $n=100:100:1000$ respectively, and $A_i$'s and $B_i$'s generated from a random number generator. In this test, this generator is chosen as the uniform random number generator on $[-1.0, 1.0]$. 
+	Input/Condition: Various pair of CFS's, with the same $\omega$,
+        $n=100:100:1000$ respectively, and $A_i$'s and $B_i$'s generated from a
+        random number generator. In this test, this generator is chosen as the
+        uniform random number generator on $[-1.0, 1.0]$.
 	
 	Output/Result: Whether the execution time of addition is linear in regards to $n$.
 	
-	How test will be performed: For each $n$, generate 10 pairs of CFS's, clock their execution time to take average value as the execution time for CFS's of size $n$, find the $r$ value of a linear fitting between $n$ and the execution time. This test succeeds when $|r|>0.9$, otherwise fails. However, when the test fails, tester can examine the value of $|r|$, and choose to make it acceptable failure, if he/she has good reasons to do so. 
+	How test will be performed: For each $n$, generate 10 pairs of CFS's,
+        clock their execution time to take average value as the execution time
+        for CFS's of size $n$, find the $r$ value of a linear fitting between
+        $n$ and the execution time. This test succeeds when $|r|>0.9$, otherwise
+        fails. However, when the test fails, tester can examine the value of
+        $|r|$, and choose to make it acceptable failure, if he/she has good
+        reasons to do so.
 	
 \end{enumerate}
 
@@ -341,22 +425,22 @@ We will demonstrate how the test is performed by showing one example.
 We show each instance module's covering tests.
 
 \begin{itemize}
-	\item IM1: \textit{Test of transformation (even function)} and \textit{Test of transformation (odd function)}.
-	\item IM2: \textit{Test of approximated function value}
-	\item IM3: \textit{Test of addition}
-	\item IM4: \textit{Test of subtraction}
-	\item IM5: \textit{Test of multiplication}
-	\item IM6: \textit{Test of division}
-	\item IM7: \textit{Test of function of CFS}
-	\item IM8: \textit{Test of amplitude}
-	\item IM9: \textit{Test of tolerated equality}
-	\item IM10: \textit{Test of conversion from other data format}
-	\item IM11: \textit{Test of conversion to other data format}
+\item IM1: \textit{Test of transformation (even function)} and \textit{Test of
+    transformation (odd function)}.
+\item IM2: \textit{Test of approximated function value}
+\item IM3: \textit{Test of addition}
+\item IM4: \textit{Test of subtraction}
+\item IM5: \textit{Test of multiplication}
+\item IM6: \textit{Test of division}
+\item IM7: \textit{Test of function of CFS}
+\item IM8: \textit{Test of amplitude}
+\item IM9: \textit{Test of tolerated equality}
+\item IM10: \textit{Test of conversion from other data format}
+\item IM11: \textit{Test of conversion to other data format}
 \end{itemize}
 				
 \bibliographystyle{plainnat}
 
 \bibliography{SRS}
-
 
 \end{document}
