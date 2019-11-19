@@ -93,22 +93,30 @@ also the base of the Unit Test Plan document.
 
 
 \section{Plan}
-	
+
+\wss{There should usually be text between section headings.  In this case, a
+  ``roadmap'' of the subsections in this section would be appropriate.}
+
 \subsection{Verification and Validation Team}
 
 The major member of the team is the author himself. Other contributors might
-assist in the VnV procedure, but their contributions are not guaranteed.
+assist in the VnV procedure, but their contributions are not
+guaranteed. \wss{You should specifically list the class mates that are assigned
+  to review your documents.  You should also list the course instructor.}
 
 \subsection{CA Verification Plan}
 
 The verification of the CA document mainly consists of the feedback from
-reviewers, and the author's experience in developing and verifying this library.
-
+reviewers, and the author's experience in developing and verifying this
+library. \wss{A task directed verification plan could be much more effective
+  than this ad hoc approach.}
 
 \subsection{Design Verification Plan}
 
 The design of this library will be verified by reviewing how the functions in
-this library relies on each other, and how they are integrated.
+this library relies on each other, and how they are integrated. \wss{This is not
+  a very detailed plan.  Did you consider other options?  Some of your
+  colleagues, like Peter, have a detailed plan for design verification.}
 
 \subsection{Implementation Verification Plan}
 
@@ -118,13 +126,13 @@ document. Mainly, the unit test will be done by first testing the basic
 functions in this library, and then testing the advanced functions. Please note
 that the test result of any function in this library is acceptable, if and only
 if the reliant functions of this function is tested to be right.
-  
-
 
 \subsection{Software Validation Plan}
 
 The transformation part of this library will be validated by comparing its
-result with the MATLAB pseudo-oracle.
+result with the MATLAB pseudo-oracle. \wss{Where does the Matlab pseudo-oracle
+  come from?  This is a good idea, but you should take it a step further and
+  explain the source of the pseudo-oracle.}
 
 \section{System Test Description}
 	
@@ -139,9 +147,12 @@ tolerance are considered equal. We use $\epsilon$ to represent this tolerance,
 and choose its value as $10^{-6}$ for all tests. This value is chosen because it
 is large enough to include all computation-related error, but small enough to
 detect any error in the result of the library. This value can be changed if we
-have good reasons to support this change.
-
-
+have good reasons to support this change.  \wss{Yes, using a symbolic constant
+  for this is a good idea. I suggest that you put this constant in a table in
+  the Appendix to this report, so that it is easy to maintain.  I see that you
+  are varying $\epsilon$ throughout this document.  You should say this here,
+  and not follow my advice to add a table of constants at the end, since the
+  value is not constant.}
 
 \subsubsection{Module 1: Basic comparison function}
 
@@ -170,7 +181,10 @@ and only if the test results of this module are all successes.}
         be a CFS object
         $[n=2, \omega=1.0, A=\{1.0, -2.0, -1.0\}, B=\{-1.0, 1.0\}]$
 	
-	Test Case Derivation: Manual computation
+	Test Case Derivation: Manual computation \wss{Why do this manually?
+          This is a good test for automation.  A unit testing framework can take
+        care of the details.  I see that many of the following tests are
+        manual.  Please consider making all of your tests automatic.}
 	
 	How test will be performed: Feed function with the aforementioned input,
         and compare the function output to the aforementioned standard output by
@@ -182,9 +196,12 @@ and only if the test results of this module are all successes.}
 	
 	Initial State: None.
 	
-	Input: $\mathit{CFSf}=[n=2, \omega=1.0, A=\{1.0, 0.0, 2.0\}, B=\{2.0, 0.0\}]$ and $\epsilon=10^{-6}$.
+	Input: $\mathit{CFSf}=[n=2, \omega=1.0, A=\{1.0, 0.0, 2.0\}, B=\{2.0,
+        0.0\}]$ and $\epsilon=10^{-6}$.
 	
-	Output: Evaluated result of $|\mathit{Amp}(\mathit{CFSf})-3.0|\leq\epsilon$, which should be \li{True}.
+	Output: Evaluated result of
+        $|\mathit{Amp}(\mathit{CFSf})-3.0|\leq\epsilon$, which should be
+        \li{True}.
 	
 	Test Case Derivation: Manual computation
 	
@@ -200,7 +217,8 @@ and only if the test results of this module are all successes.}
 	Input: $\mathit{CFSf}=[n=2, \omega=1.0, A=\{1.0, 0.0, 0.0\}, B=\{0.0, 1.0\}]$, 
 	$\mathit{CFSg}=[n=2, \omega=1.0, A=\{0.0, 2.0, 1.0\}, B=\{1.0, 0.0\}]$, and error $\epsilon=10.0$
 	
-	Output: Comparison result which should be \li{True}
+	Output: Comparison result which should be \li{True} \wss{What is being
+          compared?  This is not clear.}
 	
 	Test Case Derivation: Manual computation
 	
@@ -208,7 +226,8 @@ and only if the test results of this module are all successes.}
 	
 	\item{Test of tolerated comparison  (\li{False} result):\\}
 	
-	Same as \textit{Test of tolerated comparison  (\li{True} result)}, but with $\epsilon=1.0$ and Output as \li{False}.    
+          Same as \textit{Test of tolerated comparison (\li{True} result)}, but
+          with $\epsilon=1.0$ and Output as \li{False}.
 \end{enumerate}
 
 \subsubsection{Module 2: Fourier transformation and approximation}
@@ -228,7 +247,7 @@ approximated values of functions.
 	
 	Output: Evaluated result of
         $\mathit{TolEq}(\mathit{CFSf}, \mathit{CFSstd}, \epsilon)$, which should
-        be \li{True}.
+        be \li{True}. \wss{Is this TolEq function defined somewhere?}
 	
 	Test Case Derivation: Manual Computation, verified by MATLAB
         computation.
@@ -390,7 +409,9 @@ The tests in this section will also be done by unit testing.
 \subsubsection{Speed evaluation}
 We test the speed of IM1, IM3, IM4, IM5, IM8 and IM9.	
 
-For each test, generate random CFS's with same $\omega$ and various $n$, clock
+For each test, generate random CFS's with same $\omega$ and various $n$, \wss{be
+  more specific on what is involved in generating the random CFS's.  What is the
+  range of values that are allowed?} clock
 the execution time with the generated CFS's as input, and check whether the
 relationship between $n$ and the execution time follows the requirements in the
 NFR.
@@ -409,7 +430,9 @@ We will demonstrate how the test is performed by showing one example.
         random number generator. In this test, this generator is chosen as the
         uniform random number generator on $[-1.0, 1.0]$.
 	
-	Output/Result: Whether the execution time of addition is linear in regards to $n$.
+	Output/Result: Whether the execution time of addition is linear in
+        regards to $n$.  \wss{I think the output should be the plot of the time
+          versus $n$.}
 	
 	How test will be performed: For each $n$, generate 10 pairs of CFS's,
         clock their execution time to take average value as the execution time
@@ -421,8 +444,16 @@ We will demonstrate how the test is performed by showing one example.
 	
 \end{enumerate}
 
+\wss{You should explain all of the tests, but you can use a table to summarize
+  just the deltas between the base test and the individual tests.}
+
+\wss{What about other nonfunctional tests?  Usability could be a valuable thing
+  to assess.  Portability? (I think this would be a fairly easy one to assess.)
+  Installability?}
+
 \subsection{Traceability Between Test Cases and Modules}
-We show each instance module's covering tests.
+We show each instance module's covering tests. \wss{You don't have modules.  I
+  think you mean requirements?}
 
 \begin{itemize}
 \item IM1: \textit{Test of transformation (even function)} and \textit{Test of
@@ -439,6 +470,12 @@ We show each instance module's covering tests.
 \item IM11: \textit{Test of conversion to other data format}
 \end{itemize}
 				
+\wss{We discussed that your unit verification and validation plan will be
+  identical to the system plan.  I agree there is overlap, but I expect that you
+  will have unique tests for the unit case.  For instance, if you introduce a
+  data structure for the CFSs, then you want to be able to check each of the
+  methods for the CFSs.}
+
 \bibliographystyle{plainnat}
 
 \bibliography{SRS}
