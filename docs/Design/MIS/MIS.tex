@@ -33,12 +33,17 @@ urlcolor=cyan          % color of external links
 \externaldocument{../../SRS/SRS}
 \input{../../Common}
 \input{../../Comments}
-
+\newcommand{\func}[1]{\\\hline\li{#1}}
+\newcommand{\float}{\text{FLOAT}}
+\newcommand{\seq}[2]{seq(\li{#1}, $#2$)}
+\newcommand{\seqo}[1]{seq(\li{#1})}
+\newcommand{\seqofloat}{\seq{FLOAT}}
+\newcommand{\tuple}[1]{\text{tuple of}~(#1)}
 \begin{document}
 
-\title{Module Interface Specification for ...}
+\title{Module Interface Specification for FSL}
 
-\author{Author Name}
+\author{Bo Cao}
 
 \date{\today}
 
@@ -51,8 +56,7 @@ urlcolor=cyan          % color of external links
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+Nov. 26, 2019 & 0.99 & First Draft\\
 \bottomrule
 \end{tabularx}
 
@@ -60,10 +64,18 @@ Date 2 & 1.1 & Notes\\
 
 \section{Symbols, Abbreviations and Acronyms}
 
-See SRS Documentation at \wss{give url}
-
-\wss{Also add any additional symbols, abbreviations or acronyms}
-
+See SRS Documentation at \url{https://github.com/caobo1994/FourierSeries/blob/master/docs/SRS/SRS.pdf}.
+We also define the following acronyms for the scope of this document
+\begin{center}
+	
+\begin{tabular}{c c}
+	\hline
+	\textbf{Acronym} & \textbf{Full Text}\\
+	\hline
+	OOR & Out of range\\
+	\hline
+\end{tabular}
+\end{center}
 \newpage
 
 \tableofcontents
@@ -75,16 +87,13 @@ See SRS Documentation at \wss{give url}
 \section{Introduction}
 
 The following document details the Module Interface Specifications for
-\wss{Fill in your project name and description}
+Fourier Series Library (FSL).
 
 Complementary documents include the System Requirement Specifications
 and Module Guide.  The full documentation and implementation can be
-found at \url{...}.  \wss{provide the url for your repo}
+found at \url{https://github.com/caobo1994/FourierSeries/}.
 
 \section{Notation}
-
-\wss{You should describe your notation.  You can use what is below as
-  a starting point.}
 
 The structure of the MIS for modules comes from \citet{HoffmanAndStrooper1995},
 with the addition that template modules have been adapted from
@@ -117,56 +126,66 @@ are sequences of characters. Tuples contain a list of values, potentially of
 different types. In addition, \progname \ uses functions, which
 are defined by the data types of their inputs and outputs. Local functions are
 described by giving their type signature followed by their specification.
-
+For simplicity, the sequence of type \li{T} will be abbreviated as seq(\li{T}), while that with dimensions $[l_1, ..., l_n]$ as seq(\li{T}, $l_1, ..., l_n$).
 \section{Module Decomposition}
 
 The following table is taken directly from the Module Guide document for this project.
 
 \begin{table}[h!]
-\centering
-\begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
-\toprule
-\textbf{Level 1} & \textbf{Level 2}\\
-\midrule
-
-{Hardware-Hiding} & ~ \\
-\midrule
-
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding} & Input Parameters\\
-& Output Format\\
-& Output Verification\\
-& Temperature ODEs\\
-& Energy Equations\\ 
-& Control Module\\
-& Specification Parameters Module\\
-\midrule
-
-\multirow{3}{0.3\textwidth}{Software Decision} & {Sequence Data Structure}\\
-& ODE Solver\\
-& Plotting\\
-\bottomrule
-
-\end{tabular}
-\caption{Module Hierarchy}
-\label{TblMH}
+	\centering
+	\begin{tabular}{p{0.3\textwidth} p{0.6\textwidth}}
+		\toprule
+		\textbf{Level 1} & \textbf{Level 2}\\
+		\midrule
+		
+		{Hardware-Hiding Module} & Infrastructure (hardware-related part, external)\\
+		\midrule
+		
+		\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} 
+		& Data definition module\\
+		& Conversion module\\
+		& Transformation module\\
+		& Basic operations module\\
+		& Advanced operations module\\
+		\midrule
+		
+		\multirow{3}{0.3\textwidth}{Software Decision Module} 
+		& Linear solver (external or partially external)\\
+		& Integral (external or partially external)\\
+		& Infrastructure (software-related part, external)\\
+		\bottomrule
+		
+	\end{tabular}
+	\caption{Module Hierarchy}
+	\label{TblMH}
 \end{table}
 
 \newpage
 ~\newpage
 
-\section{MIS of \wss{Module Name}} \label{Module} \wss{Use labels for
-  cross-referencing}
-
-\wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
-
-\wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
-
+\section{MIS of Infrastructure} \label{MIS:Infra}
 \subsection{Module}
 
-\wss{Short name for the module}
+Infrastructure.
 
 \subsection{Uses}
 
+None.
+\subsection{Syntax}
+\subsection{Exported Data Type}
+\begin{itemize}
+	\item[FLOAT] a floating point data type used in the library.
+	\item [sequence] the abstract sequence data type.
+\end{itemize}
+
+\section{MIS of Data Definition} \label{MIS:DataDef}
+\subsection{Module}
+
+Data Definition.
+
+\subsection{Uses}
+
+Infrastructure.
 
 \subsection{Syntax}
 
@@ -174,17 +193,152 @@ The following table is taken directly from the Module Guide document for this pr
 None.
 \subsubsection{Exported Data Type}
 There is one exported data type, \li{CFST}, which is the type of a CFS object. (abstract, with one type template \li{FLOAT}, indicating floating point types)
+
 The structure of \li{CFST} is
 \begin{itemize}
 	\item $n$: integer
 	\item $\omega$: \li{FLOAT}
-	\item $A$: sequence of \li{FLOAT}
-	\item $B$: sequence of \li{FLOAT}
+	\item $A$: seq(\li{FLOAT})
+	\item $B$: seq(\li{FLOAT})
 \end{itemize}
-During implementation, it is recommended that $A$ and $B$ are random accessible.
+
+The mathematical notation is
+\begin{equation}
+	\text{CFST}:=\tuple{n:\mathbb{N}, \\\omega:\float,\\ A: \text{TA},\\ B:\text{TB}}
+\end{equation}
+where TA and TB are
+\begin{equation}
+	\begin{aligned}
+	\text{TA}:=&seq(\li{FLOAT}, n)\\
+	\text{TB}:=&seq(\li{FLOAT}, n+1)\\
+	\end{aligned}
+\end{equation}
+During implementation, it is recommended that the sequence type used above are random accessible.
 
 \subsubsection{Exported Access Programs}
-\newcommand{\func}[1]{\\\hline\li{#1}}
+The exported access programs for this module are mainly getters and setters. For simplicity, we use the following getter and setter rules.
+
+For each variable X, the getters and setters are
+
+\begin{center}
+	\begin{tabular}{p{4cm} p{4cm} p{4cm} p{3cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+		\hline
+		\li{getX} & & \li{X}: type of X & None.\\\hline
+		\li{setX} & \li{X}: type of X & & None. \\\hline
+	\end{tabular}
+\end{center}
+
+Furthermore, we design getters and setters for each element of $A$ and $B$. For each X being A or B, the syntax is
+\begin{center}
+	\begin{tabular}{p{4cm} p{4cm} p{4cm} p{3cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+		\hline
+		\li{getXi} & & \li{X}: type of X & OOR.\\\hline
+		\li{setXi} & \li{X}: type of X & & OOR. \\\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{Assumptions}
+\subsubsection{Access Routine Semantics}
+
+This part follows the most common rules of getters and setters. For simplicity, we do not elaborate on them.
+
+\section{MIS of Linear Solver}
+
+\subsection{Module}
+
+Linear Solver.
+
+\subsection{Uses}
+
+Infrastructure.
+
+\subsection{Syntax}
+
+\subsubsection{Export Access Programs}
+
+\begin{center}
+	\begin{tabular}{p{4cm} p{4cm} p{4cm} p{3cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+		\hline
+		\li{LinSolve} &\makecell{\li{m}: $\mathbb{N}$\\A: seq(\li{FLOAT}, \li{m}, \li{m})\\b:  seq(\li{FLOAT}, \li{m})} & x: seq(\li{FLOAT}, \li{m}) &\makecell{Solution non-exist\\Solution not unique}.\\\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{Assumptions}
+\subsubsection{Access Routine Semantics}
+This part follows the most common semantics of linear solvers, and for simplicity, we do not elaborate on it.
+
+\section{MIS of Integral}
+\subsection{Module}
+Integral.
+\subsection{Uses}
+Infrastructure.
+\subsection{Syntax}
+\subsubsection{Export Access Programs}
+
+\begin{center}
+	\begin{tabular}{p{4cm} p{4cm} p{4cm} p{3cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+		\hline
+		\li{Integral} &\makecell{\li{f}: \li{FLOAT}$\rightarrow$\li{FLOAT}\\\li{a}, \li{b}: \li{FLOAT}} & res: \li{FLOAT} &\makecell{Integral non-exist\\or not computable}.\\\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsubsection{Access Routine Semantics}
+
+\noindent \li{Integral(f, a, b)}:
+\begin{itemize}
+	\item output: $\int_{a}^{b}f(t)\text{d} t$
+	\item exception: Evident
+\end{itemize}
+
+\section{MIS of Conversion}
+\subsection{Module}
+Conversion.
+\subsection{Uses}
+Data Definition.
+\subsection{Syntax}
+\subsubsection{Export Access Programs}
+
+\begin{center}
+	\begin{tabular}{p{4cm} p{4cm} p{4cm} p{3cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} 
+		\func{ConvertFrom} &\makecell{$n$: integer\\$\omega$: \li{FLOAT}\\$A$: sequence of \li{FLOAT}\\$B$: sequence of \li{FLOAT}} & Constructed CFS & \makecell{Mismatch between $n$, (size of $A$ -1), and size of $B$\\$\omega\leq0$}
+		\func{ConvertTo} &\makecell{CFS\\user-acquired space \\for outputs}&Same as inputs of \li{ConvertFrom} & None
+		\\\hline 
+	\end{tabular}
+\end{center}
+
+\subsection{Semantics}
+\subsection{Access Routine Semantics}
+\noindent \li{ConvertFrom(n, omega, A, B)}:
+\begin{itemize}
+	\item output: \tuple{\li{n}, \li{omega}, \li{A}, \li{B}}
+	\item exception: \begin{equation*}
+		\text{exc}:=\(\text{omega}\leq 0\Rightarrow\text{OMEGA_NON_POSI}||A|\neq n+1\Rightarrow\text{MISMATCH_SIZE}||B|\neq n \Rightarrow\text{MISMATCH_SIZE}\)
+	\end{equation*}
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
 \begin{center}
 \begin{tabular}{p{4cm} p{4cm} p{4cm} p{3cm}}
 \hline
