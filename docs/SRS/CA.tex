@@ -1331,18 +1331,15 @@ qualities that the software is expected to exhibit.
 \ritem{InputDataType} 
 When applicable, functions of this library accept inputs with the same 
 data type for $f(t)$, $A_i$'s and/or $B_i$'s, and $\omega$. 
+\ritem{BinaryOperationMatch}
+The operands of binary operations must have the same $n$ and $\omega$.
 \ritem{OutputError} 
 The error of the output must be decreasing as the $n$ in CFS's is decreasing.
 \ritem{OutputDataType} 
 Output the result with the same floating point data type as that of the input.
-\ritem{ErrorMessage}
-If the called function detects that the input variables do not 
-meet the requirements, generate an error message describing 
-the detected error.
 \ritem{Memory} 
 Manage the memory spaces required by this library 
 (mainly for CFS's), and destroy them the moment they are not needed.
-
 \end{itemize}
 
 \subsection{Nonfunctional Requirements}

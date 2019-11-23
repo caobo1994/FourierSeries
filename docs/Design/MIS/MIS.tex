@@ -173,8 +173,8 @@ The following table is taken directly from the Module Guide document for this pr
 \subsubsection{Exported Constants}
 None.
 \subsubsection{Exported Data Type}
-There is one exported data type, CSF. (abstract, with one abstract type \li{FLOAT}, indicating floating point types)
-The structure of CSF is
+There is one exported data type, \li{CFST}, which is the type of a CFS object. (abstract, with one type template \li{FLOAT}, indicating floating point types)
+The structure of \li{CFST} is
 \begin{itemize}
 	\item $n$: integer
 	\item $\omega$: \li{FLOAT}
@@ -189,17 +189,17 @@ During implementation, it is recommended that $A$ and $B$ are random accessible.
 \begin{tabular}{p{4cm} p{4cm} p{4cm} p{3cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} 
-\func{ConvertFrom} &\makecell{$n$: integer\\$\omega$: \li{FLOAT}\\$A$: sequence of \li{FLOAT}\\$B$: sequence of \li{FLOAT}} & Constructed CSF & Mismatch between $n$, (size of $A$ -1), and size of $B$
-\func{ConvertTo} &\makecell{CSF\\pointers to the space \\for outputs}&Same as inputs of \li{ConvertFrom} & None
-\func{TransformTo} & function $f$, $n$, $\omega$&Constructed CSF&Any exception raised by integral module
-\func{FunctionValue} & CSF, $t$ & Value of $f(t)$, where CSF comes from $f$&None.
-\func{Addition} & Two CSF's & A CSF as result & mismatch of $n$ and $\omega$
-\func{Subtraction} & Same as \li{Addition} & Same as \li{Addition} & Same as \li{Addition}
-\func{Multplication} & Same as \li{Addition} & Same as \li{Addition} & Same as \li{Addition}
-\func{Divison} & Same as \li{Addition} & Same as \li{Addition} & Same as \li{Addition}, plus any exception raised by linear solver.
-\func{ToleratedEquality} & Same as \li{Addition} & Same as \li{Addition} & Same as \li{Addition}
-\func{Function}&CFS, Taylor series at least the size of CFS&Resulted CFS&None.
-\func{Amplitude}&CFS&Result of type \li{FLOAT}&None.
+\func{ConvertFrom} &\makecell{$n$: integer\\$\omega$: \li{FLOAT}\\$A$: sequence of \li{FLOAT}\\$B$: sequence of \li{FLOAT}} & Constructed CFS & Mismatch between $n$, (size of $A$ -1), and size of $B$
+\func{ConvertTo} &\makecell{CFS\\pointers to the space \\for outputs}&Same as inputs of \li{ConvertFrom} & None
+\func{TransformTo} & function $f$, $n$, $\omega$&Constructed CFS&Any exception raised by integral module
+\func{FunctionValue} & CFS, $t$ & Value of $f(t)$, where CFS comes from $f$&None.
+\func{Addition} & \li{CFST CFS1, CFST CFS2} & \li{CFST, CFSres} \ & mismatch of $n$ and $\omega$
+\func{Subtraction} & \li{CFST CFS1, CFST CFS2} & \li{CFST, CFSres} & Same as \li{Addition}
+\func{Multplication} & \li{CFST CFS1, CFST CFS2} & \li{CFST, CFSres} & Same as \li{Addition}
+\func{Divison} & \li{CFST CFS1, CFST CFS2} & \li{CFST, CFSres} & Same as \li{Addition}, plus any exception raised by linear solver and reclassified in \li{Division}.
+\func{ToleratedEquality} & \li{CFST CFS1, CFST CFS2, FLOAT tol} & \li{Bool res} & Same as \li{Addition}
+\func{Function}&\li{CFST CFS}, Taylor series type variable &\li{CFST, CFSres}&Insufficient length of Taylor series.
+\func{Amplitude}&CFS&\li{FLOAT amp}&None.
 \\\hline 
 \end{tabular}
 \end{center}
