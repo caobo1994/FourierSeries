@@ -308,12 +308,12 @@ Conversion.
 Data Definition.
 \subsection{Syntax}
 \subsubsection{Export Access Programs}
-
+With \li{O} being short for \li{OUT\_OF\_BOUNDARY} and \li{M} being short for \li{MISMATCHED\_SIZE}, 
 \begin{center}
 	\begin{tabular}{p{4cm} p{4cm} p{4cm} p{3cm}}
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} 
-		\func{ConvertFrom} &\makecell{$n\in \mathbb{N}$\\$\omega$: \li{FLOAT}\\$A$: sequence of \li{FLOAT}\\$B$: sequence of \li{FLOAT}} & \li{CFST CFS} & \makecell{MISMATCH\_SIZE: Mismatch between $n$, (size of $A$ -1), and size of $B$}
+		\func{ConvertFrom} &\makecell{$n\in \mathbb{N}$\\$\omega$: \li{FLOAT} \\$A$: sequence of \li{FLOAT}\\$B$: sequence of \li{FLOAT}} & \li{CFST CFS} & \makecell{\li{O}: $\omega\leq0$\\\li{M}: Mismatch between \\$n$, (size of $A$ -1),\\ and size of $B$}
 		\func{ConvertTo} &\makecell{\li{CFST CFS}\\user-acquired space \\for outputs}&Same as inputs of \li{ConvertFrom} & None
 		\\\hline 
 	\end{tabular}
@@ -321,12 +321,11 @@ Data Definition.
 
 \subsection{Semantics}
 \subsection{Access Routine Semantics}
-With \li{M} being short for \li{MISMATCHED\_SIZE}, 
 \noindent ConvertFrom($n, \omega, A, B$): 
 \begin{itemize}
 	\item output: $\text{CFS}.n, \text{CFS}.\omega, \text{CFS}.A, \text{CFS}.B := n, \omega, A, B$
 	\item exception: $
-	\text{exc}:=(|A| \neq n+1 \Rightarrow M | |B| \neq n \Rightarrow M)
+	\text{exc}:=(\omega\leq0 \Rightarrow O||A| \neq n+1 \Rightarrow M | |B| \neq n \Rightarrow M)
 	$
 \end{itemize}
 
@@ -359,8 +358,57 @@ Data Definition, Integration.
 \begin{itemize}
 	\item output: $V:=\sum_{i=0}^{\text{CFS}.n}\text{CFS}.A(i)\cos(i\omega t)+\sum_{i=1}^{\text{CFS}.n}\text{CFS}.B(i)\sin(i\omega t)$  
 \end{itemize}
+\section{MIS of Basic Operation}
+\subsection{Module}
+Basic Operations.
+\subsection{Uses}
+Data Definition, Linear Solver
+\subsection{Syntax}
+\subsubsection{Export Access Programs}
+\begin{center}
+	\begin{tabular}{p{4cm} p{4cm} p{4cm} p{3cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} 
+		\func{CFSMatch} & \li{CFST CFS1, CFST CFS2} & \li{Bool res} & None.
+		\func{Addition} & \li{CFST CFS1, CFST CFS2} & \li{CFST CFSres}  & mismatch of $n$ and $\omega$
+		\func{Subtraction} & \li{CFST CFS1, CFST CFS2} & \li{CFST CFSres} & Same as \li{Addition}
+		\func{Multplication} & \li{CFST CFS1, CFST CFS2} & \li{CFST CFSres} & Same as \li{Addition}
+		\func{Divison} & \li{CFST CFS1, CFST CFS2} & \li{CFST CFSres} & Same as \li{Addition}, plus any exception raised by linear solver and reclassified in \li{Division}.
+		\func{Amplitude}&\li{CFST CFS1}&\li{FLOAT amp}&None.
+		\\\hline 
+	\end{tabular}
+\end{center}
+\subsection{Semantics}
+\subsubsection{Access Program Semantics}
+\noindent \li{CFSMatch}(\li{CFST CFS1, CFST CFS2}):
+\begin{itemize} 
+	\item output: $(\text{CFS1}.n=\text{CFS2}.n)\wedge(\text{CFS1}.\omega=\text{CFS2}.\omega)\Rightarrow\text{TRUE}|\text{TRUE}\Rightarrow\text{FALSE}$ 
+\end{itemize}
 
+The semantics of \li{Addition}, \li{Subtraction}, and \li{Multiplication} are similar in structure, and the only difference is the calculation of the $A$ and $B$ variables shown below, which is consistent with the corresponding theories introduced in SRS.
 
+As an example, we give the semantics of the \li{Addition} function.
+
+\noindent \li{Addition}(\li{CFST CFS1, CFST CFS2}):
+\begin{itemize}
+	\item output: $A_i:=\text{CFS1}.\text{getAi}(i)+\text{CFS2}.\text{getAi}(i)$,
+	$B_i:=\text{CFS1}.\text{getBi}(i)+\text{CFS2}.\text{getBi}(i)$,\\
+	$A:=[A_0, ..., A_{\text{CFS1.n}}]$, $B:=[B_0, ..., B_{\text{CFS1.n}}]$,\\
+	$\text{CFSres}.n, \text{CFSres}.\omega, \text{CFSres}.A, \text{CFSres}.B:=\text{CFS1}.n, \text{CFS1}.\omega, A, B$
+	\item exception: $\text{exc}:=(\text{CFSMatch}(\text{CFS1}, \text{CFS2})=\text{FALSE}\Rightarrow\text{MISMATCH\_CFS})$
+\end{itemize}
+
+As for \li{Division}, the difference is much significant. The $A$ and $B$ is computed as follows
+\begin{align*}
+	x:=&LinSolve(M, y),
+	A:=&x[0,\text{CFS1}.n],
+	B:=&x[\text{CFS1}.n+1, |x|-1]
+\end{align*}
+where $M$ and $y$ are constructed in accordance with the theories for division in SRS.
+
+\section{MIS for Advanced Operation}
+\subsection{Module}
+Advanced Operation.
 \begin{center}
 \begin{tabular}{p{4cm} p{4cm} p{4cm} p{3cm}}
 \hline
