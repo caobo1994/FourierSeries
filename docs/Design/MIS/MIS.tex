@@ -380,7 +380,7 @@ Data Definition, Linear Solver
 \end{center}
 \subsection{Semantics}
 \subsubsection{Access Program Semantics}
-\noindent \li{CFSMatch}(\li{CFST CFS1, CFST CFS2}):
+\noindent \li{CFSMatch(CFST CFS1, CFST CFS2)}:
 \begin{itemize} 
 	\item output: $(\text{CFS1}.n=\text{CFS2}.n)\wedge(\text{CFS1}.\omega=\text{CFS2}.\omega)\Rightarrow\text{TRUE}|\text{TRUE}\Rightarrow\text{FALSE}$ 
 \end{itemize}
@@ -389,7 +389,7 @@ The semantics of \li{Addition}, \li{Subtraction}, and \li{Multiplication} are si
 
 As an example, we give the semantics of the \li{Addition} function.
 
-\noindent \li{Addition}(\li{CFST CFS1, CFST CFS2}):
+\noindent \li{Addition(CFST CFS1, CFST CFS2)}:
 \begin{itemize}
 	\item output: $A_i:=\text{CFS1}.\text{getAi}(i)+\text{CFS2}.\text{getAi}(i)$,
 	$B_i:=\text{CFS1}.\text{getBi}(i)+\text{CFS2}.\text{getBi}(i)$,\\
@@ -400,15 +400,21 @@ As an example, we give the semantics of the \li{Addition} function.
 
 As for \li{Division}, the difference is much significant. The $A$ and $B$ is computed as follows
 \begin{align*}
-	x:=&LinSolve(M, y),
-	A:=&x[0,\text{CFS1}.n],
+	x:=&LinSolve(M, y),\\
+	A:=&x[0,\text{CFS1}.n],\\
 	B:=&x[\text{CFS1}.n+1, |x|-1]
 \end{align*}
 where $M$ and $y$ are constructed in accordance with the theories for division in SRS.
 
+\noindent \li{Amplitude(CFS CFS1)}:
+\begin{itemize} 
+	\item output: $amp:=\sqrt{\text{CFS1}.\text{getAi}(0)^2+(1/2)*\sum_{i=1}^{\text{CFS1}.n}(\text{CFS1}.\text{getAi}(i)^2+\text{CFS1}.\text{getBi}(i)^2)}$ 
+\end{itemize}
+
 \section{MIS for Advanced Operation}
 \subsection{Module}
 Advanced Operation.
+\subsection{Uses}
 \begin{center}
 \begin{tabular}{p{4cm} p{4cm} p{4cm} p{3cm}}
 \hline
