@@ -313,30 +313,52 @@ Data Definition.
 	\begin{tabular}{p{4cm} p{4cm} p{4cm} p{3cm}}
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} 
-		\func{ConvertFrom} &\makecell{$n$: integer\\$\omega$: \li{FLOAT}\\$A$: sequence of \li{FLOAT}\\$B$: sequence of \li{FLOAT}} & Constructed CFS & \makecell{Mismatch between $n$, (size of $A$ -1), and size of $B$\\$\omega\leq0$}
-		\func{ConvertTo} &\makecell{CFS\\user-acquired space \\for outputs}&Same as inputs of \li{ConvertFrom} & None
+		\func{ConvertFrom} &\makecell{$n\in \mathbb{N}$\\$\omega$: \li{FLOAT}\\$A$: sequence of \li{FLOAT}\\$B$: sequence of \li{FLOAT}} & \li{CFST CFS} & \makecell{MISMATCH\_SIZE: Mismatch between $n$, (size of $A$ -1), and size of $B$}
+		\func{ConvertTo} &\makecell{\li{CFST CFS}\\user-acquired space \\for outputs}&Same as inputs of \li{ConvertFrom} & None
 		\\\hline 
 	\end{tabular}
 \end{center}
 
 \subsection{Semantics}
 \subsection{Access Routine Semantics}
-\noindent \li{ConvertFrom(n, omega, A, B)}:
+With \li{M} being short for \li{MISMATCHED\_SIZE}, 
+\noindent ConvertFrom($n, \omega, A, B$): 
 \begin{itemize}
-	\item output: \tuple{\li{n}, \li{omega}, \li{A}, \li{B}}
-	\item exception: \begin{equation*}
-		\text{exc}:=\(\text{omega}\leq 0\Rightarrow\text{OMEGA_NON_POSI}||A|\neq n+1\Rightarrow\text{MISMATCH_SIZE}||B|\neq n \Rightarrow\text{MISMATCH_SIZE}\)
-	\end{equation*}
+	\item output: $\text{CFS}.n, \text{CFS}.\omega, \text{CFS}.A, \text{CFS}.B := n, \omega, A, B$
+	\item exception: $
+	\text{exc}:=(|A| \neq n+1 \Rightarrow M | |B| \neq n \Rightarrow M)
+	$
 \end{itemize}
 
+The semantics for \li{ConvertTo} is straightforward, and we do not elaborate on it.
 
+\section{MIS for Transformation}
+\subsection{Module}
+Transformation.
+\subsection{Uses}
+Data Definition, Integration.
+\subsection{Syntax}
+\subsubsection{Export Access Programs}
+\begin{center}
+	\begin{tabular}{p{4cm} p{4cm} p{4cm} p{3cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} 
+		\func{TransformTo} & \makecell{$f\in \{\mathbb{R}\rightarrow\mathbb{R}\}$\\$n\in\mathbb{N}$\\$\omega\in\mathbb{R}^{+}$} &\li{CFST CFS}& None.
+		\func{FunctionValue} & \makecell{\li{CFST CFS}\\$t\in\mathbb{R}$} & $V\in \mathbb{R}$&None.
+		\\\hline 
+	\end{tabular}
+\end{center}
 
-
-
-
-
-
-
+\subsection{Semantics}
+\subsection{Access Program Semantics}
+\noindent \li{TransformTo}($f, n, \omega$):
+\begin{itemize}
+	\item output: $\text{CFS}.n, \text{CFS}.\omega, \text{CFS}.A, \text{CFS}.B := n, \omega, A, B$, where $A_i$ and $B_i$ are computed in accordance with T1 of the SRS.  
+\end{itemize}
+\noindent \li{FunctionValue}($\text{CFS}, t$):
+\begin{itemize}
+	\item output: $V:=\sum_{i=0}^{\text{CFS}.n}\text{CFS}.A(i)\cos(i\omega t)+\sum_{i=1}^{\text{CFS}.n}\text{CFS}.B(i)\sin(i\omega t)$  
+\end{itemize}
 
 
 \begin{center}
