@@ -51,6 +51,8 @@ urlcolor=cyan          % color of external links
 
 \pagenumbering{roman}
 
+\an{The multilined table looks funny when I use makecell to make a cell with multiple lines. I would be thankful if someone could enlighten me with some better ways.}
+
 \section{Revision History}
 
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
@@ -73,6 +75,7 @@ We also define the following acronyms for the scope of this document
 	\textbf{Acronym} & \textbf{Full Text}\\
 	\hline
 	OOR & Out of range\\
+	MC & Mismatched CFS\\
 	\hline
 \end{tabular}
 \end{center}
@@ -126,7 +129,8 @@ are sequences of characters. Tuples contain a list of values, potentially of
 different types. In addition, \progname \ uses functions, which
 are defined by the data types of their inputs and outputs. Local functions are
 described by giving their type signature followed by their specification.
-For simplicity, the sequence of type \li{T} will be abbreviated as seq(\li{T}), while that with dimensions $[l_1, ..., l_n]$ as seq(\li{T}, $l_1, ..., l_n$).
+
+For simplicity, the sequence of type \li{T} will be abbreviated as seq(\li{T}), while that with dimensions $[l_1, ..., l_n]$ as seq(\li{T}, $l_1, ..., l_n$). Furthermore, we use both \li{Var: Type} and \li{Type Var} to indicate that variable \li{Var} is of type \li{Type}. 
 \section{Module Decomposition}
 
 The following table is taken directly from the Module Guide document for this project.
@@ -152,7 +156,6 @@ The following table is taken directly from the Module Guide document for this pr
 		\multirow{3}{0.3\textwidth}{Software Decision Module} 
 		& Linear solver (external or partially external)\\
 		& Integral (external or partially external)\\
-		& Infrastructure (software-related part, external)\\
 		\bottomrule
 		
 	\end{tabular}
@@ -198,21 +201,21 @@ The structure of \li{CFST} is
 \begin{itemize}
 	\item $n$: integer
 	\item $\omega$: \li{FLOAT}
-	\item $A$: seq(\li{FLOAT})
-	\item $B$: seq(\li{FLOAT})
+	\item $A$: seq(\li{FLOAT}, $n$)
+	\item $B$: seq(\li{FLOAT}, $n+1$)
 \end{itemize}
 
 The mathematical notation is
-\begin{equation}
+\begin{equation*}
 	\text{CFST}:=\tuple{n:\mathbb{N}, \\\omega:\float,\\ A: \text{TA},\\ B:\text{TB}}
-\end{equation}
+\end{equation*}
 where TA and TB are
-\begin{equation}
+\begin{equation*}
 	\begin{aligned}
-	\text{TA}:=&seq(\li{FLOAT}, n)\\
-	\text{TB}:=&seq(\li{FLOAT}, n+1)\\
+	\text{TA}:=&\text{seq}(\li{FLOAT}, n)\\
+	\text{TB}:=&\text{seq}(\li{FLOAT}, n+1)\\
 	\end{aligned}
-\end{equation}
+\end{equation*}
 During implementation, it is recommended that the sequence type used above are random accessible.
 
 \subsubsection{Exported Access Programs}
@@ -230,23 +233,28 @@ For each variable X, the getters and setters are
 	\end{tabular}
 \end{center}
 
-Furthermore, we design getters and setters for each element of $A$ and $B$. For each X being A or B, the syntax is
+Furthermore, we design getters and setters for each element of $A$ and $B$. For each $X$ being $A$ or $B$, the syntax of the function intended for the element $X_i$ is
 \begin{center}
 	\begin{tabular}{p{4cm} p{4cm} p{4cm} p{3cm}}
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
 		\hline
-		\li{getXi} & & \li{X}: type of X & OOR.\\\hline
-		\li{setXi} & \li{X}: type of X & & OOR. \\\hline
+		\li{getXi} & $i\in \mathbb{N}$& \li{V: FLOAT} & OOR.\\\hline
+		\li{setXi} &  $i\in \mathbb{N}$, \li{V: FLOAT} & & OOR. \\\hline
 	\end{tabular}
 \end{center}
-
+For convenience, we may use \li{A(i)} and \li{B(i)} to represent \li{getAi(i)} and \li{getBi(i)}, respectively.
 \subsection{Semantics}
 \subsubsection{Assumptions}
 \subsubsection{Access Routine Semantics}
 
 This part follows the most common rules of getters and setters. For simplicity, we do not elaborate on them.
 
+Note the exceptions of \li{setXi} and \li{getXi} are 
+\begin{equation*}
+	\text{exc}:=((i<M)\vee(i>n)\Rightarrow \text{OOR})
+\end{equation*}
+where $M$ is 0 for \li{X=A} and 1 for \li{X=B}.
 \section{MIS of Linear Solver}
 
 \subsection{Module}
@@ -273,7 +281,7 @@ Infrastructure.
 \subsection{Semantics}
 \subsubsection{Assumptions}
 \subsubsection{Access Routine Semantics}
-This part follows the most common semantics of linear solvers, and for simplicity, we do not elaborate on it.
+This part follows the most common semantics of linear solvers solving the equation $Ax=b$ for x, and for simplicity, we do not elaborate on it.
 
 \section{MIS of Integral}
 \subsection{Module}
@@ -308,13 +316,12 @@ Conversion.
 Data Definition.
 \subsection{Syntax}
 \subsubsection{Export Access Programs}
-With \li{O} being short for \li{OUT\_OF\_BOUNDARY} and \li{M} being short for \li{MISMATCHED\_SIZE}, 
 \begin{center}
 	\begin{tabular}{p{4cm} p{4cm} p{4cm} p{3cm}}
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} 
-		\func{ConvertFrom} &\makecell{$n\in \mathbb{N}$\\$\omega$: \li{FLOAT} \\$A$: sequence of \li{FLOAT}\\$B$: sequence of \li{FLOAT}} & \li{CFST CFS} & \makecell{\li{O}: $\omega\leq0$\\\li{M}: Mismatch between \\$n$, (size of $A$ -1),\\ and size of $B$}
-		\func{ConvertTo} &\makecell{\li{CFST CFS}\\user-acquired space \\for outputs}&Same as inputs of \li{ConvertFrom} & None
+		\func{ConvertFrom} &\makecell{$n\in \mathbb{N}$\\$\omega$: \li{FLOAT} \\$A$: sequence of \li{FLOAT}\\$B$: sequence of \li{FLOAT}} & \li{CFST CFS} & \makecell{\li{OOR}: $\omega\leq0$\\\li{MC}: Mismatch between \\$n$, (size of $A$ -1),\\ and size of $B$}
+		\func{ConvertTo} &\makecell{\li{CFST CFS}\\$n, \omega, A, B$: same\\ type as their\\ namesakes in \li{CFST}}&Same as inputs of \li{ConvertFrom} & None
 		\\\hline 
 	\end{tabular}
 \end{center}
@@ -325,7 +332,7 @@ With \li{O} being short for \li{OUT\_OF\_BOUNDARY} and \li{M} being short for \l
 \begin{itemize}
 	\item output: $\text{CFS}.n, \text{CFS}.\omega, \text{CFS}.A, \text{CFS}.B := n, \omega, A, B$
 	\item exception: $
-	\text{exc}:=(\omega\leq0 \Rightarrow O||A| \neq n+1 \Rightarrow M | |B| \neq n \Rightarrow M)
+	\text{exc}:=(\omega\leq0 \Rightarrow \text{OOR}||A| \neq n+1 \Rightarrow \text{MC} | |B| \neq n \Rightarrow \text{MC})
 	$
 \end{itemize}
 
@@ -352,11 +359,16 @@ Data Definition, Integration.
 \subsection{Access Program Semantics}
 \noindent \li{TransformTo}($f, n, \omega$):
 \begin{itemize}
-	\item output: $\text{CFS}.n, \text{CFS}.\omega, \text{CFS}.A, \text{CFS}.B := n, \omega, A, B$, where $A_i$ and $B_i$ are computed in accordance with T1 of the SRS.  
+	\item output:
+	\begin{align*} A_0:=&(1/2\pi)\int_{-\pi}^{\pi}f(t)\text{d}t,\\ A_i:=&(1/\pi)\int_{-\pi}^{\pi}f(t)\cos(i\omega t)\text{d}t,\\ B_i:=&(1/2\pi)\int_{-\pi}^{\pi}f(t)\sin(i\omega t)\text{d}t\\
+	A:=&<A_0, ..., A_n>,\\
+	B:=&<B_1, ..., B_n>, \\
+	\text{CFS}.n, \text{CFS}.\omega, \text{CFS}.A, \text{CFS}.B :=& n, \omega, A, B\\
+	\end{align*}  
 \end{itemize}
 \noindent \li{FunctionValue}($\text{CFS}, t$):
 \begin{itemize}
-	\item output: $V:=\sum_{i=0}^{\text{CFS}.n}\text{CFS}.A(i)\cos(i\omega t)+\sum_{i=1}^{\text{CFS}.n}\text{CFS}.B(i)\sin(i\omega t)$  
+	\item output: $V:=\sum_{i=0}^{\text{CFS}.n}\text{CFS}.\text{getAi}(i)\cos(i\omega t)+\sum_{i=1}^{\text{CFS}.n}\text{CFS}.\text{getBi}(i)\sin(i\omega t)$  
 \end{itemize}
 \section{MIS of Basic Operation}
 \subsection{Module}
@@ -370,11 +382,11 @@ Data Definition, Linear Solver
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} 
 		\func{CFSMatch} & \li{CFST CFS1, CFST CFS2} & \li{Bool res} & None.
-		\func{Addition} & \li{CFST CFS1, CFST CFS2} & \li{CFST CFSres}  & mismatch of $n$ and $\omega$
-		\func{Subtraction} & \li{CFST CFS1, CFST CFS2} & \li{CFST CFSres} & Same as \li{Addition}
-		\func{Multplication} & \li{CFST CFS1, CFST CFS2} & \li{CFST CFSres} & Same as \li{Addition}
-		\func{Divison} & \li{CFST CFS1, CFST CFS2} & \li{CFST CFSres} & Same as \li{Addition}, plus any exception raised by linear solver and reclassified in \li{Division}.
-		\func{Amplitude}&\li{CFST CFS1}&\li{FLOAT amp}&None.
+		\func{Addition} & \li{CFST CFS1, CFST CFS2} & \li{CFST CFSres}  & MC
+		\func{Subtraction} & \li{CFST CFS1, CFST CFS2} & \li{CFST CFSres} & MC
+		\func{Multplication} & \li{CFST CFS1, CFST CFS2} & \li{CFST CFSres} & MC
+		\func{Divison} & \li{CFST CFS1, CFST CFS2} & \li{CFST CFSres} & MC
+		\func{Amplitude}&\li{CFST CFS1}&\li{FLOAT amp}& None.
 		\\\hline 
 	\end{tabular}
 \end{center}
@@ -393,20 +405,20 @@ As an example, we give the semantics of the \li{Addition} function.
 \begin{itemize}
 	\item output: $A_i:=\text{CFS1}.\text{getAi}(i)+\text{CFS2}.\text{getAi}(i)$,
 	$B_i:=\text{CFS1}.\text{getBi}(i)+\text{CFS2}.\text{getBi}(i)$,\\
-	$A:=[A_0, ..., A_{\text{CFS1.n}}]$, $B:=[B_0, ..., B_{\text{CFS1.n}}]$,\\
+	$A:=<A_0, ..., A_{\text{CFS1.n}}>$, $B:=<B_0, ..., B_{\text{CFS1.n}}>$,\\
 	$\text{CFSres}.n, \text{CFSres}.\omega, \text{CFSres}.A, \text{CFSres}.B:=\text{CFS1}.n, \text{CFS1}.\omega, A, B$
-	\item exception: $\text{exc}:=(\text{CFSMatch}(\text{CFS1}, \text{CFS2})=\text{FALSE}\Rightarrow\text{MISMATCH\_CFS})$
+	\item exception: $\text{exc}:=(\text{CFSMatch}(\text{CFS1}, \text{CFS2})=\text{FALSE}\Rightarrow\text{MC})$
 \end{itemize}
 
 As for \li{Division}, the difference is much significant. The $A$ and $B$ is computed as follows
 \begin{align*}
-	x:=&\text{LinSolve}(M, y),\\
-	A:=&x[0,\text{CFS1}.n],\\
-	B:=&x[\text{CFS1}.n+1, |x|-1]
+	x:=&\text{LinSolve}(2n+1, M, y),\\
+	A:=&x[0,\text{CFS1}.n+1],\\
+	B:=&x[\text{CFS1}.n+1, |x|]
 \end{align*}
 where $M$ and $y$ are constructed in accordance with the theories for division in SRS.
 
-\noindent \li{Amplitude(CFS CFS1)}:
+\noindent \li{Amplitude(CFST CFS1)}:
 \begin{itemize} 
 	\item output: $amp:=\sqrt{\text{CFS1}.\text{getAi}(0)^2+(1/2)*\sum_{i=1}^{\text{CFS1}.n}(\text{CFS1}.\text{getAi}(i)^2+\text{CFS1}.\text{getBi}(i)^2)}$ 
 \end{itemize}
@@ -423,9 +435,9 @@ In the following section, \li{TST} is a function type $\mathbb{Z}^{*}\rightarrow
 \begin{tabular}{p{4cm} p{4cm} p{4cm} p{3cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}
-\func{ToleratedEquality} & \li{CFST CFS1, CFST CFS2, FLOAT tol} & \li{Bool res} & Same as \li{Addition}
-\func{Power}&\li{CFST CFS}, $m\in Z^{*}$& \li{CFS CFSres} & None
-\func{Function}&\li{CFST CFS, TST TS} &\li{CFST, CFSres}&None.
+\func{ToleratedEquality} & \li{CFST CFS1, CFST CFS2, FLOAT tol} & \li{Bool res} & MC
+\func{Power}&\li{CFST CFS}, $m\in Z^{*}$& \li{CFST CFSres} & None.
+\func{Function}&\li{CFST CFS, TST TS} &\li{CFST CFSres}& None.
 \\\hline 
 
 \end{tabular}
@@ -438,15 +450,19 @@ In the following section, \li{TST} is a function type $\mathbb{Z}^{*}\rightarrow
 
 \noindent \li{ToleratedEquality(CFST CFS1, CFST CFS2, FLOAT tol)}:
 \begin{itemize}
-\item output: $res:=(\text{Amplitude}(\text{Subtraction}(CFS1, CFS2))\le tol\Rightarrow \text{TRUE}|\text{TRUE}\Rightarrow\text{FALSE})$ 
-\item exception: $\text{exc}:=(\text{CFSMatch}(\text{CFS1}, \text{CFS2})=\text{FALSE}\Rightarrow\text{MISMATCH\_CFS})$ 
+\item output: $\text{res}:=(\text{Amplitude}(\text{Subtraction}(\text{CFS1}, \text{CFS2}))\le \text{tol}\Rightarrow \text{TRUE}|\text{TRUE}\Rightarrow\text{FALSE})$ 
+\item exception: $\text{exc}:=(\text{CFSMatch}(\text{CFS1}, \text{CFS2})=\text{FALSE}\Rightarrow\text{MC})$ 
 \end{itemize}
 
 \noindent \li{Power(CFST CFS}, $m\in Z^{*}$\li{)}:
 \begin{itemize}
-	\item output: $A:=<1, 0, ..., 0>$, $|A|=(n+1)$; $B:=<0, 0, ..., 0]$, $|B|=n$\\
-	$\text{CFSzero}.n, \text{CFSzero}.\omega, \text{CFSzero}.A, \text{CFSzero}.B=n, \omega, A, B$
-	$\text{CFSres}:=(m=0\Rightarrow \text{CFSzero}|\text{TRUE}\Rightarrow \text{Multiplication}(\text{CFS}, \text{Power}(\text{CFS}, m-1)))$	
+	\item output: 
+	\begin{gather*}
+	A:=<1, 0, ..., 0>, |A|=(n+1);\\ 
+	B:=<0, 0, ..., 0>, |B|=n\\
+	\text{CFSzero}.n, \text{CFSzero}.\omega, \text{CFSzero}.A, \text{CFSzero}.B:=n, \omega, A, B\\
+	\text{CFSres}:=(m=0\Rightarrow \text{CFSzero}|\text{TRUE}\Rightarrow \text{Multiplication}(\text{CFS}, \text{Power}(\text{CFS}, m-1)))
+	\end{gather*}
 \end{itemize}
 
 \noindent \li{Function(CFST CFS, TST TS)}:

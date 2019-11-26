@@ -7,6 +7,8 @@
 \usepackage{tabularx}
 \usepackage{graphicx}
 \usepackage{float}
+
+\usepackage{xr}
 \usepackage{hyperref}
 \hypersetup{
     colorlinks,
@@ -15,10 +17,12 @@
     linkcolor=red,
     urlcolor=blue
 }
-
+\externaldocument[SRS-]{../../SRS/CA}
 %\newcommand{\li}[1]{\texttt{#1}\xspace}
 \input{../../Comments}
 \input{../../Common}
+
+
 
 \newcounter{acnum}
 \newcommand{\actheacnum}{AC\theacnum}
@@ -42,13 +46,14 @@
 
 \pagenumbering{roman}
 
+\an{Please disregard the following problems: reference not working, and cross-reference not working in regards to requirements from SRS. I have noticed them, and I am tackling them now. However, these problems do not affect the whole picture of this document, and I think that you can know the right content did these problems not exist.}
+
 \section{Revision History}
 
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+Nov 25, 2019 & 0.99 & Initial Draft\\
 \bottomrule
 \end{tabularx}
 
@@ -73,9 +78,8 @@ This section records information for easy reference.
   R & Requirement\\
   SC & Scientific Computing \\
   SRS & Software Requirements Specification\\
-  \progname & Explanation of program name\\
+  \progname & \fullprogname\\
   UC & Unlikely Change \\
-  \wss{etc.} & \wss{...}\\
   \bottomrule
 \end{tabular}\\
 
@@ -222,7 +226,6 @@ actually be implemented.
 \multirow{3}{0.3\textwidth}{Software Decision Module} 
 & \mref{LinearSolver} Linear solver (external or partially external)\\
 & \mref{Integral} Integral (external or partially external)\\
-& \mref{Infra} (software-related part, external)\\
 \bottomrule
 
 \end{tabular}
@@ -370,7 +373,7 @@ because they use modules from the lower levels.
 \end{figure}
 
 %\section*{References}
-
+\newpage
 \bibliographystyle {plainnat}
 \bibliography{../../../refs/References}
 
