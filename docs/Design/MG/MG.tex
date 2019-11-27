@@ -46,7 +46,16 @@
 
 \pagenumbering{roman}
 
-\an{Please disregard the following problems: reference not working, and cross-reference not working in regards to requirements from SRS. I have noticed them, and I am tackling them now. However, these problems do not affect the whole picture of this document, and I think that you can know the right content did these problems not exist.}
+\an{Please disregard the following problems: reference not working, and
+  cross-reference not working in regards to requirements from SRS. I have
+  noticed them, and I am tackling them now. However, these problems do not
+  affect the whole picture of this document, and I think that you can know the
+  right content did these problems not exist.}
+
+\wss{I've fixed your bibliography.  You just needed to add the correct
+  references to your bib file.  With respect to the external cross-references,
+  I'm not sure where it comes up in your document.  After a quick look, I didn't
+  find any external references, or references that didn't work.}
 
 \section{Revision History}
 
@@ -163,11 +172,12 @@ adapted here is called design for change.
 % List of acitem
 % \acref{HardwareOS}, \acref{Conversion}, \acref{FunctionType}, \acref{LinearSolver}, \acref{Integral}
 \begin{description}
-\acitem{HardwareOS} The specific hardware and OS on which the software is running.
-\acitem{Conversion} The format of the data that the conversion functions accept.
-\acitem{FunctionType} The type used in the API's languages that represents a function transformed into a CFS.
-\acitem{LinearSolver} The linear solver used in the division operation.
-\acitem{Integral} The integral function used in transformation to CFS.
+  \acitem{HardwareOS} The specific hardware and OS on which the software is
+  running.  \acitem{Conversion} The format of the data that the conversion
+  functions accept.  \acitem{FunctionType} The type used in the API's languages
+  that represents a function transformed into a CFS.  \acitem{LinearSolver} The
+  linear solver used in the division operation.  \acitem{Integral} The integral
+  function used in transformation to CFS.
 \end{description}
 
 \subsection{Unlikely Changes} \label{SecUchange}
@@ -178,7 +188,8 @@ decisions at the system architecture stage can simplify the software design. If
 these decision should later need to be changed, then many parts of the design
 will potentially need to be modified. Hence, it is not intended that these
 decisions will be changed.
-\newcommand{\ucitem}[1]{\item[\refstepcounter{ucnum} \uctheucnum \label{uc:#1}:] }
+\newcommand{\ucitem}[1]{\item[\refstepcounter{ucnum}
+  \uctheucnum \label{uc:#1}:] }
 \begin{description}
 	\ucitem{DataStruct} The data structure to store $A_i$'s and $B_i$'s in the CFS's.
 \end{description}
@@ -258,8 +269,13 @@ to be implemented.
 \subsection{Infrastructure module (\mref{Infra})}
 
 \begin{description}
-\item[Secrets:]How the basic data stricture and functions are implemented on a specific hardware/OS set.
-\item[Services:]Serves as the basic functions and data structure (like sequence, etc.) used by the rest of the system. This module provides the interface between the hardware and the application software. So, the system can use it to build data structures, execute related operations, accept inputs or display outputs.
+\item[Secrets:]How the basic data stricture \wss{spell check and proof read} and functions are
+  implemented on a specific hardware/OS set.
+\item[Services:]Serves as the basic functions and data structure (like sequence,
+  etc.) used by the rest of the system. This module provides the interface
+  between the hardware and the application software. So, the system can use it
+  to build data structures, execute related operations, accept inputs or display
+  outputs.
 \item[Implemented By:] OS and run-time library of our implementing language.
 \end{description}
 \subsection{Software Decision Modules}
@@ -306,7 +322,9 @@ to be implemented.
 \end{description}
 \subsubsection{Advanced operation \mref{AdvancedOp}}
 \begin{description}
-	\item[Secrets:] Plain algorithm 
+	\item[Secrets:] Plain algorithm \wss{Is this a copy and paste error?  I
+            would think the word Advanced would be used here.  What are the
+            operations that are having their implementation hidden?}
 	\item[Services:] Provide function of CFS and tolerated equality operations.
 	\item[Implemented By:] \progname
 \end{description}
@@ -371,6 +389,13 @@ because they use modules from the lower levels.
 \caption{Use hierarchy among modules}
 \label{FigUH}
 \end{figure}
+
+\wss{With a uses hierarchy for a library, I find it useful to include a symbol
+  to represent the ``driver'' program.  Instead of a rectancle, you can put the
+  driver program in an ellipse, or circle, at the top of your diagram.  It would
+have some useful information, since I cannot currently tell whether the external
+program can directly access the basic operations, or whether only advanced
+operations are accessible on the front end.}
 
 %\section*{References}
 \newpage
