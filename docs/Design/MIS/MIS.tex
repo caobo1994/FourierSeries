@@ -130,7 +130,11 @@ different types. In addition, \progname \ uses functions, which
 are defined by the data types of their inputs and outputs. Local functions are
 described by giving their type signature followed by their specification.
 
-For simplicity, the sequence of type \li{T} will be abbreviated as seq(\li{T}), while that with dimensions $[l_1, ..., l_n]$ as seq(\li{T}, $l_1, ..., l_n$). Furthermore, we use both \li{Var: Type} and \li{Type Var} to indicate that variable \li{Var} is of type \li{Type}. 
+For simplicity, the sequence of type \li{T} will be abbreviated as seq(\li{T}),
+while that with dimensions $[l_1, ..., l_n]$ as seq(\li{T}, $l_1, ...,
+l_n$). Furthermore, we use both \li{Var: Type} and \li{Type Var} to indicate
+that variable \li{Var} is of type \li{Type}.
+
 \section{Module Decomposition}
 
 The following table is taken directly from the Module Guide document for this project.
@@ -195,7 +199,9 @@ Infrastructure.
 \subsubsection{Exported Constants}
 None.
 \subsubsection{Exported Data Type}
-There is one exported data type, \li{CFST}, which is the type of a CFS object. (abstract, with one type template \li{FLOAT}, indicating floating point types)
+There is one exported data type, \li{CFST}, which is the type of a CFS
+object. (abstract, with one type template \li{FLOAT}, indicating floating point
+types)
 
 The structure of \li{CFST} is
 \begin{itemize}
@@ -243,18 +249,31 @@ Furthermore, we design getters and setters for each element of $A$ and $B$. For 
 		\li{setXi} &  $i\in \mathbb{N}$, \li{V: FLOAT} & & OOR. \\\hline
 	\end{tabular}
 \end{center}
-For convenience, we may use \li{A(i)} and \li{B(i)} to represent \li{getAi(i)} and \li{getBi(i)}, respectively.
+For convenience, we may use \li{A(i)} and \li{B(i)} to represent \li{getAi(i)}
+and \li{getBi(i)}, respectively.
+
 \subsection{Semantics}
+\wss{Rather than putting the details as an exported type, you should have state
+  variables here to store the state information.  You have behaviour that is
+  more involved than simply using a tuple.  There are different types of getters
+  and setters, and you have exceptions.  You also need a constructor so you
+  create objects of this type.}
+
 \subsubsection{Assumptions}
 \subsubsection{Access Routine Semantics}
 
-This part follows the most common rules of getters and setters. For simplicity, we do not elaborate on them.
+This part follows the most common rules of getters and setters. For simplicity,
+we do not elaborate on them.
 
 Note the exceptions of \li{setXi} and \li{getXi} are 
 \begin{equation*}
 	\text{exc}:=((i<M)\vee(i>n)\Rightarrow \text{OOR})
 \end{equation*}
 where $M$ is 0 for \li{X=A} and 1 for \li{X=B}.
+
+\wss{Your shortened notation is fine, but sometimes it is less work for the
+  reader if you just expand your definitions.}
+
 \section{MIS of Linear Solver}
 
 \subsection{Module}
@@ -281,7 +300,10 @@ Infrastructure.
 \subsection{Semantics}
 \subsubsection{Assumptions}
 \subsubsection{Access Routine Semantics}
-This part follows the most common semantics of linear solvers solving the equation $Ax=b$ for x, and for simplicity, we do not elaborate on it.
+This part follows the most common semantics of linear solvers solving the
+equation $Ax=b$ for x, and for simplicity, we do not elaborate on it.  \wss{This
+  would be better if you elaborated on it.  Our goal is to be unambiguous.  It
+  wouldn't be that much work to specify what a linear solver returns.}
 
 \section{MIS of Integral}
 \subsection{Module}
@@ -306,7 +328,8 @@ Infrastructure.
 \noindent \li{Integral(f, a, b)}:
 \begin{itemize}
 	\item output: $\int_{a}^{b}f(t)\text{d} t$
-	\item exception: Evident
+	\item exception: Evident \wss{The programmer may not know as much as
+            you.  This isn't enough information on the possible exceptions.}
 \end{itemize}
 
 \section{MIS of Conversion}
@@ -320,7 +343,7 @@ Data Definition.
 	\begin{tabular}{p{4cm} p{4cm} p{4cm} p{3cm}}
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} 
-		\func{ConvertFrom} &\makecell{$n\in \mathbb{N}$\\$\omega$: \li{FLOAT} \\$A$: sequence of \li{FLOAT}\\$B$: sequence of \li{FLOAT}} & \li{CFST CFS} & \makecell{\li{OOR}: $\omega\leq0$\\\li{MC}: Mismatch between \\$n$, (size of $A$ -1),\\ and size of $B$}
+		\func{ConvertFrom} &\makecell{$n\in \mathbb{N}$ \wss{We say $n: \mathbb{N}$}\\$\omega$: \li{FLOAT} \\$A$: sequence of \li{FLOAT}\\$B$: sequence of \li{FLOAT}} & \li{CFST CFS} & \makecell{\li{OOR}: $\omega\leq0$\\\li{MC}: Mismatch between \\$n$, (size of $A$ -1),\\ and size of $B$}
 		\func{ConvertTo} &\makecell{\li{CFST CFS}\\$n, \omega, A, B$: same\\ type as their\\ namesakes in \li{CFST}}&Same as inputs of \li{ConvertFrom} & None
 		\\\hline 
 	\end{tabular}
@@ -330,13 +353,17 @@ Data Definition.
 \subsection{Access Routine Semantics}
 \noindent ConvertFrom($n, \omega, A, B$): 
 \begin{itemize}
-	\item output: $\text{CFS}.n, \text{CFS}.\omega, \text{CFS}.A, \text{CFS}.B := n, \omega, A, B$
+	\item output: $\text{CFS}.n, \text{CFS}.\omega, \text{CFS}.A,
+          \text{CFS}.B := n, \omega, A, B$ \wss{You want to call your
+            constructor here}
 	\item exception: $
 	\text{exc}:=(\omega\leq0 \Rightarrow \text{OOR}||A| \neq n+1 \Rightarrow \text{MC} | |B| \neq n \Rightarrow \text{MC})
 	$
 \end{itemize}
 
-The semantics for \li{ConvertTo} is straightforward, and we do not elaborate on it.
+The semantics for \li{ConvertTo} is straightforward, and we do not elaborate on
+it.  \wss{You might find that others do not find all of your steps as
+  straightfoward as you do.}
 
 \section{MIS for Transformation}
 \subsection{Module}
@@ -397,7 +424,15 @@ Data Definition, Linear Solver
 	\item output: $(\text{CFS1}.n=\text{CFS2}.n)\wedge(\text{CFS1}.\omega=\text{CFS2}.\omega)\Rightarrow\text{TRUE}|\text{TRUE}\Rightarrow\text{FALSE}$ 
 \end{itemize}
 
-The semantics of \li{Addition}, \li{Subtraction}, and \li{Multiplication} are similar in structure, and the only difference is the calculation of the $A$ and $B$ variables shown below, which is consistent with the corresponding theories introduced in SRS.
+The semantics of \li{Addition}, \li{Subtraction}, and \li{Multiplication} are
+similar in structure, and the only difference is the calculation of the $A$ and
+$B$ variables shown below, which is consistent with the corresponding theories
+introduced in SRS.  \wss{It is a good idea to reference the SRS.  It would be
+  better if your reference were specific to models (chunks) in the SRS.  The
+  less work the reader has to do the better.  You want the translation from MIS
+  to code to be almost mechanical.  You also want it to be possible for someone
+  that is less knowledgeable than you on the topic of your software.  Ideally, a
+  second year student in CS or SE should be able to implement your modules.}
 
 As an example, we give the semantics of the \li{Addition} function.
 
