@@ -7,15 +7,18 @@
  * Only the c++ standard libraries are allowed.
  * C-style code is highly not recommended.
  */
+
 #ifndef FSL_FUNC_H
 #define FSL_FUNC_H
 
-/*Library inclusion is here*/
+#include "CFSData.h"
 
+/*Other library inclusion is here*/
+namespace CFS{
 template<class FLOAT, template<class> class CFST>
 /*RETURN TYPE*/ FUNC(/*PARAMETER LIST*/)
 {
     /*FUNCTION BODY*/
 }
-
+}
 #endif
