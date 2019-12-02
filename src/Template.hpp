@@ -11,14 +11,19 @@
 #ifndef FSL_FUNC_H
 #define FSL_FUNC_H
 
-#include "CFSData.h"
+#include "CFSData.hpp"
 
 /*Other library inclusion is here*/
 namespace CFS{
-template<class FLOAT, template<class> class CFST>
+template<class FLOAT>
 /*RETURN TYPE*/ FUNC(/*PARAMETER LIST*/)
 {
     /*FUNCTION BODY*/
 }
 }
 #endif
+
+/*
+ * Type N in MIS shall be translated to size_t in C++. 
+ * This type is already introduced in CFSData.h
+ */

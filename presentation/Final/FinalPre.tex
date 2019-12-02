@@ -1,0 +1,153 @@
+\documentclass[12pt]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usetheme{default}
+\usepackage{listings}
+\newcommand{\li}[1]{\texttt{#1}}
+\begin{document}
+
+	\author{Bo Cao}
+	\title{Final Presentation of CAS/CSE741}
+	\subtitle{Document Polishment, Source Code, Unit VnV, etc.}
+	\logo{}
+	%\institute{}
+	\date{Dec 2, 2019}
+	%\subject{}
+	%\setbeamercovered{transparent}
+	%\setbeamertemplate{navigation symbols}{}
+	
+	\begin{frame}[plain]
+	\maketitle
+	\end{frame}
+
+	\section{Document Improvement}
+	
+	\begin{frame}
+		\frametitle{Thanks!}
+		Thank you all for your advice!
+	\end{frame}
+	\begin{frame}
+		\frametitle{Possible directions}
+		\begin{itemize}
+			\item Change SRS to CA.
+			\item Elaborate on some points.
+			\item Remove MATLAB pseudo-oracle: Small size test cases, manual computation of oracle.
+		\end{itemize}
+	\end{frame}
+
+	\section{Source Code}
+	\subsection{Overview}
+	\begin{frame}
+		\frametitle{Source Code: Overview}
+		Implementing language: C++
+		\begin{itemize}
+			\item Low-level enough.
+			\item Complex grammar and/or supporting libraries.
+			\item Template support.
+		\end{itemize}
+		Future developments: C API
+		\begin{itemize}
+			\item Some people still use C.
+			\item Compatibility.
+			\item Easy to build C API based on C++ code.
+		\end{itemize}
+	\end{frame}
+
+	\subsection{Organize overview}
+	\begin{frame}
+		\frametitle{Organize}
+		Templated class/function.
+		\begin{itemize}
+			\item Source code distribution
+			\item Header file
+		\end{itemize}
+	\end{frame}
+
+	\subsection{License}
+	\begin{frame}
+		\frametitle{License}
+		MIT License
+		\begin{itemize}
+			\item Low-level library, source code distribution.
+			\item High possibility of commercial usage.
+			\item Public, basic knowledge, no potential of revenue.
+		\end{itemize}
+		Made public for everyone.
+	\end{frame}
+	
+	\subsection{Structure}
+	\begin{frame}
+		\frametitle{Structure Overview}
+		Tree structure from the root header.
+		\begin{itemize}
+			\item[Leaf] Implement code (data structure/function).
+			\item[Non-leaf] Include leaf headers.
+		\end{itemize}
+		All data structure/function in namespace \li{CFS}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Headers}
+		Library all-inclusive header \li{CFS.hpp}
+		\begin{itemize}
+			\item[Data] \li{CFSData.hpp}
+			\item[Behavior Modules]\li{CFSModuleName.hpp}
+			\begin{itemize}
+				\item[Function] \li{Function.hpp}
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Function header template}
+		\lstinputlisting[language=c++, linerange=11-24]{../../src/Template.hpp}
+	\end{frame}
+	\section{Unit VnV}
+	\subsection{Overview}
+	\begin{frame}
+		\frametitle{Tool Introduction}
+		\begin{itemize}
+			\item Unit Test: Catch2, single header tool
+			\item Code Coverage: gcc+gcov
+		\end{itemize}
+	\end{frame}
+	\begin{frame}
+		\frametitle{Unit Test structure}
+		Controller
+		
+		TestCase groups
+		\begin{itemize}
+			\item Test Cases
+			\begin{itemize}
+				\item Initalize Data
+				\item Function Call
+				\item Assertion
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+	\subsection{Derivation}
+	\begin{frame}
+		\frametitle{Test Case Derivation: Data structure and setter/getter}
+		\begin{itemize}
+			\item Setter/getter pairs: call setter, call getter, compare getter result with setter input.
+			\item Exception: Pass data with expected exceptions, check whether excepted exception thrown.
+			\item Pairs with index:
+			\begin{itemize}
+				\item OOR(Out-of-range) exception check: call setter/getter with index overflow/underflow, check exception thrown.
+				\item Setter/getter independence: call getter with index $M$, call setter with index $N$($M\neq N$), call getter with index $M$, check whether getter result changed.
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+	\begin{frame}
+		\frametitle{Test Case Derivation: Functions}
+		\begin{itemize}
+			\item Check \li{ToleratedEquality} and dependency first, used for comparison later.
+			\item Check other function. If function \li{A} relies on function \li{B}, Check \li{B} before \li{A}.
+			\item For each function:
+			\begin{itemize}
+				\item Check result, if \li{FLOAT/CSFT} type, report error and whether it is within the pre-set tolerance.
+				\item Check exceptions thrown if given input with expected exceptions.
+			\end{itemize}
+		\end{itemize}
+	\end{frame}
+\end{document}
