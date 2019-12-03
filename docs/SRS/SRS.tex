@@ -29,7 +29,6 @@
     filecolor=magenta,      % color of file links
     urlcolor=cyan           % color of external links
 }
-
 \input{../Comments}
 \input{../Common}
 
@@ -47,7 +46,7 @@
 % Used so that cross-references have a meaningful prefix
 \newcounter{defnum} %Definition Number
 \newcommand{\dthedefnum}{GD\thedefnum}
-\newcommand{\dref}[1]{GD\ref{#1}}
+\newcommand{\dref}[1]{GD\ref{GD:#1}}
 \newcounter{datadefnum} %Datadefinition Number
 \newcommand{\ddthedatadefnum}{DD\thedatadefnum}
 \newcommand{\ddref}[1]{DD\ref{#1}}
@@ -57,9 +56,6 @@
 \newcounter{tablenum} %Table Number
 \newcommand{\tbthetablenum}{T\thetablenum}
 \newcommand{\tbref}[1]{TB\ref{#1}}
-\newcounter{assumpnum} %Assumption Number
-\newcommand{\atheassumpnum}{P\theassumpnum}
-\newcommand{\aref}[1]{A\ref{#1}}
 \newcounter{goalnum} %Goal Number
 \newcommand{\gthegoalnum}{P\thegoalnum}
 \newcommand{\gsref}[1]{GS\ref{#1}}
@@ -72,13 +68,22 @@
 \newcounter{lcnum} %Likely change number
 \newcommand{\lthelcnum}{LC\thelcnum}
 \newcommand{\lcref}[1]{LC\ref{#1}}
+\newcounter{assumpnum} %Assumption Number
+\newcommand{\atheassumpnum}{A\theassumpnum}
+\newcommand{\aref}[1]{A\ref{#1}}
+\newcounter{calnum} %Calculation Number
+\newcommand{\athecalnum}{C\thecalnum}
+\newcommand{\calref}[1]{C\ref{#1}}
+\newcounter{outputnum} %Output Number
+\newcommand{\atheoutputnum}{O\theoutputnum}
+\newcommand{\oref}[1]{O\ref{#1}}
 
 \usepackage{fullpage}
 
 \begin{document}
 
-\title{Software Requirements Specification for \progname: subtitle describing software} 
-\author{Author Name(s)}
+\title{\progname\\A Fourier Series Library} 
+\author{Bo Cao}
 \date{\today}
 	
 \maketitle
@@ -94,11 +99,11 @@
 \section*{Revision History}
 
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
-\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
-\midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
-\bottomrule
+	\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+	\midrule
+	Oct. 10, 2019 & 0.9 & Draft submitted for review by Dr. Smith\\
+	TBD & 1.0 & Revised in accordance with advice from Dr. Smith\\
+	\bottomrule
 \end{tabularx}
 
 ~\newpage
@@ -109,766 +114,1231 @@ This section records information for easy reference.
 
 \subsection{Table of Units}
 
-Throughout this document SI (Syst\`{e}me International d'Unit\'{e}s) is employed
-as the unit system.  In addition to the basic units, several derived units are
-used as described below.  For each unit, the symbol is given followed by a
-description of the unit and the SI name.
-~\newline
-
-\renewcommand{\arraystretch}{1.2}
-%\begin{table}[ht]
-  \noindent \begin{tabular}{l l l} 
-    \toprule		
-    \textbf{symbol} & \textbf{unit} & \textbf{SI}\\
-    \midrule 
-    \si{\metre} & length & metre\\
-    \si{\kilogram} & mass	& kilogram\\
-    \si{\second} & time & second\\
-    \si{\celsius} & temperature & centigrade\\
-    \si{\joule} & energy & Joule\\
-    \si{\watt} & power & Watt (W = \si{\joule\per\second})\\
-    \bottomrule
-  \end{tabular}
-  %	\caption{Provide a caption}
-%\end{table}
-
-\plt{Only include the units that your SRS actually uses.}
-
-\plt{Derived units, like newtons, pascal, etc, should show their derivation
-    (the units they are derived from) if their constituent units are in the
-    table of units (that is, if the units they are derived from are used in the
-    document).  For instance, the derivation of pascals as
-    $\si{\pascal}=\si{\newton\per\square\meter}$ is shown if newtons and m are
-    both in the table.  The derivations of newtons would not be shown if kg and
-    s are not both in the table.}
-
-\plt{The symbol for units named after people use capital letters, but the name
-  of the unit itself uses lower case.  For instance, pascals use the symbol Pa,
-  watts use the symbol W, teslas use the symbol T, newtons use the symbol N,
-  etc.  The one exception to this is degree Celsius.  Details on writing metric
-  units can be found on the 
-  \href{https://www.nist.gov/pml/weights-and-measures/writing-metric-units}
-  {NIST} web-page.}
+This section is not applicable, due to the fact that this library is a pure mathematical computation library.
 
 \subsection{Table of Symbols}
 
-The table that follows summarizes the symbols used in this document along with
-their units.  The choice of symbols was made to be consistent with the heat
-transfer literature and with existing documentation for solar water heating
-systems.  The symbols are listed in alphabetical order.
+The table that follows summarizes the symbols used in this document. 
+The choice of symbols is made to be consistent with the Fourier 
+series literature and with existing documentation for Fourier series 
+libraries.
 
 \renewcommand{\arraystretch}{1.2}
-%\noindent \begin{tabularx}{1.0\textwidth}{l l X}
-\noindent \begin{longtable*}{l l p{12cm}} \toprule
-\textbf{symbol} & \textbf{unit} & \textbf{description}\\
-\midrule 
-$A_C$ & \si[per-mode=symbol] {\square\metre} & coil surface area
-\\
-$A_\text{in}$ & \si[per-mode=symbol] {\square\metre} & surface area over 
-which heat is transferred in
-\\ 
-\bottomrule
+\noindent \begin{longtable*}{l l} \toprule
+	\textbf{symbol} & \textbf{description}\\
+	\midrule 
+	$f(t)$, $g(t)$, ... & $[-\pi/\omega, \pi/\omega]\rightarrow\mathbb{R}$ 
+	functions of $t$, where $\omega$ is defined as below\\
+	$\mathbb{R}$ & Set of real numbers\\
+	$\mathbb{Z}$ & Set of integers\\
+	$[-\pi/\omega, \pi/\omega]$ & Set of real numbers that are neither smaller 
+	than $-\pi/\omega$, nor greater than $\pi/\omega$ \\
+	$\rightarrow$ & Indicate mapping\\
+	$\mathbb{A}^{*}$ & Non-negative subset of set $\mathbb{A}$ (either $\mathbb{R}$ 
+	or $\mathbb{Z}$)\\
+	$\mathbb{A}^{+}$ & Positive subset of set $\mathbb{A}$ (either $\mathbb{R}$ 
+	or $\mathbb{Z}$)\\
+	$\sum_{i=m_1}^{m_2}a_i$ & Summation of $a_i, i=m_1, m_1+1, ..., m_2$\\
+	$n$ & Length of cut-off Fourier series\\ 
+	$\omega$ & Base frequency of Fourier series \\
+	$\mathit{CFSf}$, $\mathit{CFSg}$ & $\mathit{CFS}(f(t), n, \omega)$ and 
+	$\mathit{CFS}(g(t), n, \omega)$, respectively.\\
+	$A_i$, $B_i$& coeffecients of `sin' and `cos' functions in a CFS.\\
+	$\mathit{App}$& Approximation operation on a CFS\\
+	$\mathit{Amp}$& Amplitude function of a CFS\\
+	$\mathit{tol}$& Tolerance used for equality of CFS.\\
+	\bottomrule
 \end{longtable*}
-\plt{Use your problems actual symbols.  The si package is a good idea to use for
-  units.}
 
 \subsection{Abbreviations and Acronyms}
 
 \renewcommand{\arraystretch}{1.2}
 \begin{tabular}{l l} 
-  \toprule		
-  \textbf{symbol} & \textbf{description}\\
-  \midrule 
-  A & Assumption\\
-  DD & Data Definition\\
-  GD & General Definition\\
-  GS & Goal Statement\\
-  IM & Instance Model\\
-  LC & Likely Change\\
-  PS & Physical System Description\\
-  R & Requirement\\
-  SRS & Software Requirements Specification\\
-  \progname{} & \plt{put an expanded version of your program name here (as appropriate)}\\
-  T & Theoretical Model\\
-  \bottomrule
+	\toprule		
+	\textbf{symbol} & \textbf{description}\\
+	\midrule 
+	A & Assumption\\
+	API & Application Programming Interface\\
+	CA & Commonality Analysis\\
+	CFS & Cut-off Fourier Series\\
+	DD & Data Definition\\
+	FS & Fourier Series\\
+	GD & General Definition\\
+	GS & Goal Statement\\
+	IFS & Infinite Fourier Series\\
+	IM & Instance Model\\
+	LC & Likely Change\\
+	PS & Physical System Description\\
+	R & Requirement\\
+	\progname{} & Fourier Series Library.\\
+	T & Theoretical Model\\
+	\bottomrule
 \end{tabular}\\
-
-\plt{Add any other abbreviations or acronyms that you add}
 
 \newpage
 
+\tableofcontents
+
+~\newpage
+
 \pagenumbering{arabic}
 
-\plt{This SRS template is based on \citet{SmithAndLai2005, SmithEtAl2007}.  It
-  will get you started.  You should not modify the section headings, without
-  first discussing the change with the course instructor.  Modification means
-  you are not following the template, which loses some of the advantage of a
-  template, especially standardization.  Although the bits shown below do not
-  include type information, you may need to add this information for your
-  problem.  If you are unsure, please can ask the instructor.}
-
-\plt{Feel free to change the appearance of the report by modifying the LaTeX
-  commands.}
-
-\plt{This template document assumes that a single program is being documented.
-  If you are documenting a family of models, you should start with a commonality
-  analysis.  A separate template is provided for this.  For program
-  families you should look at \cite{Smith2006, SmithMcCutchanAndCarette2017}.
-  Single family member programs are often programs based on a single physical
-  model.  General purpose tools are usually documented as a family.  Families of
-  physical models also come up.}
-
-\plt{The SRS is not generally written, or read, sequentially.  The SRS is a
-  reference document.  It is generally read in an ad hoc order, as the need
-  arises.  For writing an SRS, and for reading one for the first time, the
-  suggested order of sections is:
-\begin{itemize}
-\item Goal Statement
-\item Instance Models
-\item Requirements
-\item Introduction
-\item Specific System Description
-\end{itemize}
-}
-
-\plt{Guiding principles for the SRS document:
-\begin{itemize}
-\item Do not repeat the same information at the same abstraction level.  If
-  information is repeated, the repetition should be at a different abstraction
-  level.  For instance, there will be overlap between the scope section and the
-  assumptions, but the scope section will not go into as much detail as the
-  assumptions section.
-\end{itemize}
-}
-
-\plt{The template description comments should be disabled before submitting this
-  document for grading.}
-
-\plt{You can borrow any wording from the text given in the template.  It is part
-  of the template, and not considered an instance of academic integrity.  Of
-  course, you need to cite the source of the template.}
-
-\plt{When the documentation is done, it should be possible to trace back to the
-  source of every piece of information.  Some information will come from
-  external sources, like terminology.  Other information will be derived, like
-  General Definitions.}
-
-\plt{An SRS document should have the following qualities: unambiguous,
-  consistent, complete, validatable, abstract and traceable.}
-
-\plt{The overall goal of the SRS is that someone that meets the Characteristics
-  of the Intended Reader (Section~\ref{sec_IntendedReader}) can learn,
-  understand and verify the captured domain knowledge.  They should not have to
-  trust the authors of the SRS on any statements.  They should be able to
-  independently verify/derive every statement made.}
 
 \section{Introduction}
+This document introduces a library, \progname, mainly designed and implemented 
+for Fourier series related calculations. This document is based on the 
+template introduced in \cite{Smith2006}, \cite{SmithAndLai2005}, 
+and \cite{SmithMcCutchanAndCarette2017}.
 
-\plt{The introduction section is written to introduce the problem.  It starts
-  general and focuses on the problem domain. The general advice is to start with
-a paragraph or two that describes the problem, followed by a ``roadmap''
-paragraph.  A roadmap orients the reader by telling them what sub-sections to
-expect in the Introduction section.}
 
 \subsection{Purpose of Document}
 
-\plt{This section summarizes the purpose of the SRS document.  It does not focus
-  on the problem itself.  The problem is described in the ``Problem
-  Description'' section (Section~\ref{Sec_pd}).  The purpose is for the document
-  in the context of the project itself, not in the context of the CAS 741
-  course.  Although the ``purpose'' of the document is to get a grade in 741,
-  you should not mention this.  Instead, ``fake it'' as if this is a real
-  project.  The purpose section will be similar between projects.  The purpose
-  of the document is the purpose of the SRS, including communication, planning
-  for the design stage, etc.}
+The scope of the family is limited to calculations related to the Fourier 
+series of mathematical functions.
 
 \subsection{Scope of Requirements} 
 
-\plt{Modelling the real world requires simplification.  The full complexity of
-  the actual physics, chemistry, biology is too much for existing models, and
-  for existing computational solution techniques.  Rather than say what is in
-  the scope, it is usually easier to say what is not.  You can think of it as
-  the scope is initially everything, and then it is constrained to create the
-  actual scope.  For instance, the problem can be restricted to 2 dimensions, or
-  it can ignore the effect of temperature (or pressure) on the material
-  properties, etc.}  
-
-\plt{The scope section is related to the assumptions section
-  (Section~\ref{sec_assumpt}).  However, the scope and the assumptions are not
-  at the same level of abstraction.  The scope is at a high level.  The focus is
-  on the ``big picture'' assumptions.  The assumptions section lists, and
-  describes, all of the assumptions.}
+The scope of the libraries is limited to calculations related to the Fourier 
+series of mathematical functions.
 
 \subsection{Characteristics of Intended Reader} \label{sec_IntendedReader}
 
-\plt{This section summarizes the skills and knowledge of the readers of the
-  SRS.  It does NOT have the same purpose as the ``User Characteristics''
-  section (Section~\ref{SecUserCharacteristics}).  The intended readers are the
-  people that will read, review and maintain the SRS.  They are the people that
-  will conceivably design the software that is intended to meet the
-  requirements.  The user, on the other hand, is the person that uses the
-  software that is built.  They may never read this SRS document.  Of course,
-  the same person could be a ``user'' and an ``intended reader.''}
-
-\plt{The intended reader characteristics should be written as unambiguously and
-  as specifically as possible.  Rather than say, the user should have an
-  understanding of physics, say what kind of physics and at what level.  For
-  instance, is high school physics adequate, or should the reader have had a
-  graduate course on advanced quantum mechanics?}
+The intended readers must have the following knowledge.
+\begin{itemize}
+	\item Deep knowledge of Fourier series (found in advanced 
+	calculus and real analysis courses);
+	\item Computational error analysis (found in introductory numerical 
+	analysis classes); and
+	\item Detailed knowledge of the programming language utilized 
+	in the implementation of this library.	
+\end{itemize}
 
 \subsection{Organization of Document}
 
-\plt{This section provides a roadmap of the SRS document.  It will help the
-  reader orient themselves.  It will provide direction that will help them
-  select which sections they want to read, and in what order.  This section will
-  be similar between project.}
+This document consists of the following sections.
+\begin{itemize}
+	\item \autoref{Sc:GSD} generally describes this library, including 
+	what it is, who uses it, and what kinds of environment it needs.
+	\item \autoref{Sc:CA} introduces the common elements of this library. 
+	This section overviews its background, defines related data, 
+	introduces theories needed for calculation, 
+	and states the goals of this library.
+	\item \autoref{Sc:Var} covers the different functions of this library, 
+	and states its variability in assumptions, calculations, and outputs.
+	\item \autoref{Sc:Req} informs users, developers, maintainers, 
+	and reviewers of this library, about its requirements, 
+	both functional ones and nonfunctional ones.
+	\item \autoref{Sc:LC} states the changes of this library that are 
+	likely in the future.
+	\item \autoref{Sc:Trace} shows the traceability matrix of this library, 
+	to inform the developers of their changes' impacts.
+	\item \autoref{Appendix:Operations} gives proof of the 
+	operation-related theories in \autoref{Sc:CA}.
+\end{itemize}
 
 \section{General System Description}
 
-This section provides general information about the system.  It identifies the
-interfaces between the system and its environment, describes the user
-characteristics and lists the system constraints.  \plt{This text can likely be
-  borrowed verbatim.}
+This section identifies the interfaces between the system and its environment,
+describes the potential user characteristics and lists the potential system
+constraints.
 
-\plt{The purpose of this section is to provide general information about the
-  system so the specific requirements in the next section will be easier to
-  understand. The general system description section is designed to be
-  changeable independent of changes to the functional requirements documented in
-  the specific system description. The general system description provides a
-  context for a family of related models.  The general description can stay the
-  same, while specific details are changed between family members.}
 
 \subsection{System Context}
 
-\plt{Your system context will include a figure that shows the abstract view of
-  the software.  Often in a scientific context, the program can be viewed
-  abstractly following the design pattern of Inputs $\rightarrow$ Calculations
-  $\rightarrow$ Outputs.  The system context will therefore often follow this
-  pattern.  The user provides inputs, the system does the calculations, and then
-  provides the outputs to the user.  The figure should not show all of the
-  inputs, just an abstract view of the main categories of inputs (like material
-  properties, geometry, etc.).  Likewise, the outputs should be presented from
-  an abstract point of view.  In some cases the diagram will show other external
-  entities, besides the user.  For instance, when the software product is a
-  library, the user will be another software program, not an actual end user.}
-
-\begin{figure}[h!]
-\begin{center}
- \includegraphics[width=0.6\textwidth]{SystemContextFigure}
-\caption{System Context}
-\label{Fig_SystemContext} 
-\end{center}
-\end{figure}
-
-\plt{For each of the entities in the system context diagram its responsibilities
-  should be listed.  Whenever possible the system should check for data quality,
-  but for some cases the user will need to assume that responsibility.}
-
+The users provide the data for the library to  calculate, and the library 
+returns the calculation results.
 \begin{itemize}
-\item User Responsibilities:
-\begin{itemize}
-\item 
-\end{itemize}
-\item \progname{} Responsibilities:
-\begin{itemize}
-\item Detect data type mismatch, such as a string of characters instead of a
-  floating point number
-\item 
-\end{itemize}
+	\item User Responsibilities:
+	\begin{itemize}
+		\item Provide the inputs of the functions in the library.
+		\item When needed, allocate memory space, and pass their location to the library, so that the library can store the output in this user-provided space.
+		\item For the conversion from mathematical functions to Fourier series, 
+		ensure that provided mathematical functions are eligible for transformation. 
+	\end{itemize}
+	\item \progname{} Responsibilities:
+	\begin{itemize}
+		\item Detect data type mismatch, such as a string of characters 
+		instead of a floating point number.
+		\item Unless otherwise mentioned in this document, detect illegality 
+		of input values, such as mismatched length of Fourier series 
+		for binary operations.
+		\item Unless otherwise mentioned, manage the memory space 
+		required by this library.
+	\end{itemize}
 \end{itemize}
 
 \subsection{User Characteristics} \label{SecUserCharacteristics}
 
-\plt{This section summarizes the knowledge/skills expected of the user.
-  Measuring usability, which is often a required non-function requirement,
-  requires knowledge of a typical user.  As mentioned above, the user is a
-  different role from the ``intended reader,'' as given in
-  Section~\ref{sec_IntendedReader}.  As in Section~\ref{sec_IntendedReader}, the
-  user characteristics should be specific an unambiguous.  For instance, ``The
-  end user of \progname{} should have an understanding of undergraduate Level 1
-  Calculus and Physics.''}
+The end user of \progname{} should have an understanding of undergraduate 
+level 2 Calculus and/or Real Analysis, undergraduate level 1 Numerical 
+Analysis, and any one of the programming languages, in which this library 
+provides a set of APIs.
 
 \subsection{System Constraints}
 
-\plt{System constraints differ from other type of requirements because they
-  limit the developers’ options in the system design and they identify how the
-  eventual system must fit into the world. This is the only place in the SRS
-  where design decisions can be specified.  That is, the quality requirement for
-  abstraction is relaxed here.  However, system constraints should only be
-  included if they are truly required. In the context of CAS 741, you often will
-  may not have any system constraints.}
+The potential systems must contain the compilation/interpretation environment 
+for the programming languages in which this library is developed, as well 
+as dependent libraries.
 
 \section{Specific System Description}
 
 This section first presents the problem description, which gives a high-level
 view of the problem to be solved.  This is followed by the solution characteristics
 specification, which presents the assumptions, theories, definitions and finally
-the instance models.  \plt{Add any project specific details that are relevant
-  for the section overview.}
+the instance models.
 
-\subsection{Problem Description} \label{Sec_pd}
-
-\progname{} is intended to solve ... \plt{What problem does your program solve?
-The description here should be in the problem space, not the solution space.}
+\subsection{Problem Description and Background Overview} \label{Sbsc:CA-Background}
+Fourier series are used in lots of analysis, analysis of signals as an example 
+\cite{papoulis1977signal}. The Fourier series of a function mainly uses 
+a linear combination of `sin' and `cos' functions to represent and approximate 
+this function. In real-life research, we sometimes need to perform Fourier 
+series related operations. For example, when we need to analyze the total 
+effects of two signals, each approximated by its Fourier series, 
+we need to calculated the summation of these two Fourier series. 
+Or, when we need to calculate the strength of a signal from its Fourier 
+series, we need to calculate this Fourier series' amplitude.
 
 \subsubsection{Terminology and  Definitions}
-
-\plt{This section is expressed in words, not with equations.  It provide the
-  meaning of the different words and phrases used in the domain of the problem.
-The terminology is used to introduce concepts from the world outside of the
-mathematical model  The terminology provides a real world connection to give the
-mathematical model meaning.}
 
 This subsection provides a list of terms that are used in the subsequent
 sections and their meaning, with the purpose of reducing ambiguity and making it
 easier to correctly understand the requirements:
 
 \begin{itemize}
-
-\item 
-
+	
+	\item Binary operations: an operation that involves two operands.
+	\item Fourier series: a series of real numbers acting as weights in the weighed
+	sum of 'sin' and 'cos' functions, to represent/approximate a function.
+	\item CFS: short for cut-off Fourier Series, a Fourier Series with finite number of non-zero weights.\an{Definition of CFS is given here.}
+	\item Amplitude: a map $\mathit{CFS}\rightarrow \mathbb{R}^{*}$ to measure this CFS's strength.
 \end{itemize}
+\an{This section needs further expansion.}  \wss{Yes, I agree.  In particular,
+	you haven't said what CFS stands for.  (Terms should not only be defined in
+	the table of symbols.}
 
-\subsubsection{Physical System Description} \label{sec_phySystDescrip}
-
-\plt{The purpose of this section is to clearly and unambiguously state the
-  physical system that is to be modelled. Effective problem solving requires a
-  logical and organized approach. The statements on the physical system to be
-  studied should cover enough information to solve the problem. The physical
-  description involves element identification, where elements are defined as
-  independent and separable items of the physical system. Some example elements
-  include acceleration due to gravity, the mass of an object, and the size and
-  shape of an object. Each element should be identified and labelled, with their
-  interesting properties specified clearly. The physical description can also
-  include interactions of the elements, such as the following: i) the
-  interactions between the elements and their physical environment; ii) the
-  interactions between elements; and, iii) the initial or boundary conditions.}
-
-The physical system of \progname{}, as shown in Figure~?,
-includes the following elements:
-
-\begin{itemize}
-
-\item[PS1:] 
-
-\item[PS2:] ...
-
-\end{itemize}
-
-\plt{A figure here makes sense for most SRS documents}
-
-% \begin{figure}[h!]
-% \begin{center}
-% %\rotatebox{-90}
-% {
-%  \includegraphics[width=0.5\textwidth]{<FigureName>}
-% }
-% \caption{\label{<Label>} <Caption>}
-% \end{center}
-% \end{figure}
 
 \subsubsection{Goal Statements}
 
-\plt{The goal statements refine the ``Problem Description''
-  (Section~\ref{Sec_pd}).  A goal is a functional objective the system under
-  consideration should achieve. Goals provide criteria for sufficient
-  completeness of a requirements specification and for requirements
-  pertinence. Goals will be refined in Section “Instanced Models”
-  (Section~\ref{sec_instance}). Large and complex goals should be decomposed
-  into smaller sub-goals.  The goals are written abstractly, with a minimal
-  amount of technical language.  They should be understandable by non-domain
-  experts.}
-
-\noindent Given the \plt{inputs}, the goal statements are:
+\noindent Given the corresponding inputs, the goal statements are:
 
 \begin{itemize}
-
-\item[GS\refstepcounter{goalnum}\thegoalnum \label{G_meaningfulLabel}:] \plt{One
-    sentence description of the goal.  There may be more than one.  Each Goal
-    should have a meaningful label.}
-
+	
+	\item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:ConvertFromFunc}:] 
+	When given a function $f(t)$, the cut-off length $n$, and a base frequency 
+	$\omega$, return the function's CFS $\mathit{CFSf}=\mathit{CFS}(f(t), n, \omega)$.
+	\item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:FuncValue}:] 
+	When given a CFS $\mathit{CFSf}=\mathit{CFS}(f(t), n, \omega)$ and a value of $t$ as $t_1$, 
+	return the approximated value of $f(t_1)$ computed from the given values.
+	\item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:Operation}:] 
+	When given two CFS's $\mathit{CFSf}$, $\mathit{CFSg}$, and one of the 
+	operations addition, subtraction, multiplication, and division, return 
+	the result of this operation on these two CFS's.
+	\item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:Function}:] 
+	When given a CFS $\mathit{CFSf}$, and a function $g(t)$ from the basic 
+	function sets defined by this library (see \autoref{Appendix:BasicFunction}), return the CFS $g(CFSf)$.\an{Basic functions refined in the appendix} 
+	\an{I don't know whether to define the basic function set here or not. 
+		I can, and I don't see any possible changes} \wss{The requirements should be
+		complete, so you should define the basic function set.  I suggest introducing a
+		data definition for the basic function set.  If the set should change, you can
+		always document the change, or ``fake it''.}
+	\item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:ConvertFromOther}:] 
+	When given a set of values including $n$, $\omega$, $A_i$'s, and $B_i$'s, 
+	return the CFS built on these values.
+	\item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:ConvertToOther}:] 
+	When given a CFS, store its values of $n$, $\omega$, $A_i$'s, and $B_i$'s 
+	in the user-designated spaces.
+	\item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:Amp}:] When given 
+	a CFS, return its amplitude.
+	\item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:ToleratedEquality}:] 
+	When given two CFS's and a tolerance, return whether they are equal 
+	within the tolerance.
 \end{itemize}
 
-\subsection{Solution Characteristics Specification}
-
-\plt{This section specifies the information in the solution domain of the system
-  to be developed. This section is intended to express what is required in
-  such a way that analysts and stakeholders get a clear picture, and the
-  latter will accept it. The purpose of this section is to reduce the problem
-  into one expressed in mathematical terms. Mathematical expertise is used to
-  extract the essentials from the underlying physical description of the
-  problem, and to collect and substantiate all physical data pertinent to the
-  problem.}
-
-\plt{This section presents the solution characteristics by successively refining
-  models.  It starts with the abstract/general Theoretical Models (TMs) and
-  refines them to the concrete/specific Instance Models (IMs).  If necessary
-  there are intermediate refinements to General Definitions (GDs).  All of these
-  refinements can potentially use Assumptions (A) and Data Definitions (DD).
-  TMs are refined to create new models, that are called GMs or IMs. DDs are not
-  refined; they are just used. GDs and IMs are derived, or refined, from other
-  models. DDs are not derived; they are just given. TMs are also just given, but
-  they are refined, not used.  If a potential DD includes a derivation, then
-  that means it is refining other models, which would make it a GD or an IM.}
-
-\plt{The above makes a distinction between ``refined'' and ``used.'' A model is
-  refined to another model if it is changed by the refinement. When we change a
-  general 3D equation to a 2D equation, we are making a refinement, by applying
-  the assumption that the third dimension does not matter. If we use a
-  definition, like the definition of density, we aren't refining, or changing
-  that definition, we are just using it.}
-
-\plt{The same information can be a TM in one problem and a DD in another.  It is
-  about how the information is used.  In one problem the definition of
-  acceleration can be a TM, in another it would be a DD.}
-
-\plt{There is repetition between the information given in the different chunks
-  (TM, GDs etc) with other information in the document.  For instance, the
-  meaning of the symbols, the units etc are repeated.  This is so that the
-  chunks can stand on their own when being read by a reviewer/user.  It also
-  facilitates reuse of the models in a different context.}
-
-\noindent \plt{The relationships between the parts of the document are show in
-  the following figure.  In this diagram ``may ref'' has the same role as
-  ``uses'' above.  The figure adds ``Likely Changes,'' which are able to
-  reference (use) Assumptions.}
-
-\begin{figure}[H]
-  \includegraphics[scale=0.9]{../../../Lectures/Figures/RelationsBetweenTM_GD_IM_DD_A.pdf}
-\end{figure}
-
-The instance models that govern \progname{} are presented in
-Subsection~\ref{sec_instance}.  The information to understand the meaning of the
-instance models and their derivation is also presented, so that the instance
-models can be verified.
-
-\subsubsection{Assumptions} \label{sec_assumpt}
-
-\plt{The assumptions are a refinement of the scope.  The scope is general, where
-  the assumptions are specific.  All assumptions should be listed, even those
-  that domain experts know so well that they are rarely (if ever) written down.}
-\plt{The document should not take for granted that the reader knows which
-  assumptions have been made. In the case of unusual assumptions, it is
-  recommended that the documentation either include, or point to, an explanation
-  and justification for the assumption.}
-
-This section simplifies the original problem and helps in developing the
-theoretical model by filling in the missing information for the physical
-system. The numbers given in the square brackets refer to the theoretical model
-[T], general definition [GD], data definition [DD], instance model [IM], or
-likely change [LC], in which the respective assumption is used.
-
-\begin{itemize}
-
-\item[A\refstepcounter{assumpnum}\theassumpnum \label{A_meaningfulLabel}:]
-  \plt{Short description of each assumption.  Each assumption
-    should have a meaningful label.  Use cross-references to identify the
-    appropriate traceability to T, GD, DD etc., using commands like dref, ddref
-    etc.  Each assumption should be atomic - that is, there should not be an
-    explicit (or implicit) ``and'' in the text of an assumption.}
-
-\end{itemize}
-
-\subsubsection{Theoretical Models}\label{sec_theoretical}
-
-\plt{Theoretical models are sets of abstract mathematical equations or axioms
-  for solving the problem described in Section ``Physical System Description''
-  (Section~\ref{sec_phySystDescrip}). Examples of theoretical models are
-  physical laws, constitutive equations, relevant conversion factors, etc.}
-
-This section focuses on the general equations and laws that \progname{} is based
-on.  \plt{Modify the examples below for your problem, and add additional models
-  as appropriate.}
-
-~\newline
-
-\noindent
-\begin{minipage}{\textwidth}
-\renewcommand*{\arraystretch}{1.5}
-\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-  \hline
-  \rowcolor[gray]{0.9}
-  Number& T\refstepcounter{theorynum}\thetheorynum \label{T_COE}\\
-  \hline
-  Label&\bf Conservation of thermal energy\\
-  \hline
-  Equation&  $-{\bf \nabla \cdot q} + g$ = $\rho C \frac{\partial T}{\partial t}$\\
-  \hline
-  Description & 
-                The above equation gives the conservation of energy for transient heat transfer in a material
-                of specific heat capacity $C$ (\si{\joule\per\kilogram\per\celsius}) and density $\rho$ 
-                (\si{\kilogram\per\cubic\metre}), where $\bf q$ is the thermal flux vector (\si{\watt\per\square\metre}),
-                $g$ is the volumetric heat generation
-                (\si{\watt\per\cubic\metre}), $T$ is the temperature
-                (\si{\celsius}),  $t$ is time (\si{\second}), and $\nabla$ is
-                the gradient operator.  For this equation to apply, other forms
-                of energy, such as mechanical energy, are assumed to be negligible in the
-                system (\aref{A_OnlyThermalEnergy}).  In general, the material properties ($\rho$ and $C$) depend on temperature.\\
-  \hline
-  Source &
-           \url{http://www.efunda.com/formulae/heat_transfer/conduction/overview_cond.cfm}\\
-  % The above web link should be replaced with a proper citation to a publication
-  \hline
-  Ref.\ By & \dref{ROCT}\\
-  \hline
-\end{tabular}
-\end{minipage}\\
-
-~\newline
-
-\subsubsection{General Definitions}\label{sec_gendef}
-
-\plt{General Definitions (GDs) are a refinement of one or more TMs, and/or of
-  other GDs.  The GDs are less abstract than the TMs.  Generally the reduction
-  in abstraction is possible through invoking (using/referencing) Assumptions.
-  For instance, the TM could be Newton's Law of Cooling stated abstracting.  The
-  GD could take the general law and apply it to get a 1D equation.}
-
-This section collects the laws and equations that will be used in building the
-instance models.
-
-\plt{Some projects may not have any content for this section, but the section
-  heading should be kept.}  \plt{Modify the examples below for your problem, and
-  add additional definitions as appropriate.}
-
-~\newline
-
-\noindent
-\begin{minipage}{\textwidth}
-\renewcommand*{\arraystretch}{1.5}
-\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-\hline
-\rowcolor[gray]{0.9}
-Number& GD\refstepcounter{defnum}\thedefnum \label{NL}\\
-\hline
-Label &\bf Newton's law of cooling \\
-\hline
-% Units&$MLt^{-3}T^0$\\
-% \hline
-SI Units&\si{\watt\per\square\metre}\\
-\hline
-Equation&$ q(t) = h \Delta T(t)$  \\
-\hline
-Description &
-Newton's law of cooling describes convective cooling from a surface.  The law is
-stated as: the rate of heat loss from a body is proportional to the difference
-in temperatures between the body and its surroundings.
-\\
-& $q(t)$ is the thermal flux (\si{\watt\per\square\metre}).\\
-& $h$ is the heat transfer coefficient, assumed independent of $T$ (\aref{A_hcoeff})
-	(\si{\watt\per\square\metre\per\celsius}).\\
-&$\Delta T(t)$= $T(t) - T_{\text{env}}(t)$ is the time-dependent thermal gradient
-between the environment and the object (\si{\celsius}).
-\\
-\hline
-  Source & Citation here \\
-  \hline
-  Ref.\ By & \ddref{FluxCoil}, \ddref{FluxPCM}\\
-  \hline
-\end{tabular}
-\end{minipage}\\
-
-\subsubsection*{Detailed derivation of simplified rate of change of temperature}
-
-\plt{This may be necessary when the necessary information does not fit in the
-  description field.}
-\plt{Derivations are important for justifying a given GD.  You want it to be
-  clear where the equation came from.}
-
-\subsubsection{Data Definitions}\label{sec_datadef}
-
-\plt{The Data Definitions are definitions of symbols and equations that are
-  given for the problem.  They are not derived; they are simply used by other
-  models.  For instance, if a problem depends on density, there may be a data
-  definition for the equation defining density.  The DDs are given information
-  that you can use in your other modules.}
-
-\plt{All Data Definitions should be used (referenced) by at least one other
-  model.}
+\subsection{Data Definitions} \label{sec_datadef}
 
 This section collects and defines all the data needed to build the instance
-models. The dimension of each quantity is also given.  \plt{Modify the examples
-  below for your problem, and add additional definitions as appropriate.}
+models.
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{DD:IFS}\\
+		\hline
+		Label& \bf Infinite Fourier Series (IFS) of mathematical functions\\
+		\hline
+		Symbol &$\mathit{IFS}$\\
+		\hline
+		Equation&$\mathit{IFS}(f(t), \omega) = \big[A_{inf, i}, i=0, 1, ...; B_{inf, i}, 
+		i=1, 2, ...\big]$, satisfying $f(t)=\sum_{i=0}^{+\infty}A_{inf, i}
+		\cos(i\omega t)+\sum_{i=1}^{+\infty}B_{inf, i}\sin(i\omega t)$\\
+		\hline
+		Description & In this equation, \begin{itemize}
+			\item $f(t)$ is an $[-\pi/\omega, \pi/\omega]]
+			\rightarrow\mathbb{R}$ function, whose IFS exists as assumed in \aref{Ass:FunctionProperty}; \wss{Do you want to
+				add an assumption that the IFS exists?  Otherwise, this is something
+				you will need to detect.}\an{Added}
+			\item $\omega$ is the base frequency of this IFS, 
+			and it is designated by the user;
+			\item $A_{inf, i}\in\mathbb{R}, i=0, 1, ...$; and
+			\item $B_{inf, i}\in\mathbb{R}, i=1, 2, ...$.
+		\end{itemize}  \\
+		\hline
+		Sources& Tolstov, G.P. and Silverman, R.A., Fourier Series, 
+		Dover Books on Mathematics, 1976, Dover Publications, 
+		\cite{tolstov1976fourier}\\
+		\hline
+		Ref.\ By & \iref{DD:CFS}, \aref{Ass:FunctionProperty}, \calref{Cal:Normal}, 
+		\oref{Output:Faithful},  and \oref{Output:Error}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{DD:CFS}\\
+		\hline
+		Label& \bf Cut-off Fourier Series (CFS) of mathematical functions\\
+		\hline
+		Symbol &$\mathit{CFS}: (n\in\mathbb{N},\omega\in \mathbb{R}^{+}, [A_0, ..., A_n, B_1, ..., B_n]\in\mathbb{R}^{(2n+1)})$, generated from given $f(t)\in(\mathbb{R}\rightarrow\mathbb{R}), n, \omega$\wss{What is the type signature for CFS?
+			Is it different than the type for CFSf?}\an{CFSf is the CFS of $f(t)$, as said somewhere in this document. I will reiterate after this DD}\\
+		\hline
+		Equation&$\mathit{CFS}(f(t), n, \omega)=\big[A_i, i=0, 1, ..., n; 
+		B_i, i=1, 2, ..., n\big]$, satisfying $A_i=A_{inf, i}, i=0, 1, ..., n; 
+		B_i=B_{inf, i}, i=1, 2, ..., n$, where 
+		$\omega$, $A_{inf, i}$'s 
+		and $B_{inf, i}$'s come from $\mathit{IFS}(f(t), \omega)$ \\
+		\hline
+		Description & $n\in \mathbb{Z}^{*}$ is called cut-off length.\\
+		\hline
+		Sources& Defined by author\\
+		\hline
+		Ref.\ By & \tref{T:Transformation}, \tref{T:Addition}, 
+		\tref{T:Subtraction}, \tref{T:Multiplication}, 
+		\tref{T:Division}, \tref{T:Amplitude}, 
+		\aref{Ass:FunctionProperty},  \calref{Cal:Normal}, 
+		
+		\oref{Output:Faithful}, and \oref{Output:Error}\\
+		\hline
+		Note & $\mathit{CFS}$ is a mapping given above, its result is of type $CFST$, and any symbol in this document that consists of $CFS$ followed by lower case letters are objects of type $CFST$.\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
+As said before, we use $\mathit{CFSf}$ and $\mathit{CFSg}$ to represent $\mathit{CFS}(f(t), n, \omega)$ and $\mathit{CFS}(g(t), n, \omega)$ respectively.
+From now on, denote $A_i$'s and $B_i$'s in $\mathit{CFSf}$ 
+as $A_{f, i}$'s and $B_{f, i}$'s respectively, and same for 
+$A_{g, i}$'s and $B_{g, i}$'s.
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& DD\refstepcounter{datadefnum}\thedatadefnum 
+		\label{DD:Approximation}\\
+		\hline
+		Label& \bf Approximation of function values from CFS\\
+		\hline
+		Symbol &$\mathit{App}: (\text{CFST}, \mathbb{R})\rightarrow\mathbb{R}$ \wss{This function would be clearer if
+			you gave its type signature here.}\an{Addressed here}\\
+		\hline
+		Equation& $\mathit{App}(\mathit{CFSf}, t_1)=\sum_{i=0}^{n}A_{f,i}\cos(i\omega t_1)+
+		\sum_{i=1}^{n}B_{f,i}\sin(i\omega t_1)$ \\
+		\hline
+		Description & Define approximated function value of a function 
+		calculated from its CFS.\\
+		\hline
+		Sources& Defined by author\\
+		\hline
+		Ref.\ By & \iref{IM:Addition}, \calref{Cal:Normal}, 
+		\oref{Output:Faithful}, and \oref{Output:Error}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
+From now on, we are going to introduce a series of operators/functions on $\mathit{CFST}$ type objects $\mathit{CFSf}$ (and possibly $\mathit{CFSg}$ in some cases). All data included in these objects are fully decided by the callers of functions/operators. The $n$ and $\omega$ used in their DD's are these of the parameters (if there are multiple $\mathit{CSFT}$ objects, their $n$ and $\omega$ are required to be the same, and will be checked by the function/operator)
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{DD:Addition}\\
+		\hline
+		Label& \bf Addition of CFS's \wss{Adding the type signature
+			would be helpful.}\an{Addressed below}\\
+		\hline
+		Symbol &$+: (\mathit{CFST}, \mathit{CFST})\rightarrow\mathit{CFST}$\\
+		\hline
+		Equation& $\mathit{CFSf}+\mathit{CFSg}=\mathit{CFS}(f(t)+g(t), 
+		n, \omega)$ \\
+		\hline
+		Description & Define the rule of addition of two CFS's.\wss{Do
+			you want to be able to vary $n$ and $\omega$?, or
+			do you want the input to be the CFSf already
+			calculated for a given $n$ and $\omega$?.  The
+			difference in one case is that addition needs to
+			determine the CFS.  In the other case the CFS
+			comes in as an ``object.''}\an{Addressed before this DD}\\
+		\hline
+		Sources& Defined by author\\
+		\hline
+		Ref.\ By & \iref{IM:Addition}, \calref{Cal:Normal}, 
+		\oref{Output:Faithful}, 
+		and \oref{Output:Error}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& DD\refstepcounter{datadefnum}\thedatadefnum 
+		\label{DD:Subtraction}\\
+		\hline
+		Label& \bf Subtraction of CFS's\\
+		\hline
+		Symbol &$-: (\mathit{CFST}, \mathit{CFST})\rightarrow\mathit{CFST}$\\
+		\hline
+		Equation& $\mathit{CFSf}-\mathit{CFSg}=
+		\mathit{CFS}(f(t)-g(t), n, \omega)$ \\
+		\hline
+		Description & Define the rule of subtraction of two CFS's\\
+		\hline
+		Sources& Defined by author\\
+		\hline
+		Ref.\ By & \iref{IM:Subtraction}, \calref{Cal:Normal}, 
+		\oref{Output:Faithful}, and \oref{Output:Error}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& DD\refstepcounter{datadefnum}\thedatadefnum 
+		\label{DD:Multiplication}\\
+		\hline
+		Label& \bf Multiplication of CFS's\\
+		\hline
+		Symbol &$*: (\mathit{CFST}, \mathit{CFST})\rightarrow\mathit{CFST}$\\
+		\hline
+		Equation& $\mathit{CFSf}*\mathit{CFSg}=
+		\mathit{CFS}(f(t)*g(t), n, \omega)$ \\
+		\hline
+		Description & Define the rule of multiplication of two CFS's\\
+		\hline
+		Sources& Defined by author\\
+		\hline
+		Ref.\ By & \iref{IM:Multiplication}, \calref{Cal:Normal}, 
+		\oref{Output:Faithful}, 
+		and \oref{Output:Error}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& DD\refstepcounter{datadefnum}\thedatadefnum 
+		\label{DD:Division}\\
+		\hline
+		Label& \bf Division of CFS's\\
+		\hline
+		Symbol &$/: (\mathit{CFST}, \mathit{CFST})\rightarrow\mathit{CFST}$\\
+		\hline
+		Equation& $\mathit{CFSf}/\mathit{CFSg}=
+		\mathit{CFS}(f(t)/g(t), n, \omega)$ \\
+		\hline
+		Description & Define the rule of division of two CFS's\\
+		\hline
+		Sources& Defined by author\\
+		\hline
+		Ref.\ By & \iref{IM:Division}, \calref{Cal:Normal}, 
+		\oref{Output:Faithful}, 
+		and \oref{Output:Error}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& DD\refstepcounter{datadefnum}\thedatadefnum 
+		\label{DD:Function}\\
+		\hline
+		Label& \bf Function of CFS's\\
+		\hline
+		Symbol &$\mathit{CFSFunc}: (\mathit{CFST}, \mathbb{R}\rightarrow\mathbb{R})\rightarrow\mathit{CFST}$\\
+		\hline
+		Equation& $\mathit{CFSFunc}(\mathit{CFSf}, g)=\mathit{CFS}(g(f(t)), n, \omega)$.\\
+		\hline
+		Description & Define the rule of the function of a CFS\\
+		\hline
+		Sources& Defined by author\\
+		\hline
+		Ref.\ By & \iref{IM:Function}, \aref{Ass:BasicFunction}, 
+		\calref{Cal:Normal}, and \oref{Output:Faithful}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& DD\refstepcounter{datadefnum}\thedatadefnum 
+		\label{DD:Amplitude}\\
+		\hline
+		Label& \bf Amplitude of a CFS\\
+		\hline
+		Symbol &$\mathit{Amp}: \mathit{CFST}\rightarrow\mathbb{R}^{*}$\\
+		\hline
+		Equation& \begin{equation}
+		\mathit{Amp}(\mathit{CFSf})=\sqrt{\frac{\omega}
+			{2\pi}\int_{-\pi/\omega}^{\pi/\omega}
+			\mathit{App}^2(\mathit{CSFf}, t_1)\textit{d}t_1}
+		\end{equation}.\\
+		\hline
+		Description & Define the amplitude/size of a CFS\\
+		\hline
+		Sources& Defined by author\\
+		\hline
+		Ref.\ By & \iref{IM:Amplitude}, \aref{Ass:FunctionProperty}, 
+		\calref{Cal:Normal}, and \oref{Output:Faithful}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& DD\refstepcounter{datadefnum}\thedatadefnum 
+		\label{DD:Equality}\\
+		\hline
+		Label& \bf Tolerated equality of two CFS's\\
+		\hline
+		Symbol &$\mathit{TolEq}: (\mathit{CFST}, \mathit{CFST}, \mathbb{R})\rightarrow\mathit{Bool}$\\
+		\hline
+		Equation&  $TolEq(CFSf, CFSg, err)=(\mathit{Amp}
+		(\mathit{CFSf}-\mathit{CFSg})\leq \mathit{err})$  \wss{Would a
+			relative error make more sense than an absolute error?}\an{Relative error and absolute error can be converted by users easily, with the help of the $\mathit{Amp}$ function. I choose to implement an absolute error version because it is more basic, and I can develop a relative error version easily from it if needed.}\\
+		\hline
+		Description & Define whether two CFS's are equal within a given 
+		tolerance\\
+		\hline
+		Sources& Defined by author\\
+		\hline
+		Ref.\ By & \iref{IM:ToleratedEquality}, \calref{Cal:Normal}, 
+		and \oref{Output:Faithful}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+
+\subsection{Theoretical Models} \label{sec_theoretical}
+
+This section focuses on the general equations and laws that \progname{} is based
+on.
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& T\refstepcounter{theorynum}\thetheorynum 
+		\label{T:Transformation}\\
+		\hline
+		Label&\bf Fourier Transformation\\
+		\hline
+		Equation&  
+		\begin{equation}
+		\label{Eq:DFT}
+		\begin{aligned}
+		A_0 &=\frac{\omega}{2\pi}\int_{-\pi/\omega}^{\pi/\omega}f(t); \\
+		A_i &=\frac{\omega}{\pi}\int_{-\pi/\omega}^{\pi/\omega}f(t)\cos(i\omega t),
+		~i=1:n; \\
+		B_i &=\frac{\omega}{\pi}\int_{-\pi/\omega}^{\pi/\omega}f(t)\sin(i\omega t),
+		~i=1:n. \\
+		\end{aligned}
+		\end{equation}\\
+		\hline
+		Description & The above equation calculates $A_{inf,i}$'s and $B_{inf,i}$'s, 
+		thus $A_i (i=0:n)$, $B_i(i=1:n)$ in $\mathit{CFSf}$ from given $f(t)$, $n$ 
+		and $\omega$. The definitions of these variables can be found in \ddref{IFS} and \ddref{CFS}. \wss{There should be a reference to DD1 here.}\an{Added here.}\\
+		
+		\hline
+		Source & Tolstov, G.P. and Silverman, R.A., Fourier Series, Dover 
+		Books on Mathematics, 1976, Dover Publications, 
+		\cite{tolstov1976fourier}\\
+		\hline
+		Ref.\ By & \aref{Ass:FunctionProperty}, \calref{Cal:Normal}, 
+		\oref{Output:Faithful}, and \oref{Output:Error}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+
+~\newline
+
+For the following operations, one of the CFS's can be a constant $a$. In this
+case, the corresponding CFS shall be one with $A_0=a$, $A_i=0, B_i=0, (i=1:n)$.
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& T\refstepcounter{theorynum}\thetheorynum 
+		\label{T:Addition}\\
+		\hline
+		Label&\bf Addition of two CFS's\\
+		\hline
+		Equation&  
+		\begin{equation}
+		\begin{aligned}
+		A_{f+g, i}&=A_{f, i} + A_{g, i},~i=0:n\\
+		B_{f+g, i}&=B_{f, i} + B_{g, i},~i=1:n\\
+		\end{aligned}
+		\end{equation}\\
+		\hline
+		Description & The above equation calculates $A_i (i=0:n)$, $B_i(i=1:n)$ in $\mathit{CFS}(f(t)+g(t), n, \omega)$ (represented by $A_{f+g, i}$ and $B_{f+g, i}$ respectively) from $\mathit{CFSf}$ and $\mathit{CFSg}$.\\
+		
+		\hline
+		Source & Developed by author in \autoref{Appendix:Operations}
+		\wss{Great!  I was just going to ask how you know the
+			above relation holds, and then I saw your appendix.
+			Good work!}\\
+		\hline
+		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, 
+		and \oref{Output:Faithful}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& T\refstepcounter{theorynum}\thetheorynum 
+		\label{T:Subtraction}\\
+		\hline
+		Label&\bf Subtraction of two CFS's\\
+		\hline
+		Equation&  
+		\begin{equation}
+		\begin{aligned}
+		A_{f-g, i}
+		&=A_{f, i} - A_{g, i},~i=0:n\\
+		B_{f-g, i}
+		&=B_{f, i} - B_{g, i},~i=1:n\\
+		\end{aligned}
+		\end{equation}\\
+		\hline
+		Description & The above equation calculates 
+		$A_i(i=0:n)$, $B_i(i=1:n)$ in 
+		$\mathit{CFS}(f(t)-g(t), n, \omega)$ 
+		(represented by $A_{f-g, i}$ and $B_{f-g, i}$ respectively) 
+		from $\mathit{CFSf}$ and $\mathit{CFSg}$.\\
+		\hline
+		Source & Developed by author in \autoref{Appendix:Operations}\\
+		\hline
+		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, 
+		and \oref{Output:Faithful}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
 
 ~\newline
 
 \noindent
 \begin{minipage}{\textwidth}
-\renewcommand*{\arraystretch}{1.5}
-\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-\hline
-\rowcolor[gray]{0.9}
-Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{FluxCoil}\\
-\hline
-Label& \bf Heat flux out of coil\\
-\hline
-Symbol &$q_C$\\
-\hline
-% Units& $Mt^{-3}$\\
-% \hline
-  SI Units & \si{\watt\per\square\metre}\\
-  \hline
-  Equation&$q_C(t) = h_C (T_C - T_W(t))$, over area $A_C$\\
-  \hline
-  Description & 
-                $T_C$ is the temperature of the coil (\si{\celsius}).  $T_W$ is the temperature of the water (\si{\celsius}).  
-                The heat flux out of the coil, $q_C$ (\si{\watt\per\square\metre}), is found by
-                assuming that Newton's Law 
-                of Cooling applies (\aref{A_Newt_coil}).  This law (\dref{NL}) is used on the surface of
-                the coil, which has area $A_C$ (\si{\square\metre}) and heat 
-                transfer coefficient $h_C$
-                (\si{\watt\per\square\metre\per\celsius}).  This equation
-                assumes that the temperature of the coil is constant over time (\aref{A_tcoil}) and that it does not vary along the length
-                of the coil (\aref{A_tlcoil}).
-  \\
-  \hline
-  Sources& Citation here \\
-  \hline
-  Ref.\ By & \iref{ewat}\\
-  \hline
-\end{tabular}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& T\refstepcounter{theorynum}\thetheorynum \label{T:Multiplication}\\
+		\hline
+		Label&\bf Multiplication of two CFS's\\
+		\hline
+		Equation&  
+		\begin{equation}
+		\begin{aligned}
+		A_{f*g, i}&=\frac{1}{2}\sum_{j=0}^{n-i}(A_{f,i}A_{g,i+j}
+		+A_{f, i+j}A_{g, i}+B_{f,i}B_{g,i+j}+B_{f,i+j}B_{g,i})\\
+		&+\frac{1}{2}\sum_{j=0}^{i}(A_{f,j}A_{g,i-j}-B_{f,j}B_{g,i-j}),
+		~i=0:n\\
+		B_{f*g, i}&=\frac{1}{2}\sum_{j=0}^{n-i}(A_{f,i}B_{g,i+j}
+		+A_{f, i+j}B_{g, i}+B_{f,i}A_{g,i+j}+B_{f,i+j}A_{g,i})\\
+		&+\frac{1}{2}\sum_{j=0}^{i}(A_{f,j}B_{g,i-j}+B_{f,j}A_{g,i-j}),
+		~i=1:n\\
+		\end{aligned}
+		\end{equation}\\
+		\hline
+		Description & The above equation calculates $A_i(i=0:n)$, 
+		$B_i(i=1:n)$ in $\mathit{CFS}(f(t)*g(t), n, \omega)$ 
+		(represented by $A_{f*g, i}$ and $B_{f*g, i}$ respectively) 
+		from $\mathit{CFSf}$ and $\mathit{CFSg}$.\\
+		\hline
+		Source & Developed by author in \autoref{Appendix:Operations}\\
+		\hline
+		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, 
+		and \oref{Output:Faithful}\\
+		\hline
+	\end{tabular}
 \end{minipage}\\
 
-\subsubsection{Instance Models} \label{sec_instance}    
-
-\plt{The motivation for this section is to reduce the problem defined in
-  ``Physical System Description'' (Section~\ref{sec_phySystDescrip}) to one
-  expressed in mathematical terms. The IMs are built by refining the TMs and/or
-  GDs.  This section should remain abstract.  The SRS should specify the
-  requirements without considering the implementation.}
-
-This section transforms the problem defined in Section~\ref{Sec_pd} into 
-one which is expressed in mathematical terms. It uses concrete symbols defined 
-in Section~\ref{sec_datadef} to replace the abstract symbols in the models 
-identified in Sections~\ref{sec_theoretical} and~\ref{sec_gendef}.
-
-The goals \plt{reference your goals} are solved by \plt{reference your instance
-  models}.  \plt{other details, with cross-references where appropriate.}
-\plt{Modify the examples below for your problem, and add additional models as
-  appropriate.}
+~\newline
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& T\refstepcounter{theorynum}\thetheorynum 
+		\label{T:Division}\\
+		\hline
+		Label&\bf Division of two CFS's\\
+		\hline
+		Equation& Solve the following equations for $A_{f/g, i}$'s 
+		and $B_{f/g, i}$'s.   
+		\begin{equation}
+		\begin{aligned}
+		A_{f, i}&=\frac{1}{2}\sum_{j=0}^{n-i}(A_{f/g,i}A_{g,i+j}
+		+A_{f/g, i+j}A_{g, i}+B_{f/g,i}B_{g,i+j}+B_{f/g,i+j}B_{g,i})\\
+		&+\frac{1}{2}\sum_{j=0}^{i}(A_{f/g,j}A_{g,i-j}-B_{f/g,j}B_{g,i-j}),
+		~i=0:n\\
+		B_{f, i}&=\frac{1}{2}\sum_{j=0}^{n-i}(A_{f/g,i}B_{g,i+j}
+		+A{f/g, i+j}B_{g, i}+B_{f/g,i}A_{g,i+j}+B_{f/g,i+j}A_{g,i})\\
+		&+\frac{1}{2}\sum_{j=0}^{i}(A_{f/g,j}B_{g,i-j}+B_{f/g,j}A_{g,i-j}),
+		~i=1:n\\
+		\end{aligned}
+		\end{equation}\\
+		\hline
+		Description & We solve the above equations for 
+		$A_i(i=0:n)$, $B_i(i=1:n)$ in $\mathit{CFS}(f(t)/g(t), n, \omega)$ 
+		(represented by $A_{f/g, i}$'s and $B_{f/g, i}$'s respectively) 
+		from given $\mathit{CFSf}$ and $\mathit{CFSg}$.\\
+		\hline
+		Source & Developed by author in \autoref{Appendix:Operations}\\
+		\hline
+		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, 
+		\oref{Output:Faithful}, 
+		and \oref{Output:Error}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
 
 ~\newline
-
-%Instance Model 1
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& T\refstepcounter{theorynum}\thetheorynum 
+		\label{T:Function}\\
+		\hline
+		Label&\bf Function of a CFS\\
+		\hline
+		Equation&$g(\mathit{CFS}(f(t), n, \omega))\approx\sum_{i=0}^{n}a_i 
+		\mathit{CFS}^i(f(t), n, \omega)$\\
+		\hline
+		Description & The above equation calculates the result of a function being applied to a CFS. $a_i, i=0:n$ is 
+		the first $(n+1)$ coefficients of the Taylor series of $g(t)$, and 
+		the $n$-th ($n\in\mathbb{Z}^{+}$) power of CFS is defined as $n$ 
+		copies of this CFS multiplied together. ($0$-th power is defined 
+		as the CFS of $f(t)=1$.)\\
+		\hline
+		Source & Developed by author in \autoref{Appendix:Operations} 
+		\wss{Is the proof in the Appendix?  I didn't see it?
+			This one definitely isn't intuitive.}\an{Forgot to write down the proof in the first draft, added in this version to the end of this appendix. Also change $=$ to $\approx$}\\
+		\hline
+		Ref.\ By & \calref{Cal:Normal} and \oref{Output:Faithful}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
 
 \noindent
 \begin{minipage}{\textwidth}
-\renewcommand*{\arraystretch}{1.5}
-\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-  \hline
-  \rowcolor[gray]{0.9}
-  Number& IM\refstepcounter{instnum}\theinstnum \label{ewat}\\
-  \hline
-  Label& \bf Energy balance on water to find $T_W$\\
-  \hline
-  Input&$m_W$, $C_W$, $h_C$, $A_C$, $h_P$, $A_P$, $t_\text{final}$, $T_C$, 
-  $T_\text{init}$, $T_P(t)$ from \iref{epcm}\\
-  & The input is constrained so that $T_\text{init} \leq T_C$ (\aref{A_charge})\\
-  \hline
-  Output&$T_W(t)$, $0\leq t \leq t_\text{final}$, such that\\
-  &$\frac{dT_W}{dt} = \frac{1}{\tau_W}[(T_C - T_W(t)) + {\eta}(T_P(t) - T_W(t))]$,\\
-  &$T_W(0) = T_P(0) = T_\text{init}$ (\aref{A_InitTemp}) and $T_P(t)$ from \iref{epcm} \\
-  \hline
-  Description&$T_W$ is the water temperature (\si{\celsius}).\\
-  &$T_P$ is the PCM temperature (\si{\celsius}).\\
-  &$T_C$ is the coil temperature (\si{\celsius}).\\
-  &$\tau_W = \frac{m_W C_W}{h_C A_C}$ is a constant (\si{\second}).\\
-  &$\eta = \frac{h_P A_P}{h_C A_C}$ is a constant (dimensionless).\\
-  & The above equation applies as long as the water is in liquid form,
-  $0<T_W<100^o\text{C}$, where $0^o\text{C}$ and $100^o\text{C}$ are the melting
-  and boiling points of water, respectively (\aref{A_OpRange}, \aref{A_Pressure}).
-  \\
-  \hline
-  Sources& Citation here \\
-  \hline
-  Ref.\ By & \iref{epcm}\\
-  \hline
-\end{tabular}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& T\refstepcounter{theorynum}\thetheorynum 
+		\label{T:Amplitude}\\
+		\hline
+		Label&\bf Amplitude of a CFS\\
+		\hline
+		Equation&  
+		\begin{equation}
+		\mathit{Amp}(CSFf) = \sqrt{A_0^2+\frac{1}{2}
+			\sum_{i=1}^{n}(A_i^2+B_i^2)}
+		\end{equation}\\
+		\hline
+		Description & The above equation calculates $\mathit{Amp}
+		(\mathit{CFSf})$  from $\mathit{CFSf}$, especially $A_i$'s 
+		and $B_i$'s in it.\\
+		\hline
+		Source & Developed by author in \autoref{Appendix:Operations}\\
+		\hline
+		Ref.\ By & \calref{Cal:Normal} and \oref{Output:Faithful}\\
+		\hline
+	\end{tabular}
 \end{minipage}\\
+~\newline
 
-%~\newline
-
-\subsubsection*{Derivation of ...}
-
-\plt{The derivation shows how the IM is derived from the TMs/GDs.  In cases
-  where the derivation cannot be described under the Description field, it will
-  be necessary to include this subsection.}
-
-\subsubsection{Input Data Constraints} \label{sec_DataConstraints}    
-
-Table~\ref{TblInputVar} shows the data constraints on the input output
-variables.  The column for physical constraints gives the physical limitations
-on the range of values that can be taken by the variable.  The column for
-software constraints restricts the range of inputs to reasonable values.  The
-software constraints will be helpful in the design stage for picking suitable
-algorithms.  The constraints are conservative, to give the user of the model the
-flexibility to experiment with unusual situations.  The column of typical values
-is intended to provide a feel for a common scenario.  The uncertainty column
-provides an estimate of the confidence with which the physical quantities can be
-measured.  This information would be part of the input if one were performing an
-uncertainty quantification exercise.
-
-The specification parameters in Table~\ref{TblInputVar} are listed in
-Table~\ref{TblSpecParams}.
-
-\begin{table}[!h]
-  \caption{Input Variables} \label{TblInputVar}
-  \renewcommand{\arraystretch}{1.2}
-\noindent \begin{longtable*}{l l l l c} 
-  \toprule
-  \textbf{Var} & \textbf{Physical Constraints} & \textbf{Software Constraints} &
-                             \textbf{Typical Value} & \textbf{Uncertainty}\\
-  \midrule 
-  $L$ & $L > 0$ & $L_{\text{min}} \leq L \leq L_{\text{max}}$ & 1.5 \si[per-mode=symbol] {\metre} & 10\%
-  \\
-  \bottomrule
-\end{longtable*}
-\end{table}
-
-\noindent 
-\begin{description}
-\item[(*)] \plt{you might need to add some notes or clarifications}
-\end{description}
-
-\begin{table}[!h]
-\caption{Specification Parameter Values} \label{TblSpecParams}
-\renewcommand{\arraystretch}{1.2}
-\noindent \begin{longtable*}{l l} 
-  \toprule
-  \textbf{Var} & \textbf{Value} \\
-  \midrule 
-  $L_\text{min}$ & 0.1 \si{\metre}\\
-  \bottomrule
-\end{longtable*}
-\end{table}
-
-\subsubsection{Properties of a Correct Solution} \label{sec_CorrectSolution}
+\section{Variabilities}\label{Sc:Var}
+\subsection{Instance Models}
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& IM\refstepcounter{instnum}\theinstnum 
+		\label{IM:CFScoeff}\\
+		\hline
+		Label& \bf Calculate coefficients of CFS's\\
+		\hline
+		Input& $f(t)$, a $[-\pi/\omega, \pi/\omega]
+		\rightarrow\mathbb{R}$ function\\
+		& $n\in\mathbb{Z}^{*}$\\
+		& $\omega\in\mathbb{R}^{+}$\\
+		\hline
+		Output& An object $\mathit{CFSf}$, containing the 
+		following data:\\
+		&$n$, $\omega$: same as the input\\
+		&$A_i (i=0:n)$, $B_i (i=1:n)$: using the theory 
+		\tref{T:Transformation}\\
+		\hline
+		Description&Input:\\
+		&$f(t)$: function to be transformed into 
+		Fourier series\\
+		&Input \& Output:\\
+		& $n$: cut-off length\\
+		& $\omega$: base frequency\\
+		&Output:\\
+		&$A_i$'s and $B_i$'s: coefficients in $\mathit{CFSf}$\\
+		\hline
+		Sources&Same as \tref{T:Transformation}		\\
+		\hline
+		Ref.\ By & \aref{Ass:FunctionProperty}, 
+		\calref{Cal:Normal}, 
+		\oref{Output:Faithful}, and \oref{Output:Error}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
 
 \noindent
-A correct solution must exhibit \plt{fill in the details}.  \plt{These
-  properties are in addition to the stated requirements.  There is no need to
-  repeat the requirements here.  These additional properties may not exist for
-  every problem.  Examples include conservation laws (like conservation of
-  energy or mass) and known constraints on outputs (which are usually summarized
-  in tabular form.  A sample table is shown in Table~\ref{TblOutputVar}}
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& IM\refstepcounter{instnum}\theinstnum 
+		\label{IM:Approximation}\\
+		\hline
+		Label& \bf Calculate approximate function value from CFS\\
+		\hline
+		Input& $\mathit{CFSf}=[n, \omega, A_i(i=0:n), B_i(i=1:n)]$\\
+		&$t_1\in\mathbb{R}$\\
+		\hline
+		Output& $\mathit{App}(\mathit{CFSf}, t_1)$ using \ddref{DD:Approximation}\\
+		\hline
+		Description&Input:\\
+		&$CFSf$: CFS used for function approximation\\
+		& $t_1$: variable value\\
+		&Output:\\
+		&$\mathit{App}(\mathit{CFSf}, t_1)$: approximated function value\\ 
+		\hline
+		Sources&Same as \tref{DD:Approximation}		\\
+		\hline
+		Ref.\ By & 
+		\calref{Cal:Normal} and
+		\oref{Output:Faithful}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
 
-\begin{table}[!h]
-\caption{Output Variables} \label{TblOutputVar}
-\renewcommand{\arraystretch}{1.2}
-\noindent \begin{longtable*}{l l} 
-  \toprule
-  \textbf{Var} & \textbf{Physical Constraints} \\
-  \midrule 
-  $T_W$ & $T_\text{init} \leq T_W \leq T_C$ (by~\aref{A_charge})
-  \\
-  \bottomrule
-\end{longtable*}
-\end{table}
 
-\section{Requirements}
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& IM\refstepcounter{instnum}\theinstnum 
+		\label{IM:Addition}\\
+		\hline
+		Label& \bf Addition of two CFS's \\
+		\hline
+		Input& $\mathit{CFSf}$, $\mathit{CFSg}$\\
+		\hline
+		Output& $\mathit{CFS}(f(t)+g(t), n, \omega)$, whose $A_i$'s 
+		and $B_i$'s are computed using the theory \tref{T:Addition}\\
+		\hline
+		Description&Input:\\
+		&$\mathit{CFSf}$, $\mathit{CFSg}$: operands of the addition\\
+		&Output:\\
+		& $\mathit{CFS}(f(t)+g(t), n, \omega)$: result of the addition\\
+		\hline
+		Sources&Same as \tref{T:Addition}		\\
+		\hline
+		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, 
+		and \oref{Output:Faithful}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
 
-\plt{The requirements refine the goal statement.  They will make heavy use of
-  references to the instance models.}
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& IM\refstepcounter{instnum}\theinstnum 
+		\label{IM:Subtraction}\\
+		\hline
+		Label& \bf Subtraction of two CFS's \\
+		\hline
+		Input& $\mathit{CFSf}$, $\mathit{CFSg}$\\
+		\hline
+		Output& $\mathit{CFS}(f(t)-g(t), n, \omega)$, whose $A_i$'s 
+		and $B_i$'s are computed using the theory \tref{T:Subtraction}\\
+		\hline
+		Description&Input:\\
+		&$\mathit{CFSf}$, $\mathit{CFSg}$: operands of the subtraction\\
+		&Output:\\
+		& $\mathit{CFS}(f(t)-g(t), n, \omega)$: result of the subtraction\\
+		\hline
+		Sources&Same as \tref{T:Subtraction}		\\
+		\hline
+		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, 
+		and \oref{Output:Faithful}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& IM\refstepcounter{instnum}\theinstnum 
+		\label{IM:Multiplication}\\
+		\hline
+		Label& \bf Multiplication of two CFS's \\
+		\hline
+		Input& $\mathit{CFSf}$, $\mathit{CFSg}$\\
+		\hline
+		Output& $\mathit{CFS}(f(t)*g(t), n, \omega)$, whose $A_i$'s 
+		and $B_i$'s are computed using the theory 
+		\tref{T:Multiplication}\\
+		\hline
+		Description&Input:\\
+		&$\mathit{CFSf}$, $\mathit{CFSg}$: operands of the 
+		multiplication\\
+		&Output:\\
+		& $\mathit{CFS}(f(t)*g(t), n, \omega)$: result 
+		of the multiplication\\
+		\hline
+		Sources&Same as \tref{T:Multiplication}\\
+		\hline
+		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, 
+		and \oref{Output:Faithful}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& IM\refstepcounter{instnum}\theinstnum 
+		\label{IM:Division}\\
+		\hline
+		Label& \bf Division of two CFS's \\
+		\hline
+		Input& $\mathit{CFSf}$, $\mathit{CFSg}$\\
+		\hline
+		Output& $\mathit{CFS}(f(t)/g(t), n, \omega)$, whose $A_i$'s 
+		and $B_i$'s are computed using the theory 
+		\tref{T:Division}\\
+		\hline
+		Description&Input:\\
+		&$\mathit{CFSf}$, $\mathit{CFSg}$: operands of 
+		the division\\
+		&Output:\\
+		& $\mathit{CFS}(f(t)+g(t), n, \omega)$: result of 
+		the division\\
+		\hline
+		Sources&Same as \tref{T:Division}		\\
+		\hline
+		Ref.\ By & \aref{Ass:CFSPropertyMatch}, 
+		\calref{Cal:Normal}, 
+		\oref{Output:Faithful}, and \oref{Output:Error}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& IM\refstepcounter{instnum}\theinstnum 
+		\label{IM:Function}\\
+		\hline
+		Label& \bf Function of a CFS \\
+		\hline
+		Input& $\mathit{CFSf}$, $g(t)$\\
+		\hline
+		Output& A CFS $g(CFSf)$, whose $A_i$'s and $B_i$'s 
+		are computed using the theory \tref{T:Multiplication} 
+		and \tref{T:Addition}\\
+		\hline
+		Description&Input:\\
+		& $g(t)$, a basic function chosen by user from a 
+		basic function set.\\
+		&$\mathit{CFSf}$: dependent variable of the function $g(t)$\\
+		&Output:\\
+		& $g(CFSf)$: A CFS being the computed result\\
+		\hline
+		Sources&Easily derived from \tref{T:Multiplication} 
+		and \tref{T:Addition}\\
+		\hline
+		Ref.\ By & \aref{Ass:BasicFunction}, \calref{Cal:Normal}, 
+		and \oref{Output:Faithful}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& IM\refstepcounter{instnum}\theinstnum 
+		\label{IM:Amplitude}\\
+		\hline
+		Label& \bf Amplitude of a CFS \\
+		\hline
+		Input& $\mathit{CFSf}$\\
+		\hline
+		Output& $\mathit{Amp}(\mathit{CFSf})$, computed using the theory 
+		\tref{T:Amplitude}\\
+		\hline
+		Description&Input:\\
+		&$\mathit{CFSf}$: variable of the amplitude function\\
+		&Output:\\
+		& $\mathit{Amp}(\mathit{CFSf})$, the amplitude of $\mathit{CFSf}$\\
+		\hline
+		Sources&Same as \tref{T:Amplitude}		\\
+		\hline
+		Ref.\ By & \calref{Cal:Normal}, and  \oref{Output:Faithful}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& IM\refstepcounter{instnum}\theinstnum 
+		\label{IM:ToleratedEquality}\\
+		\hline
+		Label& \bf Tolerated Equality Comparison of two CFS's \\
+		\hline
+		Input& $\mathit{CFSf}$, $\mathit{CFSg}$, $\mathit{tol}$\\
+		\hline
+		Output&$\mathit{TolEq}(\mathit{CFSf}, \mathit{CFSg}, \mathit{tol})$\\
+		& boolean value \texttt{True} if 
+		$\mathit{Amp}(\mathit{CFSf}-\mathit{CFSg})\leq \mathit{tol}$\\
+		&boolean value \texttt{False} otherwise\\
+		\hline
+		Description&Input:\\
+		&$\mathit{CFSf}$, $\mathit{CFSg}$: operands of 
+		the tolerated equality comparison\\
+		&$\mathit{tol}\in\mathbb{R}^{*}$\\
+		&Output:\\
+		& A boolean value: Whether the two operands are equal 
+		within the given error tolerance\\
+		&Note: The calculation of difference's amplitude 
+		relies on \iref{IM:Subtraction} and \iref{IM:Amplitude}.\\
+		\hline
+		Sources&Same as \tref{T:Subtraction} and \tref{T:Amplitude}\\
+		\hline
+		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, 
+		and \oref{Output:Faithful}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& IM\refstepcounter{instnum}\theinstnum 
+		\label{IM:ConvertTo}\\
+		\hline
+		Label& \bf Convert data of other structures 
+		(input sources included) to a CFS \\
+		\hline
+		Input& $n$, $\omega$, $n+1$ real numbers $\mathit{Ain}_{i} 
+		(i=0:n)$, and $n$ real numbers $\mathit{Bin}_{i} (i=1:n)$\\
+		\hline
+		Output& A CFS object $\mathit{CFSf}$ constructed from 
+		the input data\\
+		\hline
+		Description&Input: Data needed for construction\\
+		&Output: Constructed CSF object containing the input data\\
+		\hline
+		Sources&None		\\
+		\hline
+		Ref.\ By &  \aref{Ass:Memory}, \calref{Cal:Normal}, 
+		and \oref{Output:Faithful}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
+
+\noindent
+\begin{minipage}{\textwidth}
+	\renewcommand*{\arraystretch}{1.5}
+	\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
+		\hline
+		\rowcolor[gray]{0.9}
+		Number& IM\refstepcounter{instnum}\theinstnum 
+		\label{IM:ConvertFrom}\\
+		\hline
+		Label& \bf Convert CFS to data of structures 
+		(output destination included) \\
+		\hline
+		Input& $\mathit{CFSf}$\\
+		\hline
+		Output& $n$, $\omega$, $\mathit{Aout}_{i}=A_i (i=0:n)$, 
+		and $\mathit{Bout}_{i}=B_i (i=1:n)$\\
+		\hline
+		Description&Input: The CFS object to be converted to\\
+		&Output: The data extracted from the input CFS object.\\
+		\hline
+		Sources&None\\
+		\hline
+		Ref.\ By &   \aref{Ass:Memory}, \calref{Cal:Normal}, 
+		and \oref{Output:Faithful}\\
+		\hline
+	\end{tabular}
+\end{minipage}\\
+~\newline
+
+\subsection{Assumptions}
+\newcommand{\aitem}[1]{\item[A\refstepcounter{assumpnum}\theassumpnum \label{Ass:#1}:] }
+\begin{itemize}
+	
+	\aitem{FunctionProperty}
+	The functions $f(t)$ and $g(t)$ mentioned above must have definitions on 
+	$[-\pi/\omega, \pi/\omega]$, in which $\omega$ is given by the user, 
+	and must have corresponding Fourier series. \wss{I think you use this assumption
+		in DD1.   You should invoke it there.  All assumptions need to be invoked
+		somewhere, or else they aren't really assumptions that are being used.  This
+		point is part of the SRS checklist.}\an{Done accordingly}
+	
+	\aitem{BasicFunction}
+	Only the basic functions of CFS's are to be calculated. The aforementioned 
+	basic functions are those in a library-defined set. \wss{As discussed elsewhere,
+		you should explicitly define the functions that are basic.}
+	%\item[A\refstepcounter{assumpnum}\theassumpnum \label{Ass:CFSPropertyMatch}:] 
+	
+	\oc{For any two-operand operations, the data $n$ and $\omega$ of these operands must be the same.}  
+	\wss{Is this an assumption, or is it something that you can
+		test?  From your MIS presentation, it looks like this is something you can test.}
+	\an{When I wrote this down, I intended to assume this because of another design involving the arithmetic of $\omega$, but I later found out that that design is too complex for me, as well as not concrete mathematically, so I drop that, but I failed to delete this. I deleted this in the final version.}
+	%\item[A\refstepcounter{assumpnum}\theassumpnum \label{Ass:Memory}:] 
+	
+	\oc{User shall allocate memory space for any variable other than CFS's in \iref{IM:ConvertTo} and \iref{IM:ConvertFrom}.}
+	\wss{This assumption
+		might be better in the design documentation.}
+	\an{Noted and deleted.}
+\end{itemize}
+
+\subsection{Calculation} \label{sec_Calculation}
+\begin{itemize}
+	\item[C\refstepcounter{calnum}\thecalnum \label{Cal:Normal}:] 
+	Calculate the result based on the called function and input variables.
+	
+\end{itemize}
+\subsection{Output} \label{sec_Output}    
+\begin{itemize}
+	\item[O\refstepcounter{outputnum}\theoutputnum \label{Output:Faithful}:] Return
+	the results faithfully. That is, return the constructed CFS in
+	\iref{IM:CFScoeff} and \iref{IM:ConvertTo}; fill the user-provided space with
+	data from user-designated CFS in \iref{IM:ConvertFrom}; return the calculated
+	value in \iref{IM:Approximation}, \iref{IM:Amplitude}, and
+	\iref{IM:ToleratedEquality}; and return the calculated CFS in
+	\iref{IM:Addition}, \iref{IM:Subtraction}, \iref{IM:Multiplication},
+	\iref{IM:Division}, and \iref{IM:Function}.
+	\item[O\refstepcounter{outputnum}\theoutputnum \label{Output:Error}:] 
+	Report any detected errors to the user of the library.
+\end{itemize}
+\section{Requirements}\label{Sc:Req}
 
 This section provides the functional requirements, the business tasks that the
 software is expected to complete, and the nonfunctional requirements, the
@@ -877,192 +1347,148 @@ qualities that the software is expected to exhibit.
 \subsection{Functional Requirements}
 
 \noindent \begin{itemize}
-
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs}:] \plt{Requirements
-    for the inputs that are supplied by the user.  This information has to be
-    explicit.}
-
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_OutputInputs}:] \plt{It isn't
-    always required, but often echoing the inputs as part of the output is a
-    good idea.}
-
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Calculate}:] \plt{Calculation
-    related requirements.}
-
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_VerifyOutput}:]
-  \plt{Verification related requirements.}
-
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Output}:] \plt{Output related
-    requirements.}
-
+	\newcommand{\ritem}[1]{\item[R\refstepcounter{reqnum}\thereqnum \label{R:#1}:]}
+	\ritem{InputDataType} 
+	When applicable, functions of this library accept inputs with the same 
+	data type for $f(t)$, $A_i$'s and/or $B_i$'s, and $\omega$. 
+	\ritem{BinaryOperationMatch}
+	The operands of binary operations must have the same $n$ and $\omega$.
+	\ritem{OutputError} 
+	The error of the output must be decreasing as the $n$ in CFS's is decreasing.
+	\ritem{OutputDataType} 
+	Output the result with the same floating point data type as that of the input.
+	\ritem{Memory} 
+	Manage the memory spaces required by this library 
+	(mainly for CFS's), and destroy them the moment they are not needed.
 \end{itemize}
 
 \subsection{Nonfunctional Requirements}
 
-\plt{List your nonfunctional requirements.  You may consider using a fit
-  criterion to make them verifiable.}
-
-\section{Likely Changes}    
-
-\noindent \begin{itemize}
-
-\item[LC\refstepcounter{lcnum}\thelcnum\label{LC_meaningfulLabel}:] \plt{Give
-    the likely changes, with a reference to the related assumption (aref), as appropriate.}
-
+\begin{itemize}
+	\item All time complexities shall be unrelated to $\omega$.
+	\item The time complexity of \iref{IM:CFScoeff} shall be $O(n^2)$ 
+	when the input function $f(t)$ is not complex.
+	\item The time complexity of \iref{IM:Addition} and \iref{IM:Subtraction} 
+	shall be $O(n)$.
+	\item The time complexity of \iref{IM:Multiplication} shall be $O(n^2)$.
+	\item The time complexity of \iref{IM:Division} shall be the same 
+	as the best linear equation solver applicable.
+	\item The time complexity of \iref{IM:Amplitude} 
+	and \iref{IM:ToleratedEquality} shall be $O(n)$.
 \end{itemize}
 
-\section{Unlikely Changes}    
-
+\section{Likely Changes}\label{Sc:LC}    
 \noindent \begin{itemize}
-
-\item[LC\refstepcounter{lcnum}\thelcnum\label{LC_meaningfulLabel}:] \plt{Give
-    the unlikely changes.  The design can assume that the changes listed will
-    not occur.}
-
+	\item[LC\refstepcounter{lcnum}\thelcnum\label{LC:NewOperation}:] 
+	We might add new operations in the future.
+	\item[LC\refstepcounter{lcnum}\thelcnum\label{LC:BasicFunction}:] 
+	The set of basic functions in \iref{IM:Function} will be 
+	decided in the future.
 \end{itemize}
 
-\section{Traceability Matrices and Graphs}
+\section{Traceability Matrices and Graphs}\label{Sc:Trace}
+The following matrices and graphs demonstrates the traceability 
+of this project. The purpose is to provide easy references 
+to the impacts on other components if a certain component is changed. 
+That is, if one component has been changed, other components that share 
+an 'X' with it may need change. Table \ref{Table:Traceability} 
+shows the the dependencies of goals, theoretical models, 
+data definitions, and instances models with the assumptions, 
+calculations, and outputs.
 
-The purpose of the traceability matrices is to provide easy references on what
-has to be additionally modified if a certain component is changed.  Every time a
-component is changed, the items in the column of that component that are marked
-with an ``X'' may have to be modified as well.  Table~\ref{Table:trace} shows the
-dependencies of theoretical models, general definitions, data definitions, and
-instance models with each other. Table~\ref{Table:R_trace} shows the
-dependencies of instance models, requirements, and data constraints on each
-other. Table~\ref{Table:A_trace} shows the dependencies of theoretical models,
-general definitions, data definitions, instance models, and likely changes on
-the assumptions.
-
-\plt{You will have to modify these tables for your problem.}
-
-\plt{The traceability matrix is challenging to maintain manually.  Please do
-  your best.  In the future tools (like Drasil) will make this much easier.}
-
-\afterpage{
-\begin{landscape}
-\begin{table}[h!]
-\centering
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
-\hline
-	& \aref{A_OnlyThermalEnergy}& \aref{A_hcoeff}& \aref{A_mixed}& \aref{A_tpcm}& \aref{A_const_density}& \aref{A_const_C}& \aref{A_Newt_coil}& \aref{A_tcoil}& \aref{A_tlcoil}& \aref{A_Newt_pcm}& \aref{A_charge}& \aref{A_InitTemp}& \aref{A_OpRangePCM}& \aref{A_OpRange}& \aref{A_htank}& \aref{A_int_heat}& \aref{A_vpcm}& \aref{A_PCM_state}& \aref{A_Pressure} \\
-\hline
-\tref{T_COE}        & X& & & & & & & & & & & & & & & & & & \\ \hline
-\tref{T_SHE}        & & & & & & & & & & & & & & & & & & & \\ \hline
-\tref{T_LHE}        & & & & & & & & & & & & & & & & & & & \\ \hline
-\dref{NL}           & & X& & & & & & & & & & & & & & & & & \\ \hline
-\dref{ROCT}         & & & X& X& X& X& & & & & & & & & & & & & \\ \hline
-\ddref{FluxCoil}    & & & & & & & X& X& X& & & & & & & & & & \\ \hline
-\ddref{FluxPCM}     & & & X& X& & & & & & X& & & & & & & & & \\ \hline
-\ddref{D_HOF}       & & & & & & & & & & & & & & & & & & & \\ \hline
-\ddref{D_MF}        & & & & & & & & & & & & & & & & & & & \\ \hline
-\iref{ewat}         & & & & & & & & & & & X& X& & X& X& X& & & X \\ \hline
-\iref{epcm}         & & & & & & & & & & & & X& X& & & X& X& X& \\ \hline
-\iref{I_HWAT}       & & & & & & & & & & & & & & X& & & & & X \\ \hline
-\iref{I_HPCM}       & & & & & & & & & & & & & X& & & & & X & \\ \hline
-\lcref{LC_tpcm}     & & & & X& & & & & & & & & & & & & & & \\ \hline
-\lcref{LC_tcoil}    & & & & & & & & X& & & & & & & & & & & \\ \hline
-\lcref{LC_tlcoil}   & & & & & & & & & X& & & & & & & & & & \\ \hline
-\lcref{LC_charge}   & & & & & & & & & & & X& & & & & & & & \\ \hline
-\lcref{LC_InitTemp} & & & & & & & & & & & & X& & & & & & & \\ \hline
-\lcref{LC_htank}    & & & & & & & & & & & & & & & X& & & & \\
-\hline
-\end{tabular}
-\caption{Traceability Matrix Showing the Connections Between Assumptions and Other Items}
-\label{Table:A_trace}
-\end{table}
-\end{landscape}
-}
-
-\begin{table}[h!]
-\centering
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
-\hline        
-	& \tref{T_COE}& \tref{T_SHE}& \tref{T_LHE}& \dref{NL}& \dref{ROCT} & \ddref{FluxCoil}& \ddref{FluxPCM} & \ddref{D_HOF}& \ddref{D_MF}& \iref{ewat}& \iref{epcm}& \iref{I_HWAT}& \iref{I_HPCM} \\
-\hline
-\tref{T_COE}     & & & & & & & & & & & & & \\ \hline
-\tref{T_SHE}     & & & X& & & & & & & & & & \\ \hline
-\tref{T_LHE}     & & & & & & & & & & & & & \\ \hline
-\dref{NL}        & & & & & & & & & & & & & \\ \hline
-\dref{ROCT}      & X& & & & & & & & & & & & \\ \hline
-\ddref{FluxCoil} & & & & X& & & & & & & & & \\ \hline
-\ddref{FluxPCM}  & & & & X& & & & & & & & & \\ \hline
-\ddref{D_HOF}    & & & & & & & & & & & & & \\ \hline
-\ddref{D_MF}     & & & & & & & & X& & & & & \\ \hline
-\iref{ewat}      & & & & & X& X& X& & & & X& & \\ \hline
-\iref{epcm}      & & & & & X& & X& & X& X& & & X \\ \hline
-\iref{I_HWAT}    & & X& & & & & & & & & & & \\ \hline
-\iref{I_HPCM}    & & X& X& & & & X& X& X& & X& & \\
-\hline
-\end{tabular}
-\caption{Traceability Matrix Showing the Connections Between Items of Different Sections}
-\label{Table:trace}
-\end{table}
-
-\begin{table}[h!]
-\centering
-\begin{tabular}{|c|c|c|c|c|c|c|c|}
-\hline
-	& \iref{ewat}& \iref{epcm}& \iref{I_HWAT}& \iref{I_HPCM}& \ref{sec_DataConstraints}& \rref{R_RawInputs}& \rref{R_MassInputs} \\
-\hline
-\iref{ewat}            & & X& & & & X& X \\ \hline
-\iref{epcm}            & X& & & X& & X& X \\ \hline
-\iref{I_HWAT}          & & & & & & X& X \\ \hline
-\iref{I_HPCM}          & & X& & & & X& X \\ \hline
-\rref{R_RawInputs}     & & & & & & & \\ \hline
-\rref{R_MassInputs}    & & & & & & X& \\ \hline
-\rref{R_CheckInputs}   & & & & & X& & \\ \hline
-\rref{R_OutputInputs}  & X& X& & & & X& X \\ \hline
-\rref{R_TempWater}     & X& & & & & & \\ \hline 
-\rref{R_TempPCM}       & & X& & & & & \\ \hline
-\rref{R_EnergyWater}   & & & X& & & & \\ \hline
-\rref{R_EnergyPCM}     & & & & X& & & \\ \hline
-\rref{R_VerifyOutput}  & & & X& X& & & \\ \hline
-\rref{R_timeMeltBegin} & & X& & & & & \\ \hline
-\rref{R_timeMeltEnd}   & & X& & & & & \\ 
-\hline
-\end{tabular}
-\caption{Traceability Matrix Showing the Connections Between Requirements and Instance Models}
-\label{Table:R_trace}
-\end{table}
-
-The purpose of the traceability graphs is also to provide easy references on
-what has to be additionally modified if a certain component is changed.  The
-arrows in the graphs represent dependencies. The component at the tail of an
-arrow is depended on by the component at the head of that arrow. Therefore, if a
-component is changed, the components that it points to should also be
-changed. Figure~\ref{Fig_ATrace} shows the dependencies of theoretical models,
-general definitions, data definitions, instance models, likely changes, and
-assumptions on each other. Figure~\ref{Fig_RTrace} shows the dependencies of
-instance models, requirements, and data constraints on each other.
-
-% \begin{figure}[h!]
-% 	\begin{center}
-% 		%\rotatebox{-90}
-% 		{
-% 			\includegraphics[width=\textwidth]{ATrace.png}
-% 		}
-% 		\caption{\label{Fig_ATrace} Traceability Matrix Showing the Connections Between Items of Different Sections}
-% 	\end{center}
-% \end{figure}
-
-
-% \begin{figure}[h!]
-% 	\begin{center}
-% 		%\rotatebox{-90}
-% 		{
-% 			\includegraphics[width=0.7\textwidth]{RTrace.png}
-% 		}
-% 		\caption{\label{Fig_RTrace} Traceability Matrix Showing the Connections Between Requirements, Instance Models, and Data Constraints}
-% 	\end{center}
-% \end{figure}
-
-\section{Values of Auxiliary Constants}
-
-\plt{Show the values of the symbolic parameters introduced in the report.}
-
-\plt{The definition of the requirements will likely call for SYMBOLIC\_CONSTANTS.
-Their values are defined in this section for easy maintenance.}
+\wss{Great work Bo.  I have added some comments above, but overall you are
+	definitely on the right track.  I have also made a few fixes directly, rather
+	than ask you to make them.  You should review the diff so that you can see
+	those fixes.}
+\wss{My main comment is that you haven't really documented a CA; you have
+	documented an SRS, but called it a CA.  In a CA you should identify different
+	family members.  In particular, you need to know the parameters of variation
+	for each variability.  Rather than cast your problem as a CA, I think it makes
+	more sense to document your problem as an SRS.  I don't think it will take
+	much for you to convert your document to follow the SRS template.  It will be
+	a useful change though, because, as it is right now, the input, output,
+	variability, etc headings are confusing.}
+\an{Done accordingly}
+\begin{table}
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		&\aref{Ass:FunctionProperty}&\aref{Ass:BasicFunction}
+		&\calref{Cal:Normal}&\oref{Output:Faithful}
+		&\oref{Output:Error}\\
+		\hline
+		\gsref{GS:ConvertFromFunc}
+		&X& &X&X&X\\\hline
+		\gsref{GS:FuncValue}
+		& &X&X&X& \\\hline
+		\gsref{GS:Operation}
+		& & &X&X&X \\\hline
+		\gsref{GS:Function}
+		&X& &X&X&X\\\hline
+		\gsref{GS:ConvertFromOther}
+		& & &X&X& \\\hline
+		\gsref{GS:ConvertToOther}
+		& & &X&X& \\\hline
+		\gsref{GS:Amp}
+		& & & &X& \\\hline
+		\gsref{GS:ToleratedEquality}
+		& & &X&X&X\\\hline
+		\ddref{DD:IFS}
+		&X& &X&X&X\\\hline
+		\ddref{DD:CFS}
+		&X& &X&X&X\\\hline
+		\ddref{DD:Approximation}
+		& & &X&X&X\\\hline
+		\ddref{DD:Addition}
+		& & &X&X&X\\\hline
+		\ddref{DD:Subtraction}
+		& & &X&X&X\\\hline
+		\ddref{DD:Multiplication}
+		& & &X& &X&X&X\\\hline
+		\ddref{DD:Division}
+		& & &X& &X&X&X\\\hline
+		\ddref{DD:Function}
+		& &X& & &X&X& \\\hline
+		\ddref{DD:Amplitude}
+		& & & & &X&X& \\\hline
+		\tref{T:Transformation}
+		&X& & & &X&X&X\\\hline
+		\tref{T:Addition}
+		& & &X& &X&X& \\\hline
+		\tref{T:Subtraction}
+		& & &X& &X&X& \\\hline
+		\tref{T:Multiplication}
+		& & &X& &X&X& \\\hline
+		\tref{T:Division}
+		& & &X& &X&X&X\\\hline
+		\tref{T:Amplitude}
+		& & & & &X&X& \\\hline
+		\iref{IM:CFScoeff}
+		&X& & & &X&X&X\\\hline
+		\iref{IM:Addition}
+		& & &X& &X&X& \\\hline
+		\iref{IM:Subtraction}
+		& & &X& &X&X& \\\hline
+		\iref{IM:Multiplication}
+		& & &X& &X&X& \\\hline
+		\iref{IM:Division}
+		& & &X& &X&X&X\\\hline
+		\iref{IM:Function}
+		& &X& & &X&X& \\\hline
+		\iref{IM:Amplitude}
+		& & & & &X&X& \\\hline
+		\iref{IM:ToleratedEquality}
+		& & &X& &X&X& \\\hline
+		\iref{IM:ConvertTo}
+		& & & &X&X&X& \\\hline
+		\iref{IM:ConvertFrom}
+		& & & &X&X&X& \\\hline		
+	\end{tabular}
+	\caption{The traceability matrix between goals, 
+		theoretical models, data definitions, and instances models 
+		with the assumptions, calculations, and outputs}
+	\label{Table:Traceability}
+\end{table} 
 
 \newpage
 
@@ -1070,45 +1496,212 @@ Their values are defined in this section for easy maintenance.}
 \bibliography {../../refs/References}
 
 \newpage
+\appendix
 
-\noindent \plt{The following is not part of the template, just some things to consider
-  when filing in the template.}
+\section{Theory for operations on CFS's}\label{Appendix:Operations}
+In this appendix, we hereby give the proof of 
+\tref{T:Addition}, \tref{T:Subtraction}, \tref{T:Multiplication}, 
+and \tref{T:Amplitude} in corresponding paragraphs. The proof of 
+\tref{T:Division} comes directly from the equation 
+$[f(t)/g(t)]*g(t)=f(t)$.
 
-\noindent \plt{Grammar, flow and \LaTeX advice:
-\begin{itemize}
-\item For Mac users \texttt{*.DS\_Store} should be in \texttt{.gitignore}
-\item \LaTeX{} and formatting rules
-\begin{itemize}
-\item Variables are italic, everything else not, includes subscripts (link to
-  document)
-\begin{itemize}
-\item \href{https://physics.nist.gov/cuu/pdf/typefaces.pdf}{Conventions}
-\item Watch out for implied multiplication
-\end{itemize}
-\item Use BibTeX
-\item Use cross-referencing
-\end{itemize}
-\item Grammar and writing rules
-\begin{itemize}
-\item Acronyms expanded on first usage (not just in table of acronyms)
-\item ``In order to'' should be ``to''
-\end{itemize}
-\end{itemize}}
+In the following proofs, suppose we have two functions, 
+$f(t)$ and $g(t)$ with existing IFS and CFS. The $n$ and $\omega$ of 
+these IFS's and CFS's are the same, but with different $A_i$'s and $B_i$'s 
+(denoted with $A_{f, i}$'s, $B_{f, i}$'s and $A_{g,i}$'s, 
+$B_{g,i}$'s respectively).
+From the definition of IFS, \ddref{DD:IFS}, we know that 
+\begin{equation}\label{Eq:fDef}
+f(t)=\sum_{i=0}^{+\infty}A_{f, i}\cos(i\omega t)
++\sum_{i=1}^{+\infty}B_{f, i}\sin(i\omega t),
+\end{equation} and \begin{equation}\label{Eq:gDef}
+g(t)=\sum_{i=0}^{+\infty}A_{g, i}\cos(i\omega t)
++\sum_{i=1}^{+\infty}B_{g, i}\sin(i\omega t).
+\end{equation}  
+\paragraph{Addition and Subtraction}\label{App-Para:Addition&Subtraction}
+Like $f(t)$ and $g(t)$, we also know that 
+\begin{equation}\label{Eq:f+gDef}
+f(t)+g(t)=\sum_{i=0}^{+\infty}A_{f+g, i}
+\cos(i\omega t)+\sum_{i=1}^{+\infty}B_{f+g, i}\sin(i\omega t).
+\end{equation} 
+By replacing $f(t)$ and $g(t)$ in \autoref{Eq:f+gDef} 
+with \autoref{Eq:fDef} and \autoref{Eq:gDef}, we have
+\begin{equation}\label{Eq:f+gCoeff}
+\begin{aligned}
+&\sum_{i=0}^{+\infty}A_{f+g, i}\cos(i\omega t)
++\sum_{i=1}^{+\infty}B_{f+g, i}\sin(i\omega t)\\
+=&\sum_{i=0}^{+\infty}A_{f, i}\cos(i\omega t)+\sum_{i=1}^{+\infty}
+B_{f, i}\sin(i\omega t)+\sum_{i=0}^{+\infty}A_{g, i}\cos(i\omega t)
++\sum_{i=1}^{+\infty}B_{g, i}\sin(i\omega t)\\
+=&\sum_{i=0}^{+\infty}(A_{f, i}+A_{g,i})\cos(i\omega t)
++\sum_{i=1}^{+\infty}(B_{f, i}+B_{g, i})\sin(i\omega t)\\
+\end{aligned}
+\end{equation}
+By comparing the coefficients in \autoref{Eq:f+gCoeff}, we have
+\begin{equation}\label{Eq:f+gConclusion}
+\begin{aligned}
+A_{f+g, i}&=A_{f,i}+A_{g, i}\\
+B_{f+g, i}&=B_{f,i}+B_{g, i}\\
+\end{aligned}
+\end{equation}
+for the IFS and CFS of $f(t)+g(t)$.
 
-\noindent \plt{Advice on using the template:
-\begin{itemize}
-\item Difference between physical and software constraints
-\item Properties of a correct solution means \emph{additional} properties, not
-  a restating of the requirements (may be ``not applicable'' for your problem).
-  If you have a table of output constraints, then these are properties of a
-  correct solution.
-\item Assumptions have to be invoked somewhere
-\item ``Referenced by'' implies that there is an explicit reference
-\item Think of traceability matrix, list of assumption invokations and list of
-  reference by fields as automatically generatable
-\item If you say the format of the output (plot, table etc), then your
-  requirement could be more abstract
-\end{itemize}
-}
+Likewise, we have similar conclusions for those of $f(t)-g(t)$.
+\paragraph{Multiplication}\label{App-Para:Multiplication}
+From \autoref{Eq:fDef} and \autoref{Eq:gDef}, we have
+\begin{equation}
+f(t)*g(t)=[\sum_{i=0}^{+\infty}A_{f, i}\cos(i\omega t)
++\sum_{i=1}^{+\infty}B_{f, i}\sin(i\omega t)]
+*[\sum_{i=0}^{+\infty}A_{g, i}\cos(i\omega t)
++\sum_{i=1}^{+\infty}B_{g, i}\sin(i\omega t)]\\
+\end{equation}
+which is the summation the following 3 terms
+\begin{equation}
+\begin{aligned}
+\textit{Term A:} &\sum_{i=0, j=0}^{+\infty}A_{f,i}A_{g,j}
+\cos(i\omega t)\cos(j\omega t)\\
+=&\frac{1}{2}\sum_{i=0, j=0}^{+\infty}A_{f, i}A_{g, j}\cos[(i+j)\omega t] 
++ \frac{1}{2}\sum_{i=0, j=0}^{+\infty}A_{f, i}A_{g, j}\cos[(j-i)\omega t]\\
+=&\frac{1}{2}\sum_{i=0}^{+\infty}[\sum_{j=0}^{i}A_{f,j}A_{g,i-j}]
+\cos(i\omega t)+\frac{1}{2}\sum_{j=0}^{+\infty}A_{f,i}A_{g,i}
++\frac{1}{2}\sum_{i=1}^{+\infty}[\sum_{j=0}^{+\infty}A_{f, j}A_{g, j+i}
++\sum_{j=0}^{+\infty}A_{f, j+i}A_{g, j}]\cos(i\omega t)\\
+=&A_{f,0}A_{g,0}+\frac{1}{2}\sum_{j=0}^{+\infty}A_{f,}A_{g,j}+\frac{1}{2}
+\sum_{i=1}^{+\infty}[\sum_{j=0}^{i}A_{f,j}+A_{g,i-j}+\sum_{j=0}^{+\infty}
+(A_{f,i}A_{g,j+i}+A_{f,j+i}A_{g,i})]\cos(i\omega t)\\
+\textit{Term B:} &\sum_{i=0,j=1}^{+\infty}[A_{f,i}B_{g,j}\cos(i\omega t)
+\sin(j\omega t)+B_{g,i}A_{f,j}\sin(i\omega t)\cos(j\omega t)]\\
+=&\frac{1}{2}\sum_{i=0,j=1}^{+\infty}[A_{f,i}B_{g,j}\sin((i+j)\omega t)
+-A_{f,i}B_{g,j}\sin((i-j)\omega t)]\\+&\frac{1}{2}
+\sum_{i=0,j=1}^{+\infty}[B_{g,i}A_{f,j}\sin((i+j)\omega t)+B_{g,i}A_{f,j}
+\sin((i-j)\omega t)]\\
+=&\frac{1}{2}\sum_{i=0,j=1}^{+\infty}[A_{f,i}B_{g,j}+B_{g,i}A_{f,j}]
+\sin((i+j)\omega t)+\frac{1}{2}\sum_{i=0,j=1}^{+\infty}
+[B_{g,i}A_{f,j}-A_{f,i}B_{g,j}]\sin((i-j)\omega t)\\
+=&\frac{1}{2}\sum_{i=1}^{+\infty}[\sum_{j=1}^{+\infty}
+A_{f,i-j}B_{g,j}+B_{g,i-j}A_{f,j}]\sin(i\omega t)
+-\frac{1}{2}\sum_{i=1}^{+\infty}[B_{g,0}A_{f,i}-A_{f,0}B_{g,i}]
+\sin(i\omega t)\\
+=&\frac{1}{2}\sum_{i=1}^{+\infty}[\sum_{j=1}^{+\infty}(A_{f,i-j}B_{g,j}
++B_{g,i-j}A_{f,j})-B_{g,0}A_{f,i}+A_{f,0}B_{g,i}]\sin(i\omega t)\\
+\textit{Term C:} &\sum_{i=1,j=1}^{+\infty}B_{f,i}B_{g,j}\sin(i\omega t)
+\sin(j\omega t)\\
+=&\frac{1}{2}\sum_{i=1,j=1}^{+\infty}B_{f,i}B_{g,j}[\cos((i-j)\omega t)
+-\cos((i+j)\omega t)]\\
+=&\frac{1}{2}[\sum_{j=1}^{+\infty}B_{f,j}B_{g,j}]\cos(0\omega t)
++\frac{1}{2}\sum_{i=1}^{+\infty}[\sum_{j=1}^{+\infty}
+B_{f,i+j}B_{g,i}+B_{f,i}B_{g,i+j}]\cos(i\omega t)\\
+-&\frac{1}{2}\sum_{i=2}^{+\infty}[\sum_{j=1}^{i-1}B_{f,i-j}B_{g,j}]
+\cos(i\omega t)
+\end{aligned}
+\end{equation}
+We gather the coefficients of $\cos(i\omega t), i=0:n$ 
+and $\sin(i\omega t), i=1:n$ respectively, 
+remove any terms containing 
+$A_{f,k}$, $B_{f,k}$, $A_{g,k}$, 
+and $B_{g,k}$ for any $k\geq n$ 
+($k$ being either $i$, $j$, $i-j$, $i+j$, or $j-1$) 
+as the result of a cut-off, 
+and get the equations in \tref{T:Multiplication}.
+\paragraph{Amplitude}\label{App-Para:Amplitude}
+Quoted from \ddref{DD:Amplitude}, we have
+\begin{equation}\label{Eq:Amp}
+\mathit{Amp}(\mathit{CFSf})=\sqrt{\frac{\omega}{2\pi}
+	\int_{-\pi/\omega}^{\pi/\omega}\mathit{App}^2(\mathit{CFSf}, t)\text{d} t}
+\end{equation}
+In \autoref{Eq:Amp}, replacing $\mathit{App}
+(\mathit{CFSf}, t)$ with its definition in \ddref{DD:Approximation}, 
+we have
+\begin{equation}\label{Eq:Amp1}
+\mathit{Amp}(\mathit{CFSf})=\sqrt{\frac{\omega}{2\pi}
+	\int_{-\pi/\omega}^{\pi/\omega}[\sum_{i=0}^{n}A_{f,i}\cos(i\omega t)
+	+\sum_{i=1}^{n}B_{f,i}\sin(j\omega t)][\sum_{j=0}^{n}A_{f,j}
+	\cos(j\omega t)+\sum_{j=1}^{n}B_{f,j}\sin(j\omega t)]\text{d} t}
+\end{equation}
+The part inside the integration in \autoref{Eq:Amp1} can be expressed as
+the summation of the following three expressions
+\begin{equation}\label{Eq:AmpTerms}
+\begin{aligned}
+&\int_{-\pi/\omega}^{\pi/\omega}\sum_{i=0,j=0}^{n}A_{f,i}A_{f,j}
+\cos(i\omega t)\cos(j\omega t)\text{d} t\\
+&\int_{-\pi/\omega}^{\pi/\omega}\sum_{i=0,j=1}^{n}A_{f,i}B_{f,j}
+\sin(i\omega t)\cos(j\omega t)\text{d} t\\
+&\int_{-\pi/\omega}^{\pi/\omega}\sum_{i=1,j=0}^{n}B_{f,i}A_{f,j}
+\sin(i\omega t)\cos(j\omega t)\text{d} t\\
+&\int_{-\pi/\omega}^{\pi/\omega}\sum_{i=1,j=1}^{n}B_{f,i}B_{f,j}
+\sin(i\omega t)\sin(j\omega t)\text{d} t\\
+\end{aligned}
+\end{equation}
+The integration part of these expressions are
+$\int_{-\pi/\omega}^{\pi/\omega}\cos(i\omega t)
+\cos(j\omega t)$, $\int_{-\pi/\omega}^{\pi/\omega}\cos(i\omega t)
+\sin(j\omega t)$, and $\int_{-\pi/\omega}^{\pi/\omega}\cos(i\omega t)
+\sin(j\omega t)$. 
+Calculation shows that the integration results are 
+\begin{equation}\label{Eq:coscos}
+\int_{-\pi/\omega}^{\pi/\omega}\cos(i\omega t)\cos(j\omega t)=\begin{cases}
+2\pi/\omega, &i=j=0;\\
+\pi/\omega, &i=j\neq 0;\\
+0, &i\neq j.
+\end{cases}
+\end{equation} 
+\begin{equation}\label{Eq:cossin}
+\int_{-\pi/\omega}^{\pi/\omega}\cos(i\omega t)\sin(j\omega t)=0
+\end{equation}
+and
+\begin{equation}\label{Eq:sinsin}
+\int_{-\pi/\omega}^{\pi/\omega}\cos(i\omega t)\sin(j\omega t)=\begin{cases}
+\pi/\omega, &i=j\\
+0, &i\neq j\\
+\end{cases}
+\end{equation}
+Replacing integration in \autoref{Eq:AmpTerms} 
+with integration results \autoref{Eq:coscos}, 
+\autoref{Eq:cossin}, and \autoref{Eq:sinsin}, and we have the following results.
+\begin{equation}\label{Eq:AmpTermsResult}
+\begin{aligned}
+&\int_{-\pi/\omega}^{\pi/\omega}\sum_{i=0,j=0}^{n}A_{f,i}A_{f,j}
+\cos(i\omega t)\cos(j\omega t)\text{d} t
+=\frac{2\pi}{\omega}A_0^2+\frac{\pi}{\omega}\sum_{i=1}^{n}A_i^2\\
+&\int_{-\pi/\omega}^{\pi/\omega}\sum_{i=0,j=1}^{n}A_{f,i}B_{f,j}
+\sin(i\omega t)\cos(j\omega t)\text{d} t
+=0\\
+&\int_{-\pi/\omega}^{\pi/\omega}\sum_{i=1,j=0}^{n}B_{f,i}A_{f,j}
+\sin(i\omega t)\cos(j\omega t)\text{d} t
+=0\\
+&\int_{-\pi/\omega}^{\pi/\omega}\sum_{i=1,j=1}^{n}B_{f,i}B_{f,j}
+\sin(i\omega t)\sin(j\omega t)\text{d} t
+=\frac{\pi}{\omega}\sum_{i=1}^{n}B_i^2\\
+\end{aligned}
+\end{equation}
 
+Summing them up and putting the result back into 
+\autoref{Eq:Amp1}, we have the expression 
+in \tref{T:Amplitude}.
+\paragraph{Function}
+We will develop the equations of $A_i(i>0)$'s in the resulted CFS. $A_0$ and $B_i$'s can be developed similarly.
+\begin{align}
+	A_i&=\frac{\omega}{\pi}\int_{-\pi/\omega}{\pi/\omega}g(f(t))\cos(i\omega t)\\
+	&=\frac{\omega}{\pi}\int_{-\pi/\omega}^{\pi/\omega}\sum_{j=0}^{+\infty}a_jf(t)^j\cos(i\omega t)\\
+	&=\sum_{j=0}^{+\infty}a_j\frac{\omega}{\pi}\int_{-\pi/\omega}^{\pi/\omega}f(t)^jcos(i\omega t)\\
+	&=\sum_{j=0}^{+\infty}a_j(\mathit{CFSf}^j).A_i
+\end{align}
+Intuitively (detailed analysis of introduced error in the future), as an approximation, we do a similar cut-off on the Taylor series. That is, we turn $\sum_{j=0}^{+\infty}$ into $\sum_{j=0}^{n}$, and we have
+\begin{equation}
+	A_i=\sum_{j=0}^{n}a_j(\mathit{CFSf}^j).A_i
+\end{equation}
+Combining with similar resulted expressions of $A_0$ and $B_i$'s, we have the equations in \tref{T:Function}.
+\section{List of Basic Functions}\label{Appendix:BasicFunctions}
+The term \emph{Basic Functions} in this library consists of the following functions
+\begin{itemize}
+	\item $\sin(x)$
+	\item $\cos(x)$
+	\item $\tan(x)$
+	\item $\arcsin(x)$
+	\item $\arccos(x)$
+	\item $\arctan(x)$
+	\item $\exp(x)$
+	\item $\ln(x+1)$
+\end{itemize}
+We might include more functions if deemed necessary.
 \end{document}
