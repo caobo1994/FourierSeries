@@ -102,7 +102,7 @@
 	\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 	\midrule
 	Oct. 10, 2019 & 0.9 & Draft submitted for review by Dr. Smith\\
-	TBD & 1.0 & Revised in accordance with advice from Dr. Smith\\
+	Dec 3, 2019 & 1.0 & Revised in accordance with advice from Dr. Smith\\
 	\bottomrule
 \end{tabularx}
 
@@ -138,6 +138,7 @@ libraries.
 	or $\mathbb{Z}$)\\
 	$\mathbb{A}^{+}$ & Positive subset of set $\mathbb{A}$ (either $\mathbb{R}$ 
 	or $\mathbb{Z}$)\\
+	$\mathbb{N}$ & alias of $\mathbb{Z}^{*}$\\
 	$\sum_{i=m_1}^{m_2}a_i$ & Summation of $a_i, i=m_1, m_1+1, ..., m_2$\\
 	$n$ & Length of cut-off Fourier series\\ 
 	$\omega$ & Base frequency of Fourier series \\
@@ -174,10 +175,6 @@ libraries.
 	T & Theoretical Model\\
 	\bottomrule
 \end{tabular}\\
-
-\newpage
-
-\tableofcontents
 
 ~\newpage
 
@@ -219,11 +216,11 @@ This document consists of the following sections.
 \begin{itemize}
 	\item \autoref{Sc:GSD} generally describes this library, including 
 	what it is, who uses it, and what kinds of environment it needs.
-	\item \autoref{Sc:CA} introduces the common elements of this library. 
+	\item \autoref{Sc:System} introduces the common elements of this library. 
 	This section overviews its background, defines related data, 
 	introduces theories needed for calculation, 
 	and states the goals of this library.
-	\item \autoref{Sc:Var} covers the different functions of this library, 
+	\item \autoref{Sc:IM} covers the different functions of this library, 
 	and states its variability in assumptions, calculations, and outputs.
 	\item \autoref{Sc:Req} informs users, developers, maintainers, 
 	and reviewers of this library, about its requirements, 
@@ -233,10 +230,11 @@ This document consists of the following sections.
 	\item \autoref{Sc:Trace} shows the traceability matrix of this library, 
 	to inform the developers of their changes' impacts.
 	\item \autoref{Appendix:Operations} gives proof of the 
-	operation-related theories in \autoref{Sc:CA}.
+	operation-related theories in \autoref{Sc:System}.
+	\item \autoref{Appendix:BasicFunctions} gives a list of basic functions in this document.   
 \end{itemize}
 
-\section{General System Description}
+\section{General System Description}\label{Sc:GSD}
 
 This section identifies the interfaces between the system and its environment,
 describes the potential user characteristics and lists the potential system
@@ -280,7 +278,7 @@ The potential systems must contain the compilation/interpretation environment
 for the programming languages in which this library is developed, as well 
 as dependent libraries.
 
-\section{Specific System Description}
+\section{Specific System Description}\label{Sc:System}
 
 This section first presents the problem description, which gives a high-level
 view of the problem to be solved.  This is followed by the solution characteristics
@@ -335,7 +333,7 @@ easier to correctly understand the requirements:
 	the result of this operation on these two CFS's.
 	\item[GS\refstepcounter{goalnum}\thegoalnum \label{GS:Function}:] 
 	When given a CFS $\mathit{CFSf}$, and a function $g(t)$ from the basic 
-	function sets defined by this library (see \autoref{Appendix:BasicFunction}), return the CFS $g(CFSf)$.\an{Basic functions refined in the appendix} 
+	function sets defined by this library (see \autoref{Appendix:BasicFunctions}), return the CFS $g(CFSf)$.\an{Basic functions refined in the appendix} 
 	\an{I don't know whether to define the basic function set here or not. 
 		I can, and I don't see any possible changes} \wss{The requirements should be
 		complete, so you should define the basic function set.  I suggest introducing a
@@ -701,7 +699,7 @@ on.
 		\hline
 		Description & The above equation calculates $A_{inf,i}$'s and $B_{inf,i}$'s, 
 		thus $A_i (i=0:n)$, $B_i(i=1:n)$ in $\mathit{CFSf}$ from given $f(t)$, $n$ 
-		and $\omega$. The definitions of these variables can be found in \ddref{IFS} and \ddref{CFS}. \wss{There should be a reference to DD1 here.}\an{Added here.}\\
+		and $\omega$. The definitions of these variables can be found in \ddref{DD:IFS} and \ddref{DD:CFS}. \wss{There should be a reference to DD1 here.}\an{Added here.}\\
 		
 		\hline
 		Source & Tolstov, G.P. and Silverman, R.A., Fourier Series, Dover 
@@ -746,7 +744,7 @@ case, the corresponding CFS shall be one with $A_0=a$, $A_i=0, B_i=0, (i=1:n)$.
 			above relation holds, and then I saw your appendix.
 			Good work!}\\
 		\hline
-		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, 
+		Ref.\ By &  \calref{Cal:Normal}, 
 		and \oref{Output:Faithful}\\
 		\hline
 	\end{tabular}
@@ -781,7 +779,7 @@ case, the corresponding CFS shall be one with $A_0=a$, $A_i=0, B_i=0, (i=1:n)$.
 		\hline
 		Source & Developed by author in \autoref{Appendix:Operations}\\
 		\hline
-		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, 
+		Ref.\ By &  \calref{Cal:Normal}, 
 		and \oref{Output:Faithful}\\
 		\hline
 	\end{tabular}
@@ -820,7 +818,7 @@ case, the corresponding CFS shall be one with $A_0=a$, $A_i=0, B_i=0, (i=1:n)$.
 		\hline
 		Source & Developed by author in \autoref{Appendix:Operations}\\
 		\hline
-		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, 
+		Ref.\ By &  \calref{Cal:Normal}, 
 		and \oref{Output:Faithful}\\
 		\hline
 	\end{tabular}
@@ -860,7 +858,7 @@ case, the corresponding CFS shall be one with $A_0=a$, $A_i=0, B_i=0, (i=1:n)$.
 		\hline
 		Source & Developed by author in \autoref{Appendix:Operations}\\
 		\hline
-		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, 
+		Ref.\ By &  \calref{Cal:Normal}, 
 		\oref{Output:Faithful}, 
 		and \oref{Output:Error}\\
 		\hline
@@ -927,8 +925,8 @@ case, the corresponding CFS shall be one with $A_0=a$, $A_i=0, B_i=0, (i=1:n)$.
 \end{minipage}\\
 ~\newline
 
-\section{Variabilities}\label{Sc:Var}
-\subsection{Instance Models}
+\section{Instance Models}
+\label{Sc:IM}
 \noindent
 \begin{minipage}{\textwidth}
 	\renewcommand*{\arraystretch}{1.5}
@@ -1026,7 +1024,7 @@ case, the corresponding CFS shall be one with $A_0=a$, $A_i=0, B_i=0, (i=1:n)$.
 		\hline
 		Sources&Same as \tref{T:Addition}		\\
 		\hline
-		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, 
+		Ref.\ By &  \calref{Cal:Normal}, 
 		and \oref{Output:Faithful}\\
 		\hline
 	\end{tabular}
@@ -1056,7 +1054,7 @@ case, the corresponding CFS shall be one with $A_0=a$, $A_i=0, B_i=0, (i=1:n)$.
 		\hline
 		Sources&Same as \tref{T:Subtraction}		\\
 		\hline
-		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, 
+		Ref.\ By &  \calref{Cal:Normal}, 
 		and \oref{Output:Faithful}\\
 		\hline
 	\end{tabular}
@@ -1089,7 +1087,7 @@ case, the corresponding CFS shall be one with $A_0=a$, $A_i=0, B_i=0, (i=1:n)$.
 		\hline
 		Sources&Same as \tref{T:Multiplication}\\
 		\hline
-		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, 
+		Ref.\ By &  \calref{Cal:Normal}, 
 		and \oref{Output:Faithful}\\
 		\hline
 	\end{tabular}
@@ -1122,7 +1120,7 @@ case, the corresponding CFS shall be one with $A_0=a$, $A_i=0, B_i=0, (i=1:n)$.
 		\hline
 		Sources&Same as \tref{T:Division}		\\
 		\hline
-		Ref.\ By & \aref{Ass:CFSPropertyMatch}, 
+		Ref.\ By &  
 		\calref{Cal:Normal}, 
 		\oref{Output:Faithful}, and \oref{Output:Error}\\
 		\hline
@@ -1223,7 +1221,7 @@ case, the corresponding CFS shall be one with $A_0=a$, $A_i=0, B_i=0, (i=1:n)$.
 		\hline
 		Sources&Same as \tref{T:Subtraction} and \tref{T:Amplitude}\\
 		\hline
-		Ref.\ By & \aref{Ass:CFSPropertyMatch}, \calref{Cal:Normal}, 
+		Ref.\ By &  \calref{Cal:Normal}, 
 		and \oref{Output:Faithful}\\
 		\hline
 	\end{tabular}
@@ -1253,7 +1251,7 @@ case, the corresponding CFS shall be one with $A_0=a$, $A_i=0, B_i=0, (i=1:n)$.
 		\hline
 		Sources&None		\\
 		\hline
-		Ref.\ By &  \aref{Ass:Memory}, \calref{Cal:Normal}, 
+		Ref.\ By &   \calref{Cal:Normal}, 
 		and \oref{Output:Faithful}\\
 		\hline
 	\end{tabular}
@@ -1282,7 +1280,7 @@ case, the corresponding CFS shall be one with $A_0=a$, $A_i=0, B_i=0, (i=1:n)$.
 		\hline
 		Sources&None\\
 		\hline
-		Ref.\ By &   \aref{Ass:Memory}, \calref{Cal:Normal}, 
+		Ref.\ By &    \calref{Cal:Normal}, 
 		and \oref{Output:Faithful}\\
 		\hline
 	\end{tabular}
@@ -1444,45 +1442,45 @@ calculations, and outputs.
 		\ddref{DD:Subtraction}
 		& & &X&X&X\\\hline
 		\ddref{DD:Multiplication}
-		& & &X& &X&X&X\\\hline
+		& & &X&X&X\\\hline
 		\ddref{DD:Division}
-		& & &X& &X&X&X\\\hline
+		& & &X&X&X\\\hline
 		\ddref{DD:Function}
-		& &X& & &X&X& \\\hline
+		& &X&X&X& \\\hline
 		\ddref{DD:Amplitude}
-		& & & & &X&X& \\\hline
+		& & &X&X& \\\hline
 		\tref{T:Transformation}
-		&X& & & &X&X&X\\\hline
+		&X& &X&X&X\\\hline
 		\tref{T:Addition}
-		& & &X& &X&X& \\\hline
+		& & &X&X& \\\hline
 		\tref{T:Subtraction}
-		& & &X& &X&X& \\\hline
+		& & &X&X& \\\hline
 		\tref{T:Multiplication}
-		& & &X& &X&X& \\\hline
+		& & &X&X& \\\hline
 		\tref{T:Division}
-		& & &X& &X&X&X\\\hline
+		& & &X&X&X\\\hline
 		\tref{T:Amplitude}
-		& & & & &X&X& \\\hline
+		& & &X&X& \\\hline
 		\iref{IM:CFScoeff}
-		&X& & & &X&X&X\\\hline
+		&X& &X&X&X\\\hline
 		\iref{IM:Addition}
-		& & &X& &X&X& \\\hline
+		& & &X&X& \\\hline
 		\iref{IM:Subtraction}
-		& & &X& &X&X& \\\hline
+		& & &X&X& \\\hline
 		\iref{IM:Multiplication}
-		& & &X& &X&X& \\\hline
+		& & &X&X& \\\hline
 		\iref{IM:Division}
-		& & &X& &X&X&X\\\hline
+		& & &X&X&X\\\hline
 		\iref{IM:Function}
-		& &X& & &X&X& \\\hline
+		& &X&X&X& \\\hline
 		\iref{IM:Amplitude}
-		& & & & &X&X& \\\hline
+		& & &X&X& \\\hline
 		\iref{IM:ToleratedEquality}
-		& & &X& &X&X& \\\hline
+		& & &X&X& \\\hline
 		\iref{IM:ConvertTo}
-		& & & &X&X&X& \\\hline
+		& & &X&X& \\\hline
 		\iref{IM:ConvertFrom}
-		& & & &X&X&X& \\\hline		
+		& & &X&X& \\\hline		
 	\end{tabular}
 	\caption{The traceability matrix between goals, 
 		theoretical models, data definitions, and instances models 
@@ -1600,7 +1598,7 @@ and $\sin(i\omega t), i=1:n$ respectively,
 remove any terms containing 
 $A_{f,k}$, $B_{f,k}$, $A_{g,k}$, 
 and $B_{g,k}$ for any $k\geq n$ 
-($k$ being either $i$, $j$, $i-j$, $i+j$, or $j-1$) 
+($k$ being either $i$, $j$, $i-j$, or $i+j$) 
 as the result of a cut-off, 
 and get the equations in \tref{T:Multiplication}.
 \paragraph{Amplitude}\label{App-Para:Amplitude}
@@ -1625,8 +1623,7 @@ the summation of the following three expressions
 &\int_{-\pi/\omega}^{\pi/\omega}\sum_{i=0,j=0}^{n}A_{f,i}A_{f,j}
 \cos(i\omega t)\cos(j\omega t)\text{d} t\\
 &\int_{-\pi/\omega}^{\pi/\omega}\sum_{i=0,j=1}^{n}A_{f,i}B_{f,j}
-\sin(i\omega t)\cos(j\omega t)\text{d} t\\
-&\int_{-\pi/\omega}^{\pi/\omega}\sum_{i=1,j=0}^{n}B_{f,i}A_{f,j}
+\sin(i\omega t)\cos(j\omega t)\text{d} t+\int_{-\pi/\omega}^{\pi/\omega}\sum_{i=1,j=0}^{n}B_{f,i}A_{f,j}
 \sin(i\omega t)\cos(j\omega t)\text{d} t\\
 &\int_{-\pi/\omega}^{\pi/\omega}\sum_{i=1,j=1}^{n}B_{f,i}B_{f,j}
 \sin(i\omega t)\sin(j\omega t)\text{d} t\\
@@ -1651,8 +1648,8 @@ Calculation shows that the integration results are
 and
 \begin{equation}\label{Eq:sinsin}
 \int_{-\pi/\omega}^{\pi/\omega}\cos(i\omega t)\sin(j\omega t)=\begin{cases}
-\pi/\omega, &i=j\\
-0, &i\neq j\\
+\pi/\omega, &i=j;\\
+0, &i\neq j.\\
 \end{cases}
 \end{equation}
 Replacing integration in \autoref{Eq:AmpTerms} 
