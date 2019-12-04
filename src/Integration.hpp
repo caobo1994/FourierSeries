@@ -8,19 +8,11 @@
  * C-style code is highly not recommended.
  */
 
-#ifndef FSL_FUNC_H
-#define FSL_FUNC_H
+#ifndef FSL_INTEGRATION_H
+#define FSL_INTEGRATION_H
 
-#include "CFSData.hpp"
+#include "Integral.hpp"
 
-/*Other library inclusion is here*/
-namespace FSL{
-template<class FLOAT>
-/*RETURN TYPE*/ FUNC(/*PARAMETER LIST*/)
-{
-    /*FUNCTION BODY*/
-}
-}
 #endif
 
 /*

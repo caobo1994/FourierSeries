@@ -8,17 +8,26 @@
  * C-style code is highly not recommended.
  */
 
-#ifndef FSL_FUNC_H
-#define FSL_FUNC_H
-
-#include "CFSData.hpp"
+#ifndef FSL_INTEGRAL_H
+#define FSL_INTEGRAL_H
 
 /*Other library inclusion is here*/
+#include <boost/math/quadrature/trapezoidal.hpp>
+/*
+template<class F, class Real>
+Real trapezoidal(F f, Real a, Real b,
+                 Real tol = sqrt(std::numeric_limits<Real>::epsilon()),
+                 size_t max_refinements = 10,
+                 Real* error_estimate = nullptr,
+                 Real* L1 = nullptr);
+*/
+
 namespace FSL{
-template<class FLOAT>
-/*RETURN TYPE*/ FUNC(/*PARAMETER LIST*/)
+template<class FLOAT, class FUNC>
+FLOAT Integral(FUNC f, FLOAT a, FLOAT b)
 {
-    /*FUNCTION BODY*/
+	using boost::math::quadrature::trapezoidal;
+	return trapezoidal<FUNC, FLOAT>(f, a, b);
 }
 }
 #endif

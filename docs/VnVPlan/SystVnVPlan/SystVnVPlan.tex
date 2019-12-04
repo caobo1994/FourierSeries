@@ -43,9 +43,9 @@ Date 2 & 1.1 & Notes\\
 
 \section{Symbols, Abbreviations and Acronyms}
 
-Some symbols, abbreviations and acronyms are defined in the Common Analysis (CA)
+Some symbols, abbreviations and acronyms are defined in the Software Requirements Specification(SRS)
 document\footnote{This document is available at
-\url{https://github.com/caobo1994/FourierSeries/blob/master/docs/SRS/CA.pdf}.}. For
+\url{https://github.com/caobo1994/FourierSeries/blob/master/docs/SRS/SRS.pdf}.}. For
 simplicity and maintainability, they are not redefined here. Readers shall refer
 to the CA documents when a certain item is not defined here.
 
@@ -93,18 +93,23 @@ also the base of the Unit Test Plan document.
 
 
 \section{Plan}
-
+This section lists the plan of the VnV of the FSL library.
+\begin{itemize}
+	
+\end{itemize}
 \wss{There should usually be text between section headings.  In this case, a
   ``roadmap'' of the subsections in this section would be appropriate.}
+\an{Contents added here}
 
-\subsection{Verification and Validation Team}
+\subsection{Verification and Validation Team}\label{sbsc:VnVTeam}
 
 The major member of the team is the author himself. Other contributors might
 assist in the VnV procedure, but their contributions are not
 guaranteed. \wss{You should specifically list the class mates that are assigned
   to review your documents.  You should also list the course instructor.}
 
-\subsection{CA Verification Plan}
+\subsection{SRS Verification Plan}
+\label{sbsc:SRSVnVPlan}
 
 The verification of the CA document mainly consists of the feedback from
 reviewers, and the author's experience in developing and verifying this
@@ -112,6 +117,7 @@ library. \wss{A task directed verification plan could be much more effective
   than this ad hoc approach.}
 
 \subsection{Design Verification Plan}
+\label{sbsc:DesignVnVPlan}
 
 The design of this library will be verified by reviewing how the functions in
 this library relies on each other, and how they are integrated. \wss{This is not
@@ -119,6 +125,7 @@ this library relies on each other, and how they are integrated. \wss{This is not
   colleagues, like Peter, have a detailed plan for design verification.}
 
 \subsection{Implementation Verification Plan}
+\label{sbsc:ImplementationVnVPlan}
 
 The verification of the implementation of this library is mainly done by unit
 testing. The detail of unit testing can be found in the Unit Test Plan
@@ -127,7 +134,7 @@ functions in this library, and then testing the advanced functions. Please note
 that the test result of any function in this library is acceptable, if and only
 if the reliant functions of this function is tested to be right.
 
-\subsection{Software Validation Plan}
+\subsection{Software Validation Plan}\label{sbsc:SoftwareVnVPlan}
 
 The transformation part of this library will be validated by comparing its
 result with the MATLAB pseudo-oracle. \wss{Where does the Matlab pseudo-oracle
