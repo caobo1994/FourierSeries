@@ -147,7 +147,7 @@ libraries.
 	$A_i$, $B_i$& coeffecients of `sin' and `cos' functions in a CFS.\\
 	$\mathit{App}$& Approximation operation on a CFS\\
 	$\mathit{Amp}$& Amplitude function of a CFS\\
-	$\mathit{tol}$& Tolerance used for equality of CFS.\\
+	$\epsilon$& Tolerance used for equality of CFS.\\
 	\bottomrule
 \end{longtable*}
 
@@ -654,7 +654,7 @@ From now on, we are going to introduce a series of operators/functions on $\math
 		Symbol &$\mathit{TolEq}: (\mathit{CFST}, \mathit{CFST}, \mathbb{R})\rightarrow\mathit{Bool}$\\
 		\hline
 		Equation&  $TolEq(CFSf, CFSg, err)=(\mathit{Amp}
-		(\mathit{CFSf}-\mathit{CFSg})\leq \mathit{err})$  \wss{Would a
+		(\mathit{CFSf}-\mathit{CFSg})\leq \epsilon)$  \wss{Would a
 			relative error make more sense than an absolute error?}\an{Relative error and absolute error can be converted by users easily, with the help of the $\mathit{Amp}$ function. I choose to implement an absolute error version because it is more basic, and I can develop a relative error version easily from it if needed.}\\
 		\hline
 		Description & Define whether two CFS's are equal within a given 
@@ -1202,17 +1202,17 @@ case, the corresponding CFS shall be one with $A_0=a$, $A_i=0, B_i=0, (i=1:n)$.
 		\hline
 		Label& \bf Tolerated Equality Comparison of two CFS's \\
 		\hline
-		Input& $\mathit{CFSf}$, $\mathit{CFSg}$, $\mathit{tol}$\\
+		Input& $\mathit{CFSf}$, $\mathit{CFSg}$, $\epsilon$\\
 		\hline
-		Output&$\mathit{TolEq}(\mathit{CFSf}, \mathit{CFSg}, \mathit{tol})$\\
+		Output&$\mathit{TolEq}(\mathit{CFSf}, \mathit{CFSg}, \epsilon)$\\
 		& boolean value \texttt{True} if 
-		$\mathit{Amp}(\mathit{CFSf}-\mathit{CFSg})\leq \mathit{tol}$\\
+		$\mathit{Amp}(\mathit{CFSf}-\mathit{CFSg})\leq \epsilon$\\
 		&boolean value \texttt{False} otherwise\\
 		\hline
 		Description&Input:\\
 		&$\mathit{CFSf}$, $\mathit{CFSg}$: operands of 
 		the tolerated equality comparison\\
-		&$\mathit{tol}\in\mathbb{R}^{*}$\\
+		&$\epsilon\in\mathbb{R}^{*}$\\
 		&Output:\\
 		& A boolean value: Whether the two operands are equal 
 		within the given error tolerance\\

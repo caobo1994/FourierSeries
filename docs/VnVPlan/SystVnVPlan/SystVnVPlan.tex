@@ -30,8 +30,8 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Oct. 28, 2019  & 1.0 & First draft.\\
-Date 2 & 1.1 & Notes\\
+Oct. 28, 2019  & 0.99 & First draft.\\
+Dec. 5, 2019 & 1.0 & Final version.\\
 \bottomrule
 \end{tabularx}
 
@@ -109,24 +109,36 @@ This section lists the plan of the VnV of the FSL library.
 
 The major member of the team is the author himself. Other contributors might
 assist in the VnV procedure, but their contributions are not
-guaranteed. \wss{You should specifically list the class mates that are assigned
-  to review your documents.  You should also list the course instructor.}
+guaranteed.
+In detail, the other contributors include the following people and their github accounts.
+\begin{itemize}
+	\item Dr.~Spencer Smith \href{https://github.com/smiths}{smiths} and Deema Alomair \href{https://github.com/deemaalomair1}{deemaalmair1} review the whole library, including all documents and codes.
+	\item Ao Dong \href{https://github.com/Ao99}{Ao99} reviews the SRS.
+	\item Peter Michalski \href{https://github.com/peter-michalski}{peter-michalski} reviews the VnV plans.
+	\item Sasha Soraine \href{https://github.com/sorainsm}{sorainsm} reviews the design.
+\end{itemize}
+
+\wss{You should specifically list the class mates that are assigned
+  to review your documents.  You should also list the course instructor.}\an{Done.}
 
 \subsection{SRS Verification Plan}
 \label{sbsc:SRSVnVPlan}
 
-The verification of the CA document mainly consists of the feedback from
+The verification of the SRS document mainly consists of the checking of all the mathematical expressions of the system. Especially, we will use some simple mathematical functions and their related results to check the theories related to operations.
+
+Some functions are reversions of other functions. For example, \li{Function Value} is the reversion of \li{Transform}, \li{Addition} is the reversion of \li{Subtraction}, \li{Division} is the reversion of \li{Multiplication}. For each pair of function \li{A} and \li{B}, we will see if functions \li{A(B())} and \li{B(A())}'s output is close to its input with some examples. 
+
+We will also learn from the feedback from
 reviewers, and the author's experience in developing and verifying this
 library. \wss{A task directed verification plan could be much more effective
-  than this ad hoc approach.}
+  than this ad hoc approach.}\an{Some ways added before the original content.}
 
 \subsection{Design Verification Plan}
 \label{sbsc:DesignVnVPlan}
 
-The design of this library will be verified by reviewing how the functions in
-this library relies on each other, and how they are integrated. \wss{This is not
+The design of this library will be verified by checking the library against all the requirements. The functional requirements shall be checked first, followed by the performance-related parts of the non-functional requirements. \wss{This is not
   a very detailed plan.  Did you consider other options?  Some of your
-  colleagues, like Peter, have a detailed plan for design verification.}
+  colleagues, like Peter, have a detailed plan for design verification.}\an{Amended.}
 
 \subsection{Implementation Verification Plan}
 \label{sbsc:ImplementationVnVPlan}
@@ -134,16 +146,18 @@ this library relies on each other, and how they are integrated. \wss{This is not
 The verification of the implementation of this library is mainly done by unit
 testing. The detail of unit testing can be found in the Unit Test Plan
 document. Mainly, the unit test will be done by first testing the basic
-functions in this library, and then testing the advanced functions. Please note
+functions in this library, and then testing the advanced functions. \textbf{Please note
 that the test result of any function in this library is acceptable, if and only
-if the reliant functions of this function is tested to be right.
+if the reliant functions of this function is tested to be right.}
 
 \subsection{Software Validation Plan}\label{sbsc:SoftwareVnVPlan}
 
 The transformation part of this library will be validated by comparing its
-result with the MATLAB pseudo-oracle. \wss{Where does the Matlab pseudo-oracle
+result with the MATLAB pseudo-oracle. 
+
+The MATLAB pseudo-oracle is computed by the implemented Fourier Transformation function within the MATLAB math libraries. We will choose several groups of $f(t), \omega, n$, compute the Fourier Transformation of $f(t)$ with frequency $\omega$, and compare the leading terms with $\mathit{CFS}(f(t), n, \omega)$  \wss{Where does the Matlab pseudo-oracle
   come from?  This is a good idea, but you should take it a step further and
-  explain the source of the pseudo-oracle.}
+  explain the source of the pseudo-oracle.}\an{Elaborated here.}
 
 \section{System Test Description}
 	
@@ -192,14 +206,14 @@ and only if the test results of this module are all successes.}
         be a CFS object
         $[n=2, \omega=1.0, A=\{1.0, -2.0, -1.0\}, B=\{-1.0, 1.0\}]$
 	
-	Test Case Derivation: Manual computation \wss{Why do this manually?
+	Test Case Derivation: Feed input, get output, and compare value-to-value automatically via Unit Test. \wss{Why do this manually?
           This is a good test for automation.  A unit testing framework can take
         care of the details.  I see that many of the following tests are
-        manual.  Please consider making all of your tests automatic.}
+        manual.  Please consider making all of your tests automatic.}\an{I misunderstood the meaning of 'Test Case Derivation'. I thought it means how I find a set of input/outputs. Now, I found out that it means how we compare our output with the standard output.}
 	
-	How test will be performed: Feed function with the aforementioned input,
+	How test will be performed: Unit Test framework will feed function with the aforementioned input,
         and compare the function output to the aforementioned standard output by
-        comparing its $n$, $\omega$, $A_i$'s and $B_i$'s variable-by-variable.
+        comparing its $n$, $\omega$, $A_i$'s and $B_i$'s variable-by-variable. Called 'compute and compare later'.
 	
 	\item{Test of amplitude function: \\}					
 	
@@ -214,28 +228,28 @@ and only if the test results of this module are all successes.}
         $|\mathit{Amp}(\mathit{CFSf})-3.0|\leq\epsilon$, which should be
         \li{True}.
 	
-	Test Case Derivation: Manual computation
+	Test Case Derivation: Feed input, get output, and compare value-to-value automatically via Unit Test.
 	
 	How test will be performed: Compute and compare.
 	
 	
-	\item{Test of tolerated comparison  (\li{True} result): \\}
+	\item{Test of tolerated equality function \li{TolEq} (\li{True} result): \\}
 	
 	Type: Automatic
 	
 	Initial State: Verified amplitude function.
 	
 	Input: $\mathit{CFSf}=[n=2, \omega=1.0, A=\{1.0, 0.0, 0.0\}, B=\{0.0, 1.0\}]$, 
-	$\mathit{CFSg}=[n=2, \omega=1.0, A=\{0.0, 2.0, 1.0\}, B=\{1.0, 0.0\}]$, and error $\epsilon=10.0$
+	$\mathit{CFSg}=[n=2, \omega=1.0, A=\{0.0, 2.0, 1.0\}, B=\{1.0, 0.0\}]$, and error $\epsilon=10.0$.
 	
-	Output: Comparison result which should be \li{True} \wss{What is being
-          compared?  This is not clear.}
+	Output: Return value of this function, which should be \li{True} \wss{What is being
+          compared?  This is not clear.}\an{I mean the return value of this function}
 	
-	Test Case Derivation: Manual computation
+	Test Case Derivation: Feed input, get output, and compare value-to-value automatically via Unit Test.
 	
 	How test will be performed: Compute and compare.
 	
-	\item{Test of tolerated comparison  (\li{False} result):\\}
+	\item{Test of tolerated comparison function \li{TolEq} (\li{False} result):\\}
 	
           Same as \textit{Test of tolerated comparison (\li{True} result)}, but
           with $\epsilon=1.0$ and Output as \li{False}.
@@ -250,7 +264,7 @@ approximated values of functions.
 	
 	Type: Automatic
 	
-	Initial State: Verified tolerated equality function.
+	Initial State: Verified tolerated equality function \li{TolEq}.
 	
 	Input: $f(t)=t^2$, $\omega=1$, $n=2$, $\epsilon=10^{-6}$,
         $\mathit{CFSstd}=[n=2,\omega=1, A=\{\pi^2/3, -4.0, 1.0\}, B=\{0.0,
@@ -258,12 +272,11 @@ approximated values of functions.
 	
 	Output: Evaluated result of
         $\mathit{TolEq}(\mathit{CFSf}, \mathit{CFSstd}, \epsilon)$, which should
-        be \li{True}. \wss{Is this TolEq function defined somewhere?}
+        be \li{True}. \wss{Is this TolEq function defined somewhere?}\an{In SRS}
 	
-	Test Case Derivation: Manual Computation, verified by MATLAB
-        computation.
+	Test Case Derivation: Feed input, get output, and compare with \li{TolEq} and $\epsilon$ automatically via Unit Test.
 	
-	How test will be performed: Compute and compare.
+	How test will be performed: Compute and compare, but instead of compare one-by-one, use \li{TolEq} function with the aforementioned tolerance $\epsilon$. (Called 'Compute and compare with tolerance' later.)
 	
 	\item{Test of coefficient (odd function):\\}
 	
@@ -277,9 +290,10 @@ approximated values of functions.
 	Output: $\mathit{TolEq}(\mathit{CFSf}, \mathit{CFSstd}, \epsilon)$,
         which should be \li{True}.
 	
-	Test Case Derivation: Manual Computation, verified by MATLAB computation.
+	Test Case Derivation: Feed input, get output, and compare by \li{TolEq} and $\epsilon$ automatically via Unit Test.
 	
-	How test will be performed: Compute and compare.
+	
+	How test will be performed: Compute and compare with tolerance.
 	
 	\item{Test of approximated function value: \\}
 	
@@ -294,10 +308,10 @@ approximated values of functions.
         $|\mathit{App}(\mathit{CFSf}, t)-(2+\sqrt{2}/2)|\leq\epsilon$, which
         should be \li{True}.
 	
-	Test Case Derivation: Manual Computation, verified by MATLAB
-        computation.
+	Test Case Derivation: Feed input, get output, and compare by \li{TolEq} and $\epsilon$ automatically via Unit Test.
 	
-	How test will be performed: Compute and compare.
+	
+	How test will be performed: Compute and compare with tolerance.
 	
 \end{enumerate}
 
@@ -418,53 +432,86 @@ indicating mismatched $n$, number of $A_i(i\neq0)$'s, and number of $B_i$'s.
 The tests in this section will also be done by unit testing.
 
 \subsubsection{Speed evaluation}
-We test the speed of IM1, IM3, IM4, IM5, IM8 and IM9.	
+We test the speed of IM2, IM3, IM4, IM5, IM6, IM7, IM8 and IM9.	
 
-For each test, generate random CFS's with same $\omega$ and various $n$, \wss{be
+For each test, generate random CFS's with same $\omega$ and various $n$, as well as $A_i$'s and $B_i$'s from the same random number generator. \wss{be
   more specific on what is involved in generating the random CFS's.  What is the
-  range of values that are allowed?} clock
+  range of values that are allowed?}\an{The range of the values (fully decided by the random number generator) is the same within each test case, but may vary among test cases in the future, so I choose not to mention the detail of the range here, but within the test case.} clock
 the execution time with the generated CFS's as input, and check whether the
 relationship between $n$ and the execution time follows the requirements in the
 NFR.
 
-We will demonstrate how the test is performed by showing one example.
+We will demonstrate how the test is performed by showing a template of tests, and each test's values of template parameters (shown in the following font \li{Parameter}).
 \begin{enumerate}
 	
-	\item{Test the speed of addition\\}
+	\item{Test the speed of \li{Operation}\\}
 	
 	Type: Automatic
 	
-	Initial State: Addition
+	Initial State: \li{Operation}
 	
 	Input/Condition: Various pair of CFS's, with the same $\omega$,
         $n=100:100:1000$ respectively, and $A_i$'s and $B_i$'s generated from a
         random number generator. In this test, this generator is chosen as the
         uniform random number generator on $[-1.0, 1.0]$.
 	
-	Output/Result: Whether the execution time of addition is linear in
-        regards to $n$.  \wss{I think the output should be the plot of the time
+	Output/Result: A plot of average execution time versus $n$, together with the related \li{Speed Rule} regression coefficient $r$ (if the value of \li{Speed Rule} is unknown, we will report the $r$, $a$, and $b$ of the log-log regression $\log(y)=a\log(x)+b$ instead) \wss{I think the output should be the plot of the time
           versus $n$.}
 	
 	How test will be performed: For each $n$, generate 10 pairs of CFS's,
         clock their execution time to take average value as the execution time
-        for CFS's of size $n$, find the $r$ value of a linear fitting between
-        $n$ and the execution time. This test succeeds when $|r|>0.9$, otherwise
-        fails. However, when the test fails, tester can examine the value of
-        $|r|$, and choose to make it acceptable failure, if he/she has good
-        reasons to do so.
+        for CFS's of size $n$, plot as said before, find and show the $r$ value of a \li{Speed Rule} fitting between
+        $n$ and the execution time. Usually, this test is considered a success when $|r|>0.9$, but it can also be considered a success if the tester has found a good explanation of this coefficient.
 	
 \end{enumerate}
+Here is a list of the values of parameters in each test.
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		IM\#&\li{Operation}&\li{Speed Rule}\\
+		\hline
+		IM2&Approximate Function Value&Linear\\
+		IM3&Addition&Linear\\
+		IM4&Subtraction&Linear\\
+		IM5&Multiplication&Squared\\
+		IM6&Division&Unknown\\
+		IM7&Function&Unknown\\
+		IM8&Amplitude&Linear\\
+		IM9&Tolerated Equality&Linear\\
+		\hline
+	\end{tabular}
+	\caption{Table of parameter values for each test.}
+\end{table}
 
 \wss{You should explain all of the tests, but you can use a table to summarize
-  just the deltas between the base test and the individual tests.}
+  just the deltas between the base test and the individual tests.}\an{Done accordingly.}
 
 \wss{What about other nonfunctional tests?  Usability could be a valuable thing
   to assess.  Portability? (I think this would be a fairly easy one to assess.)
   Installability?}
+\an{The usability test is deemed unnecessary, due to the fact that the interface of this library is pretty simple, and given my experience of using several libraries, I think that it is quite easy to use if the user have basic knowledge of this language.}
+\an{Initially when I think about my library at this stage, I have not decided about the language, test tools, and other things. I only knows that I will distribute the source code. In the case of source code distribution, the common practice among the open-source software area is that the users shall fully taken care of the portability and installability part, thus I did not plan to test them here.} 
+	
+\an{Furthermore, I anticipate that I will be writing codes strictly following basic standards with popular supporting libraries (like boost), and the portability of these standards and libraries have been tested by lots and lots of people on different kinds of platforms, so the portability of my library is guaranteed.}
+	
+\an{I will also organize my library in a popular way, and when used by the users, the library will not contain any codes to be compiled when being installed, just some source codes, and the users will compile my source code together with theirs. Thus, the install procedure only involves that the user copy/link my library files to their intended location, which is pretty easy and straightforward on the platforms that I know of, so the installability is guaranteed.}
 
-\subsection{Traceability Between Test Cases and Modules}
+\an{However, after I have considered the actual unit test part, I think I can do  a little bit to the two test just to provide proof to my arguments. The contents I added is shown as follows.}
+
+\subsubsection{Test of portability and installability}
+The portability and installability test will be done by doing the unit tests on several platforms, with different compilers and different versions of language standards.
+
+The platforms include mac OS X (10.11~10.15), Windows 10 (1909 as a representative, since Windows has a good reputation of compatibility between versions), and Linux distributions including Ubuntu 18.04, CentOS 7.7-1908, Fedora 30, and Archlinux 2019-12-01 version.
+
+At this stage, I have anticipated that I will be using C++ to implement this library. The standards I choose to test for compatibility are C++03, C++11, C++14, C++17, and C++20 (if it becomes official in the lifespan of this library).
+
+I will also be checking the compatibility with the following C++ compilers: gcc (version 5.0\~{}8.0), clang (version 5.0, 6.0), msvc (the versions distributed with vs2017 and vs2019), and icc (16.0\~{}19.0) 
+
+\subsection{Traceability Between Test Cases and Instance Modules}
 We show each instance module's covering tests. \wss{You don't have modules.  I
-  think you mean requirements?}
+  think you mean requirements?}\an{Actually, I mean instance modules. Each set of tests covers the related requirements to this instance module, and how the requirements apply to this instance module.}
 
 \begin{itemize}
 \item IM1: \textit{Test of transformation (even function)} and \textit{Test of
@@ -485,7 +532,7 @@ We show each instance module's covering tests. \wss{You don't have modules.  I
   identical to the system plan.  I agree there is overlap, but I expect that you
   will have unique tests for the unit case.  For instance, if you introduce a
   data structure for the CFSs, then you want to be able to check each of the
-  methods for the CFSs.}
+  methods for the CFSs.}\an{Indeed. The contents you mentioned will be elaborated in UnitVnV.}
 
 \bibliographystyle{plainnat}
 
