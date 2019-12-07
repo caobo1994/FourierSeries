@@ -57,6 +57,7 @@
   I'm not sure where it comes up in your document.  After a quick look, I didn't
   find any external references, or references that didn't work.}
 
+\an{The reason you did not find external references is that I removed all of them after I found that they don't work. Sorry that I did say it clear in my documents. I thought you mentioned in the classes that we have to use external references in this document for requirements, facilitating maintenance.}
 \section{Revision History}
 
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
@@ -269,7 +270,7 @@ to be implemented.
 \subsection{Infrastructure module (\mref{Infra})}
 
 \begin{description}
-\item[Secrets:]How the basic data stricture \wss{spell check and proof read} and functions are
+\item[Secrets:]How the basic data structure \wss{spell check and proof read} \an{Corrected. Sorry that my spell check plug-in did not detect this, for strange reasons.} and functions are
   implemented on a specific hardware/OS set.
 \item[Services:]Serves as the basic functions and data structure (like sequence,
   etc.) used by the rest of the system. This module provides the interface
@@ -315,16 +316,19 @@ to be implemented.
 \end{description}
 \subsubsection{Basic operation \mref{BasicOp}}
 \begin{description}
-	\item[Secrets:] Addition, subtraction, multiplication amplitude: Plain algorithm\\
+	\item[Secrets:] Addition, subtraction, multiplication amplitude: Word-by-word as described in theories in SRS.\\
 	Division: Given that the division is solving a linear equation whose variable is a vector constructed from the CFS, to get equation $Ax=b$, the library will calculate the $A$ and $b$ from the operands, pass the equation to linear solver for solution, and calculate the coefficients in CFST-type result from the solution.
 	\item[Services:] Provide addition, subtraction, multiplication, division and amplitude operations.
 	\item[Implemented By:] \progname
 \end{description}
 \subsubsection{Advanced operation \mref{AdvancedOp}}
 \begin{description}
-	\item[Secrets:] Plain algorithm \wss{Is this a copy and paste error?  I
+	\item[Secrets:] Word-by-word as described in theories in SRS. \wss{Is this a copy and paste error?  I
             would think the word Advanced would be used here.  What are the
             operations that are having their implementation hidden?}
+        \an{Rephrased here for better understanding.}
+        
+        \an{By advanced, I tend to mean those operations whose definitions rely on other operations, and for rather complex (and rare) functionalities. Their defining expressions, if not counting the basic operations within themselves, are quite simple structurally. Actually, if you refer to my SRS, especially the theories and their proof in the appendix, you will find that the longest one is the basic multiplication, not the ones in the advanced operations module. }
 	\item[Services:] Provide function of CFS and tolerated equality operations.
 	\item[Implemented By:] \progname
 \end{description}
@@ -383,6 +387,8 @@ the modules. It can be seen that the graph is a directed acyclic graph
 system, and modules in the higher level of the hierarchy are essentially simpler
 because they use modules from the lower levels.
 
+\textbf{Please note that any module without the comment ``(external)'' is directly accessible by the user of this library.}
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.7\textwidth]{UsesHierarchy.png}
@@ -396,6 +402,7 @@ because they use modules from the lower levels.
 have some useful information, since I cannot currently tell whether the external
 program can directly access the basic operations, or whether only advanced
 operations are accessible on the front end.}
+\an{Theortically, I intend to expose any module that does not say 'external', thus I did not see this point at that time. I will make such notice just before this figure.}
 
 %\section*{References}
 \newpage
