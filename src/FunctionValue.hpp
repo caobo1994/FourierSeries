@@ -8,30 +8,27 @@
  * C-style code is highly not recommended.
  */
 
-#ifndef FSL_CONVERTTO_H
-#define FSL_CONVERTTO_H
+#ifndef FSL_FUNCTIONVALUE_HPP
+#define FSL_FUNCTIONVALUE_HPP
 
 #include "CFSData.hpp"
-#include "Integration.hpp"
 #include <cmath>
 
 /*Other library inclusion is here*/
 namespace FSL{
-template<class FLOAT, class FUNC>
-CFST<FLOAT> ConvertTo(FUNC f, size_t n, FLOAT omega)
+template<class FLOAT>
+FLOAT FUNC(const CFSData& CFS, FLOAT t)
 {
-    static FLOAT pi = M_PI;
-    if (omega<=0)
-    {
-    	throw(std::invalid_argument("ConvertTo: omega<=0"));
-    }
-    CFST<FLOAT> res(n, omega);
-    res.setAi((omega/(2*pi))Integral(f, -pi/omega, pi/omega));
+    FLOAT result = 0;
+    result += CFS.getAi(0);
+    size_t n = CFS.getn();
+    FLOAT omega = CFS.getomega()
     for (size_t i = 1; i <= n; ++i)
     {
-    	res.setAi((omega/pi)Integral([f, i, omega](FLOAT t){return f(t)*cos(i*omega*t);}, -pi/omega, pi/omega));
-    	res.setBi((omega/pi)Integral([f, i, omega](FLOAT t){return f(t)*sin(i*omega*t);}, -pi/omega, pi/omega));
+        result += CFS.getAi(i)*cos(i*omega*t);
+        result += CFS.getBi(i)*sin(i*omega*t);
     }
+    return result;
 }
 }
 #endif
