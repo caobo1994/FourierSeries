@@ -8,17 +8,26 @@
  * C-style code is highly not recommended.
  */
 
-#ifndef FSL_FUNC_HPP
-#define FSL_FUNC_HPP
+#ifndef FSL_CFSMATCH_HPP
+#define FSL_CFSMATCH_HPP
 
 #include "CFSData.hpp"
+#include <exception>
 
 /*Other library inclusion is here*/
+
 namespace FSL{
 template<class FLOAT>
-/*RETURN TYPE*/ FUNC(/*PARAMETER LIST*/)
+void CFSMatch(const CFST<FLOAT>& CFSf, const CFST<FLOAT>& CFSg)
 {
-    /*FUNCTION BODY*/
+    if (CFSf.getn()!=CFSg.getn())
+    {
+    	throw(std::exception("n mismatch"));
+    }
+    if (CFSf.getomega()!=CFSg.getomega())
+    {
+    	throw(std::exception("omega mismatch"));
+    }
 }
 }
 #endif

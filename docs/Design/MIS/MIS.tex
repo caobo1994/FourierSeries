@@ -560,6 +560,7 @@ In the following section, \li{TST} is a function type $\mathbb{Z}^{*}\rightarrow
 This module can be implemented in C++ by doing a direct translation from mathematics notation to C++.
 The following translation rules are recommended and expected to be followed.
 \begin{itemize}
+	\item All the newly defined types and functions shall be in \licpp{namespace FSL}.
 	\item \li{seq(A)} and \li{seq(A, m)} shall be implemented as \licpp{std::vector<A>}, while \li{seq(A, m, n)} shall be implemented as \licpp{std::vector<std::vector<A>>}. The size of each \licpp{std::vector} shall be checked manually, and exceptions shall be thrown if needed.
 	\item Type $\mathbb{N}$ shall be implemented as \licpp{size_t}. This type is available after \licpp{#include <vector>;}. 
 	\item Type $\mathbb{R}$ shall be implemented as \licpp{FLOAT}, while type $\mathbb{R}\rightarrow\mathbb{R}$ shall be implemented as \licpp{std::function<FLOAT(FLOAT)>}. 

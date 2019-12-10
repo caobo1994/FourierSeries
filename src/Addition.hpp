@@ -8,17 +8,27 @@
  * C-style code is highly not recommended.
  */
 
-#ifndef FSL_FUNC_HPP
-#define FSL_FUNC_HPP
+#ifndef FSL_ADDITION_HPP
+#define FSL_ADDITION_HPP
 
 #include "CFSData.hpp"
+#include "CFSMatch.hpp"
 
 /*Other library inclusion is here*/
 namespace FSL{
 template<class FLOAT>
-/*RETURN TYPE*/ FUNC(/*PARAMETER LIST*/)
+CFST<FLOAT> Addition(const CFST<FLOAT>& CFSf, const CFST<FLOAT>& CFSg)
 {
-    /*FUNCTION BODY*/
+	CFSMatch<FLOAT>(CFSf, CFSg);
+	CFST<FLOAT> CFSres(CFSf.getn(), CFSf.getomega());
+	size_t n = CFSres.getn();
+	CFSres.setAi(CFSf.getAi(0)+CFSg.getAi(0), 0);
+	for (size_t i =1; i<=n; ++i)
+	{
+		CFSres.setAi(CFSf.getAi(i)+CFSg.getAi(i), i);
+		CFSres.setBi(CFSf.getBi(i)+CFSg.getBi(i), i);
+	}    
+	return CFSres;
 }
 }
 #endif

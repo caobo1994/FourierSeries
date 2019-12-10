@@ -39,11 +39,11 @@ class CFST
             omega = omega_in;
         }
 
-        const decltype(A)& getA()
+        const std::vector<FLOAT>& getA()
         {
             return A;
         }
-        void setA(const decltype(A)& A_in)
+        void setA(const std::vector<FLOAT>& A_in)
         {
             if (A_in.size()!=(n+1))
             {
@@ -52,12 +52,16 @@ class CFST
             A = A_in;
         }
 
-        const decltype(B)& getB()
+        const std::vector<FLOAT>& getB()
         {
             return B;
         }
-        void setB(const decltype(B)& B_in)
+        void setB(const std::vector<FLOAT>& B_in)
         {
+            if (B_in.size()!=(n))
+            {
+                throw(std::invalid_argument("setB: mismatch B.size() and n+1"));
+            }
             B = B_in;
         }
 
