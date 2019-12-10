@@ -59,6 +59,7 @@ urlcolor=cyan          % color of external links
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
 Nov. 26, 2019 & 0.99 & First Draft\\
+Dec. 10, 2019 & 1.0 & Final version\\
 \bottomrule
 \end{tabularx}
 
@@ -134,6 +135,8 @@ For simplicity, the sequence of type \li{T} will be abbreviated as seq(\li{T}),
 while that with dimensions $[l_1, ..., l_n]$ as seq(\li{T}, $l_1, ...,
 l_n$). Furthermore, we use both \li{Var: Type} and \li{Type Var} to indicate
 that variable \li{Var} is of type \li{Type}.
+
+For consistency with mathematical notations, we denote $A: \mathbb{B}$ as $A \in \mathbb{B}$, when $\mathbb{B}$ is the notation of a common mathematical set, and $A$ is a member of $\mathbb{B}$.  
 
 \section{Module Decomposition}
 
@@ -252,6 +255,16 @@ Furthermore, we design getters and setters for each element of $A$ and $B$. For 
 For convenience, we may use \li{A(i)} and \li{B(i)} to represent \li{getAi(i)}
 and \li{getBi(i)}, respectively.
 
+Based on the setters, we implement a constructor for \li{CFST}.
+
+\begin{center}
+	\begin{tabular}{p{4cm} p{4cm} p{4cm} p{3cm}}
+		\hline
+		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}\\
+		\hline
+		\li{new CFST} & $n, \omega, A, B$: same type as their namesake in \li{CFST}& \li{CFST CFS}& None.\\\hline
+	\end{tabular}
+\end{center}
 \subsection{Semantics}
 \wss{Rather than putting the details as an exported type, you should have state
   variables here to store the state information.  You have behaviour that is
@@ -259,21 +272,42 @@ and \li{getBi(i)}, respectively.
   and setters, and you have exceptions.  You also need a constructor so you
   create objects of this type.}
 
+\an{I have thought of exported type versus state variables, and I think exported variables for some reason. My understanding is that people use state variables when the program mainly involves the transition of states (members of this type) under given conditions, much like a (finite) state machine. As for exported data type, I tend to think that this is for a set of members (loosely) combined as an set of variables.}
+
 \subsubsection{Assumptions}
 \subsubsection{Access Routine Semantics}
 
-This part follows the most common rules of getters and setters. For simplicity,
-we do not elaborate on them.
+We give a template for \li{getX}, \li{setX}, \li{getXi} and \li{setXi} respectively.
+\noindent \li{setX(Xin)}:
+\begin{itemize}
+	\item transition: $X=\textit{Xin}$.
+\end{itemize}
+\noindent \li{getX()}:
+\begin{itemize}
+	\item output: $X$.
+\end{itemize}
+\noindent \li{setXi(i, V)}:
+\begin{itemize}
+	\item transition: $X[i-\textit(offset)]=V$
+	\item exception: $\text{exc}:=((i<\textit{offset})\vee(i>n)\Rightarrow \text{OOR})$
+\end{itemize}
+\noindent \li{getXi(i)}:
+\begin{itemize}
+	\item output: $X[i-\textit{offset}]$
+	\item exception: $\text{exc}:=((i<\textit{offset})\vee(i>n)\Rightarrow \text{OOR})$
+\end{itemize}
 
-Note the exceptions of \li{setXi} and \li{getXi} are 
-\begin{equation*}
-	\text{exc}:=((i<M)\vee(i>n)\Rightarrow \text{OOR})
-\end{equation*}
-where $M$ is 0 for \li{X=A} and 1 for \li{X=B}.
+In these expressions, $\textit{offset}$ is 0 for \li{X=A} and 1 for \li{X=B}.
 
 \wss{Your shortened notation is fine, but sometimes it is less work for the
-  reader if you just expand your definitions.}
+  reader if you just expand your definitions.}\an{Elaborated. A lot of stuff is too basic if the reader meets the requirement is the SRS, so I choose not to say that. I guess that I might put too much requirements in the SRS, but I think that users do not know what they want to get, and what they are getting if they do not meet the requirements.}
 
+\noindent\li{new CFST(n, $\omega$, A, B)}
+\begin{itemize}
+	\item transition: $\textit{CFS}.n:=n,\textit{CFS}.\omega:=\omega,\textit{CFS}.A:=A,\textit{CFS}.B:=B$
+	\item output:
+	$\textit{CFS}$
+\end{itemize}
 \section{MIS of Linear Solver}
 
 \subsection{Module}
@@ -300,10 +334,13 @@ Infrastructure.
 \subsection{Semantics}
 \subsubsection{Assumptions}
 \subsubsection{Access Routine Semantics}
-This part follows the most common semantics of linear solvers solving the
-equation $Ax=b$ for x, and for simplicity, we do not elaborate on it.  \wss{This
+\noindent \li{LinSolve(m, A, b)}:
+\begin{itemize}
+	\item output: $x$ that suits $Ax=b$.
+	\item exception: $\text{exc}:=(\text{Solution non-exist} \vee \text{Solution not unique}\Rightarrow \text{Cannot return solution})$
+\end{itemize} \wss{This
   would be better if you elaborated on it.  Our goal is to be unambiguous.  It
-  wouldn't be that much work to specify what a linear solver returns.}
+  wouldn't be that much work to specify what a linear solver returns.}\an{Done.}
 
 \section{MIS of Integral}
 \subsection{Module}
@@ -328,8 +365,8 @@ Infrastructure.
 \noindent \li{Integral(f, a, b)}:
 \begin{itemize}
 	\item output: $\int_{a}^{b}f(t)\text{d} t$
-	\item exception: Evident \wss{The programmer may not know as much as
-            you.  This isn't enough information on the possible exceptions.}
+	\item exception: $\text{Integral non-exist}\vee\text{Integral not computable}\Rightarrow\text{Integral not found}$ \wss{The programmer may not know as much as
+            you.  This isn't enough information on the possible exceptions.}\an{Done.}
 \end{itemize}
 
 \section{MIS of Conversion}
@@ -339,31 +376,34 @@ Conversion.
 Data Definition.
 \subsection{Syntax}
 \subsubsection{Export Access Programs}
+\wss{We say $n: \mathbb{N}$}\an{I know, but I am used to this way. I have made a notation about this in Section 4, Notation.}\an{Move comments here from the table, to have table not corrupted by the comments.}
 \begin{center}
 	\begin{tabular}{p{4cm} p{4cm} p{4cm} p{3cm}}
 		\hline
 		\textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} 
-		\func{ConvertFrom} &\makecell{$n\in \mathbb{N}$ \wss{We say $n: \mathbb{N}$}\\$\omega$: \li{FLOAT} \\$A$: sequence of \li{FLOAT}\\$B$: sequence of \li{FLOAT}} & \li{CFST CFS} & \makecell{\li{OOR}: $\omega\leq0$\\\li{MC}: Mismatch between \\$n$, (size of $A$ -1),\\ and size of $B$}
-		\func{ConvertTo} &\makecell{\li{CFST CFS}\\$n, \omega, A, B$: same\\ type as their\\ namesakes in \li{CFST}}&Same as inputs of \li{ConvertFrom} & None
+		\func{ConvertFrom} &\makecell{$n\in \mathbb{N}$\\$\omega$: \li{FLOAT} \\$A$: sequence of \li{FLOAT}\\$B$: sequence of \li{FLOAT}} & \li{CFST CFS} & \makecell{\li{OOR}: $\omega\leq0$\\\li{MC}: Mismatch between \\$n$, (size of $A$ -1),\\ and size of $B$}
+		\func{ConvertTo} &\makecell{\li{CFST CFS}}&Same as inputs of \li{ConvertFrom} & None
 		\\\hline 
 	\end{tabular}
 \end{center}
 
 \subsection{Semantics}
 \subsection{Access Routine Semantics}
-\noindent ConvertFrom($n, \omega, A, B$): 
+\noindent \li{ConvertFrom($n, \omega, A, B$)}: 
 \begin{itemize}
-	\item output: $\text{CFS}.n, \text{CFS}.\omega, \text{CFS}.A,
-          \text{CFS}.B := n, \omega, A, B$ \wss{You want to call your
-            constructor here}
+	\item output: $\textit{new CFST}(n, \omega, A, B)$ \wss{You want to call your
+            constructor here}\an{Reorganized, forgot to implement a constructor. Guess I have written C for quite sometime.}
 	\item exception: $
 	\text{exc}:=(\omega\leq0 \Rightarrow \text{OOR}||A| \neq n+1 \Rightarrow \text{MC} | |B| \neq n \Rightarrow \text{MC})
 	$
 \end{itemize}
 
-The semantics for \li{ConvertTo} is straightforward, and we do not elaborate on
-it.  \wss{You might find that others do not find all of your steps as
-  straightfoward as you do.}
+\noindent \li{ConvertFrom(CFS)}: 
+\begin{itemize}
+	\item output: $n:=\textit{CFS}.n, \omega:=\textit{CFS}.\omega, A:=\textit{CFS}.A, B:=\textit{CFS}.B$
+\end{itemize}
+  \wss{You might find that others do not find all of your steps as
+  straightfoward as you do.}\an{Done here.}
 
 \section{MIS for Transformation}
 \subsection{Module}
@@ -427,12 +467,12 @@ Data Definition, Linear Solver
 The semantics of \li{Addition}, \li{Subtraction}, and \li{Multiplication} are
 similar in structure, and the only difference is the calculation of the $A$ and
 $B$ variables shown below, which is consistent with the corresponding theories
-introduced in SRS.  \wss{It is a good idea to reference the SRS.  It would be
+introduced in SRS. That is, the implementer shall choose $A$ and $B $ in IM4 of SRS for \li{Subtraction}, IM5 for \li{Multiplication}, IM6 for \li{Division}. \wss{It is a good idea to reference the SRS.  It would be
   better if your reference were specific to models (chunks) in the SRS.  The
   less work the reader has to do the better.  You want the translation from MIS
   to code to be almost mechanical.  You also want it to be possible for someone
   that is less knowledgeable than you on the topic of your software.  Ideally, a
-  second year student in CS or SE should be able to implement your modules.}
+  second year student in CS or SE should be able to implement your modules.}\an{Added here accordingly. BTW, I never hope that a second year student in CS/SE of McMaster can implement this module. I know that their mathematics skill sucks, far, far away from implementing this module.}
 
 As an example, we give the semantics of the \li{Addition} function.
 
@@ -512,8 +552,16 @@ In the following section, \li{TST} is a function type $\mathbb{Z}^{*}\rightarrow
 
 \newpage
 
-\section{Appendix} \label{Appendix}
+\appendix
 
 \wss{Extra information if required}
-
+\an{Content added here. I expect to add some guidelines for implementations, but I forgot to mention here, since at the time of first draft, I did not consider about implementation too much.}
+\section{Guild Line for Implementing in C++}\label{Appendix:guildeline}
+This module can be implemented in C++ by doing a direct translation from mathematics notation to C++.
+The following translation rules are recommended and expected to be followed.
+\begin{itemize}
+	\item \li{seq(A)} and \li{seq(A, m)} shall be implemented as \licpp{std::vector<A>}, while \li{seq(A, m, n)} shall be implemented as \licpp{std::vector<std::vector<A>>}. The size of each \licpp{std::vector} shall be checked manually, and exceptions shall be thrown if needed.
+	\item Type $\mathbb{N}$ shall be implemented as \licpp{size_t}. This type is available after \licpp{#include <vector>;}. 
+	\item Type $\mathbb{R}$ shall be implemented as \licpp{FLOAT}, while type $\mathbb{R}\rightarrow\mathbb{R}$ shall be implemented as \licpp{std::function<FLOAT(FLOAT)>}. 
+\end{itemize}
 \end{document}
