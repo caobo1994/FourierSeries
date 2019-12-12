@@ -99,6 +99,8 @@ class CFST
             {
                 return std::out_of_range("getBi: i>n");
             }
+            if (i=0)
+                return 0;
             return B[i-1];
         }
         void setBi(const FLOAT& Bi_in)
@@ -111,7 +113,8 @@ class CFST
             {
                 return std::out_of_range("getBi: i>n");
             }
-            B[i-1]=Bi_in;
+            if (i!=0)
+                B[i-1]=Bi_in;
         }
         CFST(size_t n_in, FLOAT omega_in)
         {

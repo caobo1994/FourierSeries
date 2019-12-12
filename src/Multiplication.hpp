@@ -21,24 +21,59 @@ CFST<FLOAT> Multiplication(const CFST<FLOAT>& f, const CFST<FLOAT>& g)
     CFSMatch(f, g);
    	CFST<FLOAT> CFSres(CFSf.getn(), CFSf.getomega());
 	size_t n = CFSres.getn();
-	for(size_t i = 0; i <=n; ++i)
+	/*std::vector<FLOAT> A(n+1);
+	std::vector<FLOAT> B(n+1);
+	for(size_t i = 0; i <= n; ++i)
+	{	
+		for (size_t j = 0; j <= n; ++j)
+		{
+			A[abs(i-j)] += 0.5 * (f.getAi(i) * g.getAi(j) + f.getBi(i) * g.getBi(j));
+			B[abs(i-j)] += 0.5 * (f.getBi(i) * g.getAi(j) - f.getAi(i) * g.getBi(i));
+			if ((i+j) <= n)
+			{
+				A[i+j] += 0.5 * (f.getAi(i) * g.getAi(j)+f.getBi(i) * g.getBi(j));
+				B[i+j] += 0.5 * (f.getAi(i) * g.getBi(j)+f.getBi(i) * g.getAi(j));
+			}
+		}
+	}
+	for (size_t i = 0; i < n; ++i)
 	{
-		FLOAT resA = 0;
+		CFSres.setAi(A[i]);
+		CFSres.setBi(B[i]);
+	}*/
+	for (size_t i = 0; i <= n; ++i)
+	{
+		FLOAT resA=0;
 		for (size_t j = 0; j <= (n-i); ++j)
 		{
-			resA += f.getAi(i)*g.getAi(i+j);
-			resA += f.getAi(i+j)*g.getAi(i);
-			resA += f.getBi(i)*g.getBi(i+j);
-			resA += f.getBi(i+j)*g.getBi(i);
+			resA += f.getAi(j)*g.getAi(i+j);
+			resA += g.getAi(j)*f.getAi(i+j);
+			resA += f.getBi(j)*g.getBi(i+j);
+			resA += g.getBi(j)*f.getBi(i+j);
 		}
-		for (size_t j = 0; j < = i; ++j)
+		for (size_t j = 0; j <= i; ++j)
 		{
-			resA += f.getAi(j)*g.getAi(i-j)-f.getBi(j)*g.getBi(i-j);
+			resA += f.getAi(j)*g.getAi(i-j);
+			resA -= f.getBi(j)*g.getBi(i-j);
 		}
-		CFSres.setAi(i, resA);
-		if (i=0)
-			continue;
-
+		CFS.setAi(0.5*resA);
+	}
+	for (size_t i = 1; i <= n; ++i)
+	{
+		FLOAT resB=0;
+		for (size_t j = 0; j < (n-i); ++j)
+		{
+			resB += f.getAi(j)*g.getBi(i+j);
+			resB += g.getAi(j)*f.getBi(i+j);
+			resB += f.getBi(j)*g.getAi(i+j);
+			resB += g.getBi(j)*f.getAi(i+j);			
+		}
+		for (size_t j = 0; j <= i; ++j)
+		{
+			resB += f.getAi(j)*g.getBi(i-j);
+			resB += f.getBi(j)*g.getAi(i-j);
+		}
+		CFS.setBi(0.5*resB);
 	}
 }
 }

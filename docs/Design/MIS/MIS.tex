@@ -288,13 +288,13 @@ We give a template for \li{getX}, \li{setX}, \li{getXi} and \li{setXi} respectiv
 \end{itemize}
 \noindent \li{setXi(i, V)}:
 \begin{itemize}
-	\item transition: $X[i-\textit(offset)]=V$
-	\item exception: $\text{exc}:=((i<\textit{offset})\vee(i>n)\Rightarrow \text{OOR})$
+	\item transition: $i>=\textit{offset}\Rightarrow setX[i-\textit{offset}]=V$
+	\item exception: $\text{exc}:=((i<0)\vee(i>n)\Rightarrow \text{OOR})$
 \end{itemize}
 \noindent \li{getXi(i)}:
 \begin{itemize}
-	\item output: $X[i-\textit{offset}]$
-	\item exception: $\text{exc}:=((i<\textit{offset})\vee(i>n)\Rightarrow \text{OOR})$
+	\item output: $(i>=\textit{offset}\Rightarrow X[i-\textit{offset}]|\textit{TRUE}\Rightarrow0)$
+	\item exception: $\text{exc}:=((i<0)\vee(i>n)\Rightarrow \text{OOR})$
 \end{itemize}
 
 In these expressions, $\textit{offset}$ is 0 for \li{X=A} and 1 for \li{X=B}.

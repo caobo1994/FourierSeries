@@ -435,6 +435,9 @@ As said before, we use $\mathit{CFSf}$ and $\mathit{CFSg}$ to represent $\mathit
 From now on, denote $A_i$'s and $B_i$'s in $\mathit{CFSf}$ 
 as $A_{f, i}$'s and $B_{f, i}$'s respectively, and same for 
 $A_{g, i}$'s and $B_{g, i}$'s.
+
+We might use the variables $B_0$, $B_{f,0}$ and $B{g, 0}$ in the following parts of the documents. If mentioned, the values of these variables are always $0$.
+
 ~\newline
 
 \noindent
@@ -465,7 +468,7 @@ $A_{g, i}$'s and $B_{g, i}$'s.
 	\end{tabular}
 \end{minipage}\\
 ~\newline
-From now on, we are going to introduce a series of operators/functions on $\mathit{CFST}$ type objects $\mathit{CFSf}$ (and possibly $\mathit{CFSg}$ in some cases). All data included in these objects are fully decided by the callers of functions/operators. The $n$ and $\omega$ used in their DD's are these of the parameters (if there are multiple $\mathit{CSFT}$ objects, their $n$ and $\omega$ are required to be the same, and will be checked by the function/operator)
+From now on, we are going to introduce a series of operators/functions on $\mathit{CFST}$ type objects $\mathit{CFSf}$ (and possibly $\mathit{CFSg}$ in some cases). All data included in these objects are fully decided by the callers of functions/operators. The $n$ and $\omega$ used in their DD's are these of the parameters. If there are multiple $\mathit{CSFT}$ objects, their $n$ and $\omega$ are required to be the same, and will be checked by the function/operator.
 
 \noindent
 \begin{minipage}{\textwidth}
@@ -800,10 +803,11 @@ case, the corresponding CFS shall be one with $A_0=a$, $A_i=0, B_i=0, (i=1:n)$.
 		Equation&  
 		\begin{equation}
 		\begin{aligned}
+		%A_{f*g, i}&=A_{f,0}A_{g,0}+\frac{1}{2}\sum_{j=1}^{n}(A_{f,j}A_{g,j}+B_{f,j}B_{g,j}), i=0\\
 		A_{f*g, i}&=\frac{1}{2}\sum_{j=0}^{n-i}(A_{f,i}A_{g,i+j}
 		+A_{f, i+j}A_{g, i}+B_{f,i}B_{g,i+j}+B_{f,i+j}B_{g,i})\\
 		&+\frac{1}{2}\sum_{j=0}^{i}(A_{f,j}A_{g,i-j}-B_{f,j}B_{g,i-j}),
-		~i=0:n\\
+		~i=1:n\\
 		B_{f*g, i}&=\frac{1}{2}\sum_{j=0}^{n-i}(A_{f,i}B_{g,i+j}
 		+A_{f, i+j}B_{g, i}+B_{f,i}A_{g,i+j}+B_{f,i+j}A_{g,i})\\
 		&+\frac{1}{2}\sum_{j=0}^{i}(A_{f,j}B_{g,i-j}+B_{f,j}A_{g,i-j}),
