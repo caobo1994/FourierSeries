@@ -8,29 +8,38 @@
  * C-style code is highly not recommended.
  */
 
-#ifndef FSL_ADDITION_HPP
-#define FSL_ADDITION_HPP
+#ifndef FSL_MULTIPLICATION_HPP
+#define FSL_MULTIPLICATION_HPP
 
 #include "CFSData.hpp"
-#include "CFSMatch.hpp"
 
 /*Other library inclusion is here*/
 namespace FSL{
 template<class FLOAT>
-CFST<FLOAT> Addition(const CFST<FLOAT>& CFSf, const CFST<FLOAT>& CFSg)
+CFST<FLOAT> Multiplication(const CFST<FLOAT>& f, const CFST<FLOAT>& g)
 {
-	CFSMatch<FLOAT>(CFSf, CFSg);
-	CFST<FLOAT> CFSres(CFSf.getn(), CFSf.getomega());
+    CFSMatch(f, g);
+   	CFST<FLOAT> CFSres(CFSf.getn(), CFSf.getomega());
 	size_t n = CFSres.getn();
-	//CFSres.setAi(CFSf.getAi(0)+CFSg.getAi(0), 0);
-	for (size_t i = 0; i<=n; ++i)
+	for(size_t i = 0; i <=n; ++i)
 	{
-		CFSres.setAi(CFSf.getAi(i)+CFSg.getAi(i), i);
+		FLOAT resA = 0;
+		for (size_t j = 0; j <= (n-i); ++j)
+		{
+			resA += f.getAi(i)*g.getAi(i+j);
+			resA += f.getAi(i+j)*g.getAi(i);
+			resA += f.getBi(i)*g.getBi(i+j);
+			resA += f.getBi(i+j)*g.getBi(i);
+		}
+		for (size_t j = 0; j < = i; ++j)
+		{
+			resA += f.getAi(j)*g.getAi(i-j)-f.getBi(j)*g.getBi(i-j);
+		}
+		CFSres.setAi(i, resA);
 		if (i=0)
 			continue;
-		CFSres.setBi(CFSf.getBi(i)+CFSg.getBi(i), i);
-	}    
-	return CFSres;
+
+	}
 }
 }
 #endif
