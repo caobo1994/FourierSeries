@@ -8,8 +8,8 @@
  * C-style code is highly not recommended.
  */
 
-#ifndef FSL_FUNC_HPP
-#define FSL_FUNC_HPP
+#ifndef FSL_POWER_HPP
+#define FSL_POWER_HPP
 
 #include "CFSData.hpp"
 #include "Multiplication.hpp"

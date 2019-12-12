@@ -504,7 +504,7 @@ Advanced Operation.
 \subsection{Uses}
 Basic Operation.
 \subsection{Syntax}
-In the following section, \li{TST} is a function type $\mathbb{Z}^{*}\rightarrow\text{FLOAT}$, and for any object \li{TS} of this type associated with a mathematical function, \li{TS(i)} gives the \li{i}-th Taylor coefficient of this mathematical function.
+In the following section, \li{DerivT} is a function type $\mathbb{N}\rightarrow\text{FLOAT}$, and for any object \li{Deriv} of this type associated with a mathematical function, \li{Deriv(i)} gives the value of the \li{i}-th derivative of this mathematical function at the point $x=0$.
 \subsubsection{Export Access Programs}
 \begin{center}
 \begin{tabular}{p{4cm} p{4cm} p{4cm} p{3cm}}
@@ -512,7 +512,7 @@ In the following section, \li{TST} is a function type $\mathbb{Z}^{*}\rightarrow
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions}
 \func{ToleratedEquality} & \li{CFST CFS1, CFST CFS2, FLOAT tol} & \li{Bool res} & MC
 \func{Power}&\li{CFST CFS}, $m\in Z^{*}$& \li{CFST CFSres} & None.
-\func{Function}&\li{CFST CFS, TST TS} &\li{CFST CFSres}& None.
+\func{Function}&\li{CFST CFS, DerivT Deriv} &\li{CFST CFSres}& None.
 \\\hline 
 
 \end{tabular}
@@ -540,9 +540,9 @@ In the following section, \li{TST} is a function type $\mathbb{Z}^{*}\rightarrow
 	\end{gather*}
 \end{itemize}
 
-\noindent \li{Function(CFST CFS, TST TS)}:
+\noindent \li{Function(CFST CFS, DerivT Deriv)}:
 \begin{itemize}
-	\item output: $\text{CFSres}:=\sum_{i=0}^{\text{CFS}.n}(1/i!)\text{TS}(i)\text{Power}(\text{CFS}, i)$
+	\item output: $\text{CFSres}:=\sum_{i=0}^{\text{CFS}.n}(1/i!)\text{Deriv}(i)\text{Power}(\text{CFS}, i)$
 \end{itemize}
 
 \newpage
@@ -563,6 +563,12 @@ The following translation rules are recommended and expected to be followed.
 	\item All the newly defined types and functions shall be in \licpp{namespace FSL}.
 	\item \li{seq(A)} and \li{seq(A, m)} shall be implemented as \licpp{std::vector<A>}, while \li{seq(A, m, n)} shall be implemented as \licpp{std::vector<std::vector<A>>}. The size of each \licpp{std::vector} shall be checked manually, and exceptions shall be thrown if needed.
 	\item Type $\mathbb{N}$ shall be implemented as \licpp{size_t}. This type is available after \licpp{#include <vector>;}. 
-	\item Type $\mathbb{R}$ shall be implemented as \licpp{FLOAT}, while type $\mathbb{R}\rightarrow\mathbb{R}$ shall be implemented as \licpp{std::function<FLOAT(FLOAT)>}. 
+	\item Type $\mathbb{R}$ shall be implemented as \licpp{FLOAT}.
+	\item Function types shall be implemented with \licpp{std::function}. For example, type $\mathbb{R}\rightarrow\mathbb{R}$ shall be implemented as \licpp{std::function<FLOAT(FLOAT)>}, while type $\mathbb{N}\rightarrow\li{FLOAT}$ shall be implemented as \licpp{std::function<FLOAT(size_t)>}. 
 \end{itemize}
+\section{List of not implemented function}
+\begin{itemize}
+	\item The following functions of CFS's: tan, arcsin, arccos, arctan.
+\end{itemize}
+
 \end{document}

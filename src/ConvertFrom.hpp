@@ -8,21 +8,20 @@
  * C-style code is highly not recommended.
  */
 
-#ifndef FSL_TOLERATEDEQUALITY_HPP
-#define FSL_TOLERATEDEQUALITY_HPP
+#ifndef FSL_CONVERTFROM_HPP
+#define FSL_CONVERTFROM_HPP
 
 #include "CFSData.hpp"
-#include "Subtraction.hpp"
-#include "Amplitude.hpp"
 
 /*Other library inclusion is here*/
 namespace FSL{
 template<class FLOAT>
-bool ToleratedEquality(const CFST<FLOAT>& f, const CFST<FLOAT>& g, FLOAT tol);
+CFST<FLOAT> ConvertFrom(size_t n, FLOAT omega, const std::vector<FLOAT> A, const std::vector<B>)
 {
-    auto diff = Subtraction(f, g);
-    FLOAT amp = Amplitude(diff);
-    return (diff <= tol);
+ 	CFST<FLOAT> res(n, omega);
+ 	res.setA(A);
+ 	res.setB(B);
+ 	return res;   
 }
 }
 #endif
