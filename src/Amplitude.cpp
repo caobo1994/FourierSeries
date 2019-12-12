@@ -15,14 +15,25 @@
 
 /*Other library inclusion is here*/
 namespace FSL{
+
 template<class FLOAT>
-inline FLOAT sqr()
+inline FLOAT sqr(FLOAT x)
+{
+	return x*x;
+}
+
 template<class FLOAT>
 FLOAT Amplitude(const CFST<FLOAT>& f)
 {
-    FLOAT ressq = f.getAi();
-    for (size_t)
+    FLOAT ressq = sqr(f.getAi(0));
+    size_t n = f.getn();
+    for (size_t i = 1; i <= n; ++i)
+    {
+    	ressq += 0.5*(sqr(f.getAi(i))+sqr(f.getBi(i)));
+    }
+    return sqrt(ressq);
 }
+
 }
 #endif
 
