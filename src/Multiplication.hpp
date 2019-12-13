@@ -56,7 +56,7 @@ CFST<FLOAT> Multiplication(const CFST<FLOAT>& f, const CFST<FLOAT>& g)
 			resA += f.getAi(j)*g.getAi(i-j);
 			resA -= f.getBi(j)*g.getBi(i-j);
 		}
-		CFS.setAi(0.5*resA);
+		CFS.setAi(i, 0.5*resA);
 	}
 	for (size_t i = 1; i <= n; ++i)
 	{
@@ -73,7 +73,7 @@ CFST<FLOAT> Multiplication(const CFST<FLOAT>& f, const CFST<FLOAT>& g)
 			resB += f.getAi(j)*g.getBi(i-j);
 			resB += f.getBi(j)*g.getAi(i-j);
 		}
-		CFS.setBi(0.5*resB);
+		CFS.setBi(i, 0.5*resB);
 	}
 }
 }
