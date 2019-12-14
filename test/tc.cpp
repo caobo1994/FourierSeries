@@ -13,4 +13,5 @@ using namespace std;
 //#include "testCFSMatch.hpp"
 //#include "testSubtraction.hpp"
 //#include "testAmplitude.hpp"
-#include "testToleratedEquality.hpp"
+//#include "testToleratedEquality.hpp"
+#include "testAddition.hpp"
