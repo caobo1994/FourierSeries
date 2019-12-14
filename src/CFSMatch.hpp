@@ -28,12 +28,13 @@ bool CFSMatch(const CFST<FLOAT>& CFSf, const CFST<FLOAT>& CFSg)
     {
     	return false;
     }
+    return true;
 }
 
-template <class FLOAT
-void CFSMatchThrow(const CFST<FLOAT>& CFSf, const CFS&<FLOAT>& CFSg)
+template <class FLOAT>
+[[noreturn]] void CFSMatchThrow(const CFST<FLOAT>& CFSf, const CFST<FLOAT>& CFSg)
 {
-	if !CFSMatch(CFSf, CFSg)
+	if (!CFSMatch(CFSf, CFSg))
 	{
 		throw std::invalid_argument("CFS not match!");
 	}

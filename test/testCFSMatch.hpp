@@ -27,7 +27,7 @@ SCENARIO("CFSMatch test", "[BasicOp]")
 	WHEN("Given two CFS with different omega")
 	{
 		CFSO f(2, 1.0);
-		CFSO f(2, 0.5);
+		CFSO g(2, 0.5);
 		THEN("They should not match")
 		{
 			REQUIRE(!CFSMatch(f, g));

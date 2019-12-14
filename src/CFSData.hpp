@@ -17,7 +17,7 @@ class CFST
         //static const FLOAT zero=0;
     public:
 
-        const size_t& getn()
+        const size_t& getn() const
         {
             return n;
         }
@@ -30,7 +30,7 @@ class CFST
             std::fill(B.begin(), B.end(), 0.0);
         }
 
-        const FLOAT& getomega()
+        const FLOAT& getomega() const
         {
             return omega;
         }
@@ -43,7 +43,7 @@ class CFST
             omega = omega_in;
         }
 
-        const seq& getA()
+        const seq& getA() const
         {
             return A;
         }
@@ -56,7 +56,7 @@ class CFST
             A = A_in;
         }
 
-        const seq& getB()
+        const seq& getB() const
         {
             return B;
         }
@@ -69,7 +69,7 @@ class CFST
             B = B_in;
         }
 
-        FLOAT getAi(size_t i)
+        FLOAT getAi(size_t i) const
         {
             if(i<0)
             {
@@ -93,7 +93,7 @@ class CFST
             }
             A[i] = Ai_in;
         }
-        FLOAT getBi(size_t i)
+        FLOAT getBi(size_t i) const
         {
             if(i<0)
             {
