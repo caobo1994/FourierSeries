@@ -10,6 +10,17 @@ SCENARIO("Subtraction test", "[BasicOp]")
 	{
 		CFSO f(2, 1.0);
 		CFSO g(2, 1.0);
-		THEN("They should match")
+		f.setA({1.0, 0.0, 0.0});
+		f.setB({0.0, 1.0});
+		g.setA({0.0, 2.0, 1.0});
+		g.setB({1.0, 0.0});
+		THEN("The result shall be the following values")
+		{
+			auto res = Subtraction<double>(f, g);
+			REQUIRE(res.getn()==2);
+			REQUIRE(res.getomega()==1.0_a);
+			REQUIRE(res.getA()==SEQ{1.0, -2.0, -1.0});
+			REQUIRE(res.getB()==SEQ{-1.0, 1.0});
+		}
 	}
 }

@@ -19,17 +19,15 @@ namespace FSL{
 template<class FLOAT>
 CFST<FLOAT> Subtraction(const CFST<FLOAT>& CFSf, const CFST<FLOAT>& CFSg)
 {
-	CFSMatch<FLOAT>(CFSf, CFSg);
+	CFSMatchThrow<FLOAT>(CFSf, CFSg);
 	CFST<FLOAT> CFSres(CFSf.getn(), CFSf.getomega());
 	size_t n = CFSres.getn();
 	//CFSres.setAi(CFSf.getAi(0)-CFSg.getAi(0), 0);
 	for (size_t i = 0; i<=n; ++i)
 	{
-		CFSres.setAi(CFSf.getAi(i)-CFSg.getAi(i), i);
-		if (i=0)
-			continue;
-		CFSres.setBi(CFSf.getBi(i)-CFSg.getBi(i), i);
-	}    
+		CFSres.setAi(i, CFSf.getAi(i)-CFSg.getAi(i));
+		CFSres.setBi(i, CFSf.getBi(i)-CFSg.getBi(i));
+	}
 	return CFSres;
 }
 }

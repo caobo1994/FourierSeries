@@ -13,7 +13,6 @@
 
 #include "CFSData.hpp"
 #include <exception>
-
 /*Other library inclusion is here*/
 
 namespace FSL{
@@ -32,9 +31,9 @@ bool CFSMatch(const CFST<FLOAT>& CFSf, const CFST<FLOAT>& CFSg)
 }
 
 template <class FLOAT>
-[[noreturn]] void CFSMatchThrow(const CFST<FLOAT>& CFSf, const CFST<FLOAT>& CFSg)
+void CFSMatchThrow(const CFST<FLOAT>& CFSf, const CFST<FLOAT>& CFSg)
 {
-	if (!CFSMatch(CFSf, CFSg))
+	if (!CFSMatch<FLOAT>(CFSf, CFSg))
 	{
 		throw std::invalid_argument("CFS not match!");
 	}

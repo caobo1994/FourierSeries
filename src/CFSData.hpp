@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <exception>
+#include <string>
 
 namespace FSL{
 template <class FLOAT>
@@ -64,7 +65,7 @@ class CFST
         {
             if (B_in.size()!=(n))
             {
-                throw(std::invalid_argument("setB: mismatch B.size() and n+1"));
+                throw(std::invalid_argument("setB: mismatch B.size() and n"));
             }
             B = B_in;
         }
@@ -73,11 +74,11 @@ class CFST
         {
             if(i<0)
             {
-                throw std::out_of_range("getAi: i<0");
+                throw std::out_of_range("getAi: i<0, i=" + std::to_string(i));
             }
             if(i>n)
             {
-                throw std::out_of_range("getAi: i>n");
+                throw std::out_of_range("getAi: i>n, i=" + std::to_string(i) + ",n="+std::to_string(n));
             }
             return A[i];
         }
@@ -85,11 +86,11 @@ class CFST
         {
             if(i<0)
             {
-                throw std::out_of_range("getAi: i<0");
+                throw std::out_of_range("setAi: i<0, i=" + std::to_string(i));
             }
             if(i>n)
             {
-                throw std::out_of_range("getAi: i>n");
+                throw std::out_of_range("setAi: i>n, i=" + std::to_string(i) + ",n="+std::to_string(n));
             }
             A[i] = Ai_in;
         }
@@ -97,11 +98,11 @@ class CFST
         {
             if(i<0)
             {
-                throw std::out_of_range("getBi: i<0");
+                throw std::out_of_range("getBi: i<0, i=" + std::to_string(i));
             }
             if(i>n)
             {
-                throw std::out_of_range("getBi: i>n");
+                throw std::out_of_range("getBi: i>n, i=" + std::to_string(i) + ",n="+std::to_string(n));
             }
             if (i==0)
                 return FLOAT(0);
@@ -111,11 +112,11 @@ class CFST
         {            
             if(i<0)
             {
-                throw std::out_of_range("getBi: i<0");
+                throw std::out_of_range("setBi: i<0, i=" + std::to_string(i));
             }
             if(i>n)
             {
-                throw std::out_of_range("getBi: i>n");
+                throw std::out_of_range("setBi: i>n, i=" + std::to_string(i) + ",n="+std::to_string(n));
             }
             if (i!=0)
                 B[i-1]=Bi_in;

@@ -10,5 +10,6 @@ using namespace std;
 #define CFSO CFST<FPT>
 
 //#include "testCFSData.hpp"
-#include "testCFSMatch.hpp"
+//#include "testCFSMatch.hpp"
 //#include "testSubtraction.hpp"
+#include "testAmplitude.hpp"

@@ -27,7 +27,7 @@ INCLUDES += -I../src/ #-ICatch2/include
 
 LDFLAGS += -L/usr/lib/gcc/x86_64-linux-gnu/7/
 
-LDLIBS  += -lstdc++ -lgcov -llapack -lblas -lgfortran -lquadmath -ladolc -lm -lklu -lbtf -lspqr -lsuitesparseconfig -lcholmod -lamd -lcolamd -lyaml-cpp
+LDLIBS  += -lstdc++ -lgcov -llapack -lblas -lm
 
 
 CXXFLAGS += $(COMPFLAGS)  $(INCLUDES)
