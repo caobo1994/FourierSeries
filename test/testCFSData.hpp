@@ -7,9 +7,7 @@ SCENARIO("Constructor/Getter", "[CFSData]")
 {
 	GIVEN("A CFS cnstructed as below.")
 	{
-		CFST<FPT> f(2, 1.0);
-		f.setA({0.0, 1.0, 2.0});
-		f.setB({3.0, 4.0});
+		CFSO f(2, 1.0, {0.0, 1.0, 2.0}, {3.0, 4.0});
 
 		WHEN("The getters with right parameters are called.")
 		{
@@ -49,9 +47,7 @@ SCENARIO("Setters", "[CFSData]")
 {
 	GIVEN("A CFS is constructed as below")
 	{
-		CFST<FPT> f(2, 1.0);
-		f.setA({0.0, 1.0, 2.0});
-		f.setB({3.0, 4.0});
+		CFSO f(2, 1.0, {0.0, 1.0, 2.0}, {3.0, 4.0});
 		WHEN("setn is called")
 		{
 			auto f1 = f;

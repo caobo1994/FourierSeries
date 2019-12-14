@@ -8,12 +8,8 @@ SCENARIO("Subtraction test", "[BasicOp]")
 {
 	WHEN("Two CFS with same n and omega are given")
 	{
-		CFSO f(2, 1.0);
-		CFSO g(2, 1.0);
-		f.setA({1.0, 0.0, 0.0});
-		f.setB({0.0, 1.0});
-		g.setA({0.0, 2.0, 1.0});
-		g.setB({1.0, 0.0});
+		CFSO f(2, 1.0, {1.0, 0.0, 0.0}, {0.0, 1.0});
+		CFSO g(2, 1.0, {0.0, 2.0, 1.0}, {1.0, 0.0});
 		THEN("The result shall be the following values")
 		{
 			auto res = Subtraction<double>(f, g);

@@ -126,6 +126,13 @@ class CFST
             setn(n_in);
             setomega(omega_in);
         }
+        CFST(size_t n_in, FLOAT omega_in, const std::vector<FLOAT>& A_in, const std::vector<FLOAT>& B_in)
+        {
+            setn(n_in);
+            setomega(omega_in);
+            setA(A_in);
+            setB(B_in);
+        }
 };
 }
 #endif
