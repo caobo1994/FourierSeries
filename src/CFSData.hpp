@@ -3,16 +3,18 @@
 
 #include <vector>
 #include <exception>
+
 namespace FSL{
 template <class FLOAT>
 class CFST
 {
-    using std::vector;
+    using seq=std::vector<FLOAT>;
     private:
         size_t n;
         FLOAT omega;
-        vector<FLOAT> A;
-        vector<FLOAT> B;
+        seq A;
+        seq B;
+        //static const FLOAT zero=0;
     public:
 
         const size_t& getn()
@@ -24,13 +26,15 @@ class CFST
             n = n_in;
             A.resize(n+1);
             B.resize(n);
+            std::fill(A.begin(), A.end(), 0.0);
+            std::fill(B.begin(), B.end(), 0.0);
         }
 
         const FLOAT& getomega()
         {
             return omega;
         }
-        void setomega(const size_t& omega_in)
+        void setomega(const FLOAT& omega_in)
         {
             if(omega_in<=0)
             {
@@ -39,11 +43,11 @@ class CFST
             omega = omega_in;
         }
 
-        const std::vector<FLOAT>& getA()
+        const seq& getA()
         {
             return A;
         }
-        void setA(const std::vector<FLOAT>& A_in)
+        void setA(const seq& A_in)
         {
             if (A_in.size()!=(n+1))
             {
@@ -52,11 +56,11 @@ class CFST
             A = A_in;
         }
 
-        const std::vector<FLOAT>& getB()
+        const seq& getB()
         {
             return B;
         }
-        void setB(const std::vector<FLOAT>& B_in)
+        void setB(const seq& B_in)
         {
             if (B_in.size()!=(n))
             {
@@ -65,53 +69,53 @@ class CFST
             B = B_in;
         }
 
-        const FLOAT& getAi(size_t i)
+        FLOAT getAi(size_t i)
         {
             if(i<0)
             {
-                return std::out_of_range("getAi: i<0");
+                throw std::out_of_range("getAi: i<0");
             }
             if(i>n)
             {
-                return std::out_of_range("getAi: i>n");
+                throw std::out_of_range("getAi: i>n");
             }
             return A[i];
         }
-        void setA(size_t i, const FLOAT& Ai_in)
+        void setAi(size_t i, const FLOAT& Ai_in)
         {
             if(i<0)
             {
-                return std::out_of_range("getAi: i<0");
+                throw std::out_of_range("getAi: i<0");
             }
             if(i>n)
             {
-                return std::out_of_range("getAi: i>n");
+                throw std::out_of_range("getAi: i>n");
             }
             A[i] = Ai_in;
         }
-        const FLOAT& getBi()
+        FLOAT getBi(size_t i)
         {
-            if(i<1)
+            if(i<0)
             {
-                return std::out_of_range("getBi: i<1");
+                throw std::out_of_range("getBi: i<0");
             }
             if(i>n)
             {
-                return std::out_of_range("getBi: i>n");
+                throw std::out_of_range("getBi: i>n");
             }
-            if (i=0)
-                return 0;
+            if (i==0)
+                return FLOAT(0);
             return B[i-1];
         }
-        void setBi(const FLOAT& Bi_in)
+        void setBi(size_t i, const FLOAT& Bi_in)
         {            
-            if(i<1)
+            if(i<0)
             {
-                return std::out_of_range("getBi: i<1");
+                throw std::out_of_range("getBi: i<0");
             }
             if(i>n)
             {
-                return std::out_of_range("getBi: i>n");
+                throw std::out_of_range("getBi: i>n");
             }
             if (i!=0)
                 B[i-1]=Bi_in;
@@ -121,6 +125,6 @@ class CFST
             setn(n_in);
             setomega(omega_in);
         }
-}
+};
 }
 #endif
