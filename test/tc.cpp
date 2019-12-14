@@ -7,6 +7,7 @@ using namespace std;
 
 #define FPT double
 #define SEQ std::vector<FPT>
+#define CFSO CFST<FPT>
 
-#include "testCFSData.hpp"
-//#include "testAddition.hpp"
+//#include "testCFSData.hpp"
+#include "testSubtraction.hpp"

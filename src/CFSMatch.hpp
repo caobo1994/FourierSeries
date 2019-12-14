@@ -18,17 +18,26 @@
 
 namespace FSL{
 template<class FLOAT>
-void CFSMatch(const CFST<FLOAT>& CFSf, const CFST<FLOAT>& CFSg)
+bool CFSMatch(const CFST<FLOAT>& CFSf, const CFST<FLOAT>& CFSg)
 {
     if (CFSf.getn()!=CFSg.getn())
     {
-    	throw(std::exception("n mismatch"));
+    	return false;
     }
     if (CFSf.getomega()!=CFSg.getomega())
     {
-    	throw(std::exception("omega mismatch"));
+    	return false;
     }
 }
+}
+
+template <class FLOAT
+void CFSMatchThrow(const CFST<FLOAT>& CFSf, const CFS&<FLOAT>& CFSg)
+{
+	if !CFSMatch(CFSf, CFSg)
+	{
+		throw std::invalid_argument("CFS not match!");
+	}
 }
 #endif
 
