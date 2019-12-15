@@ -5,6 +5,8 @@
 using namespace Catch::literals;
 using namespace std;
 
+#include "CFSData.hpp"
+
 #define FPT double
 #define SEQ std::vector<FPT>
 #define CFSO CFST<FPT>
@@ -21,5 +23,6 @@ using namespace std;
 #include "testIntegral.hpp"
 #include "testTransformTo.hpp"
 #include "testFunctionValue.hpp"
-*/
 #include "testLinSolve.hpp"
+*/
+#include "testMultiplication.hpp"

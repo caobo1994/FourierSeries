@@ -4,6 +4,7 @@
 #include <vector>
 #include <exception>
 #include <string>
+#include <iostream>
 
 namespace FSL{
 template <class FLOAT>
@@ -134,5 +135,25 @@ class CFST
             setB(B_in);
         }
 };
+
+template <class FLOAT>
+std::ostream& operator<<(std::ostream& os, const CFST<FLOAT>& f)
+{
+    os<<f.getn()<<", ";
+    os<<f.getomega()<<", ";
+    size_t n = f.getn();
+    os<<"{";
+    for (size_t i = 0; i<n; ++i)
+    {
+        os<<f.getAi(i)<<", ";
+    }
+    os<<f.getAi(n)<<"}, {";
+    for (size_t i = 1; i<n; ++i)
+    {
+        os<<f.getBi(i)<<", ";
+    }
+    os<<f.getBi(n)<<"}";
+    return os;
+}
 }
 #endif

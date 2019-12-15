@@ -1,7 +1,0 @@
-In file included from testCFSData.hpp:3:0,
-                 from tc.cpp:8:
-../src/CFSData.hpp: In instantiation of ‘const FLOAT& FSL::CFST<FLOAT>::getBi(size_t) [with FLOAT = double; size_t = long unsigned int]’:
-testCFSData.hpp:28:5:   required from here
-../src/CFSData.hpp:105:31: warning: returning reference to temporary [-Wreturn-local-addr]
-                 return FLOAT(0);
-                               ^

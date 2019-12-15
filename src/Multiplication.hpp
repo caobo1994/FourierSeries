@@ -19,28 +19,44 @@ template<class FLOAT>
 CFST<FLOAT> Multiplication(const CFST<FLOAT>& f, const CFST<FLOAT>& g)
 {
     CFSMatch(f, g);
-   	CFST<FLOAT> CFSres(CFSf.getn(), CFSf.getomega());
+   	CFST<FLOAT> CFSres(f.getn(), f.getomega());
 	size_t n = CFSres.getn();
-	/*std::vector<FLOAT> A(n+1);
-	std::vector<FLOAT> B(n+1);
+	std::vector<FLOAT> A(n+1, 0.0);
+	std::vector<FLOAT> B(n+1, 0.0);
+	std::cout<<n<<endl;
 	for(size_t i = 0; i <= n; ++i)
 	{	
 		for (size_t j = 0; j <= n; ++j)
 		{
-			A[abs(i-j)] += 0.5 * (f.getAi(i) * g.getAi(j) + f.getBi(i) * g.getBi(j));
-			B[abs(i-j)] += 0.5 * (f.getBi(i) * g.getAi(j) - f.getAi(i) * g.getBi(i));
+			FLOAT count;
+			if (i>j)
+			{		
+				count = 0.5 * (f.getAi(i) * g.getAi(j) + f.getBi(i) * g.getBi(j));
+				A[i-j] += count;
+				count = 0.5 * (f.getBi(i) * g.getAi(j) - f.getAi(i) * g.getBi(j));
+				B[i-j] += count;
+			}
+			else
+			{
+				count = 0.5 * (f.getAi(i) * g.getAi(j) + f.getBi(i) * g.getBi(j));
+				A[j-i] += count;
+				count = 0.5 * (-f.getBi(i) * g.getAi(j) + f.getAi(i) * g.getBi(j));
+				B[j-i] += count;	
+			}
 			if ((i+j) <= n)
 			{
-				A[i+j] += 0.5 * (f.getAi(i) * g.getAi(j)+f.getBi(i) * g.getBi(j));
-				B[i+j] += 0.5 * (f.getAi(i) * g.getBi(j)+f.getBi(i) * g.getAi(j));
+				count = 0.5 * (f.getAi(i) * g.getAi(j) - f.getBi(i) * g.getBi(j));
+				A[i+j] += count;
+				count = 0.5 * (f.getAi(i) * g.getBi(j) + f.getBi(i) * g.getAi(j));
+				B[i+j] += count;
 			}
 		}
 	}
-	for (size_t i = 0; i < n; ++i)
+	for (size_t i = 0; i <= n; ++i)
 	{
-		CFSres.setAi(A[i]);
-		CFSres.setBi(B[i]);
-	}*/
+		CFSres.setAi(i, A[i]);
+		CFSres.setBi(i, B[i]);
+	}/*
 	for (size_t i = 0; i <= n; ++i)
 	{
 		FLOAT resA=0;
@@ -56,7 +72,7 @@ CFST<FLOAT> Multiplication(const CFST<FLOAT>& f, const CFST<FLOAT>& g)
 			resA += f.getAi(j)*g.getAi(i-j);
 			resA -= f.getBi(j)*g.getBi(i-j);
 		}
-		CFS.setAi(i, 0.5*resA);
+		CFSres.setAi(i, 0.5*resA);
 	}
 	for (size_t i = 1; i <= n; ++i)
 	{
@@ -73,8 +89,9 @@ CFST<FLOAT> Multiplication(const CFST<FLOAT>& f, const CFST<FLOAT>& g)
 			resB += f.getAi(j)*g.getBi(i-j);
 			resB += f.getBi(j)*g.getAi(i-j);
 		}
-		CFS.setBi(i, 0.5*resB);
-	}
+		CFSres.setBi(i, 0.5*resB);
+	}*/
+	return CFSres;
 }
 }
 #endif
