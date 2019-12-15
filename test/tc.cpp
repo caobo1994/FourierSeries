@@ -17,5 +17,6 @@ using namespace std;
 #include "testToleratedEquality.hpp"
 #include "testAddition.hpp"
 #include "testConvertFrom.hpp"
-*/
 #include "testConvertTo.hpp"
+*/
+#include "testIntegral.hpp"
