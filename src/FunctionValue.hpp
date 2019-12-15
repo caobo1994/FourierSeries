@@ -17,7 +17,7 @@
 /*Other library inclusion is here*/
 namespace FSL{
 template<class FLOAT>
-FLOAT FUNC(const CFST<FLOAT>& CFS, FLOAT t)
+FLOAT FunctionValue(const CFST<FLOAT>& CFS, FLOAT t)
 {
     FLOAT result = 0;
     result += CFS.getAi(0);

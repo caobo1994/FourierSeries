@@ -9,7 +9,7 @@ using namespace std;
 #define SEQ std::vector<FPT>
 #define CFSO CFST<FPT>
 
-
+/*
 #include "testCFSData.hpp"
 #include "testCFSMatch.hpp"
 #include "testSubtraction.hpp"
@@ -20,4 +20,5 @@ using namespace std;
 #include "testConvertTo.hpp"
 #include "testIntegral.hpp"
 #include "testTransformTo.hpp"
-#include "FunctionValue.hpp"
+*/
+#include "testFunctionValue.hpp"

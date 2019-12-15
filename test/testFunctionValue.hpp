@@ -8,7 +8,7 @@ SCENARIO("FunctionValue test", "[Transform]")
 {
 	WHEN("Given a CFS and variable value")
 	{
-		CFSO f(2, 1.0, {0, 2.0, 0.0}, {-2.0, 1.0});
+		CFSO f(2, 1.0, {1.0, 2.0, 0.0}, {-1.0, 1.0});
 		FPT t=M_PI/4;
 		THEN("Function value shall be the std answer")
 		{
