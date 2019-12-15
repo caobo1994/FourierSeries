@@ -12,7 +12,6 @@ SCENARIO("ConvertTo test", "[Conversion]")
 		THEN("Its conversion shall be the same with its data")
 		{
 			auto [n, omega, A, B] = ConvertTo(f);
-			cout << A.size() <<endl;
 			REQUIRE(n==f.getn());
 			REQUIRE(omega==f.getomega());
 			REQUIRE(A==f.getA());
