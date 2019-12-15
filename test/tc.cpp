@@ -9,9 +9,13 @@ using namespace std;
 #define SEQ std::vector<FPT>
 #define CFSO CFST<FPT>
 
-//#include "testCFSData.hpp"
-//#include "testCFSMatch.hpp"
-//#include "testSubtraction.hpp"
-//#include "testAmplitude.hpp"
-//#include "testToleratedEquality.hpp"
+/*
+#include "testCFSData.hpp"
+#include "testCFSMatch.hpp"
+#include "testSubtraction.hpp"
+#include "testAmplitude.hpp"
+#include "testToleratedEquality.hpp"
 #include "testAddition.hpp"
+#include "testConvertFrom.hpp"
+*/
+#include "testConvertTo.hpp"

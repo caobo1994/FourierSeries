@@ -20,8 +20,8 @@ namespace FSL{
 template<class FLOAT>
 bool ToleratedEquality(const CFST<FLOAT>& f, const CFST<FLOAT>& g, FLOAT tol)
 {
-    auto diff = Subtraction(f, g);
-    FLOAT amp = Amplitude(diff);
+    auto diff = Subtraction<FLOAT>(f, g);
+    FLOAT amp = Amplitude<FLOAT>(diff);
     return (amp <= tol);
 }
 }

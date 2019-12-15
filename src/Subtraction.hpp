@@ -8,8 +8,8 @@
  * C-style code is highly not recommended.
  */
 
-#ifndef FSL_ADDITION_HPP
-#define FSL_ADDITION_HPP
+#ifndef FSL_SUBTRACTION_HPP
+#define FSL_SUBTRACTION_HPP
 
 #include "CFSData.hpp"
 #include "CFSMatch.hpp"

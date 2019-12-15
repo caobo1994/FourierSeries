@@ -16,7 +16,7 @@
 /*Other library inclusion is here*/
 namespace FSL{
 template<class FLOAT>
-CFST<FLOAT> ConvertFrom(size_t n, FLOAT omega, const std::vector<FLOAT> A, const std::vector<B>)
+CFST<FLOAT> ConvertFrom(size_t n, FLOAT omega, const std::vector<FLOAT>& A, const std::vector<FLOAT>& B)
 {
  	CFST<FLOAT> res(n, omega);
  	res.setA(A);
