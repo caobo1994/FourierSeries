@@ -25,5 +25,5 @@ using namespace std;
 #include "testFunctionValue.hpp"
 #include "testLinSolve.hpp"
 #include "testMultiplication.hpp"
-*/
-#include "testPower.hpp"
+#include "testPower.hpp"*/
+#include "testFunction.hpp"

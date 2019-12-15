@@ -16,8 +16,8 @@
 
 /*Other library inclusion is here*/
 namespace FSL{
-template<class FLOAT>
-CFST<FLOAT> Function(const CFST<FLOAT>& f, std::function<FLOAT(size_t)> Deriv)
+template<class FLOAT, class FUNC>
+CFST<FLOAT> Function(const CFST<FLOAT>& f, const FUNC& Deriv)
 {
     /*
 	 * In the i-th loop:
@@ -31,7 +31,8 @@ CFST<FLOAT> Function(const CFST<FLOAT>& f, std::function<FLOAT(size_t)> Deriv)
     CFST<FLOAT> mul(f.getn(), f.getomega());
     CFST<FLOAT> dd(f.getn(), f.getomega());
     pf.setAi(0, 1);
-    for (int i = 0; i <= n; ++i)
+    size_t n = f.getn();
+    for (size_t i = 0; i <= n; ++i)
     {
     	dd.setAi(0, Deriv(i));
     	res = Addition(res, Multiplication(pf, dd));
