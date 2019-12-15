@@ -23,7 +23,7 @@ COMPFLAGS = $(WARNINGS) $(CODE_COVERAGE) -g  -std=c++17 -fPIC
 
 #use original fadbad with power corrected
 
-INCLUDES += -I../src/ #-ICatch2/include
+INCLUDES += -I../src/ -I/usr/include/eigen3
 
 LDFLAGS += -L/usr/lib/gcc/x86_64-linux-gnu/7/
 

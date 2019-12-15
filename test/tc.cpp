@@ -20,5 +20,6 @@ using namespace std;
 #include "testConvertTo.hpp"
 #include "testIntegral.hpp"
 #include "testTransformTo.hpp"
-*/
 #include "testFunctionValue.hpp"
+*/
+#include "testLinSolve.hpp"
