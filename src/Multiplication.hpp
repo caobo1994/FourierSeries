@@ -23,7 +23,6 @@ CFST<FLOAT> Multiplication(const CFST<FLOAT>& f, const CFST<FLOAT>& g)
 	size_t n = CFSres.getn();
 	std::vector<FLOAT> A(n+1, 0.0);
 	std::vector<FLOAT> B(n+1, 0.0);
-	std::cout<<n<<endl;
 	for(size_t i = 0; i <= n; ++i)
 	{	
 		for (size_t j = 0; j <= n; ++j)

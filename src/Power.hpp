@@ -20,9 +20,10 @@ template<class FLOAT>
 CFST<FLOAT> Power(const CFST<FLOAT>& f, size_t n)
 {
     CFST<FLOAT> res(f.getn(), f.getomega());
-    for (int i = 1; i <= n; ++i)
+    res.setAi(0, 1.0);
+    for (size_t i = 1; i <= n; ++i)
     {
-    	res = res * f;
+    	res = Multiplication(res, f);
     }
     return res;
 }

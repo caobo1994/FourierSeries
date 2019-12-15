@@ -24,5 +24,6 @@ using namespace std;
 #include "testTransformTo.hpp"
 #include "testFunctionValue.hpp"
 #include "testLinSolve.hpp"
-*/
 #include "testMultiplication.hpp"
+*/
+#include "testPower.hpp"
