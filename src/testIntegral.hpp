@@ -8,9 +8,9 @@ SCENARIO("Integral test", "[Integration]")
 {
 	WHEN("A function and a boundary is given")
 	{
-		auto f = [](FPT x){return x;}
-		a = 0.0;
-		b = 1.0;
+		auto f = [](FPT x){return x;};
+		FPT a = 0.0;
+		FPT b = 1.0;
 		THEN("The integration value shall match math result")
 		{
 			FPT res = Integral(f, a, b);

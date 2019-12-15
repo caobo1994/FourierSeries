@@ -23,15 +23,20 @@ CFST<FLOAT> TransformTo(FUNC f, size_t n, FLOAT omega)
     static FLOAT pi = M_PI;
     if (omega<=0)
     {
-    	throw(std::invalid_argument("ConvertTo: omega<=0"));
+    	throw(std::invalid_argument("TransformTo: omega<=0"));
     }
     CFST<FLOAT> res(n, omega);
-    res.setAi((omega/(2*pi))Integral(f, -pi/omega, pi/omega));
+    FLOAT inte;
+    inte = omega/(2*pi)*Integral(f, -pi/omega, pi/omega);
+    res.setAi(0, inte);
     for (size_t i = 1; i <= n; ++i)
     {
-    	res.setAi((omega/pi)Integral([f, i, omega](FLOAT t){return f(t)*cos(i*omega*t);}, -pi/omega, pi/omega));
-    	res.setBi((omega/pi)Integral([f, i, omega](FLOAT t){return f(t)*sin(i*omega*t);}, -pi/omega, pi/omega));
+    	inte = (omega/pi)*Integral([f, i, omega](FLOAT t){return f(t)*cos(i*omega*t);}, -pi/omega, pi/omega);
+        res.setAi(i, inte);
+        inte = (omega/pi)*Integral([f, i, omega](FLOAT t){return f(t)*sin(i*omega*t);}, -pi/omega, pi/omega);
+        res.setBi(i, inte);
     }
+    return res;
 }
 }
 #endif

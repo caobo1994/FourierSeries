@@ -17,12 +17,12 @@
 /*Other library inclusion is here*/
 namespace FSL{
 template<class FLOAT>
-FLOAT FUNC(const CFSData& CFS, FLOAT t)
+FLOAT FUNC(const CFST<FLOAT>& CFS, FLOAT t)
 {
     FLOAT result = 0;
     result += CFS.getAi(0);
     size_t n = CFS.getn();
-    FLOAT omega = CFS.getomega()
+    FLOAT omega = CFS.getomega();
     for (size_t i = 1; i <= n; ++i)
     {
         result += CFS.getAi(i)*cos(i*omega*t);
