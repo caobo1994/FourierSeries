@@ -21,7 +21,7 @@ auto ConvertTo(const CFST<FLOAT>& f)
 {
     std::vector<FLOAT> A = f.getA();
     std::vector<FLOAT> B = f.getB();
-    return std::tie(f.getn(), f.getomega(), A, B);
+    return std::make_tuple(f.getn(), f.getomega(), A, B);
 }
 }
 #endif
