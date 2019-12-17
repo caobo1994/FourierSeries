@@ -3,16 +3,19 @@
 #include <chrono>
 #include <cstdint>
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include <algorithm>
+#include <string>
+#include <random>
+#include "CFSData.hpp"
+
 //using namespace std::chrono;
 
-using time = std::uint64_t;
-
 template <class FLOAT, class RAND>
-CFST<FLOAT> genRandCFS(size_t n, FLOAT omega, RAND& rand)
+FSL::CFST<FLOAT> genRandCFS(size_t n, FLOAT omega, RAND& rand)
 {
-	CFST<FLOAT> res(n, omega);
+	FSL::CFST<FLOAT> res(n, omega);
 	for(size_t i = 0; i <= omega; ++i)
 	{
 		res.setAi(i, rand());
@@ -22,7 +25,7 @@ CFST<FLOAT> genRandCFS(size_t n, FLOAT omega, RAND& rand)
 }
 
 template <class FUNC>
-time timer_nano(FUNC func);
+std::uint64_t timer_nano(FUNC func)
 {
 
     auto t1 = std::chrono::high_resolution_clock::now();

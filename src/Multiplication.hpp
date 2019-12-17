@@ -12,6 +12,7 @@
 #define FSL_MULTIPLICATION_HPP
 
 #include "CFSData.hpp"
+#include "CFSMatch.hpp"
 
 /*Other library inclusion is here*/
 namespace FSL{
