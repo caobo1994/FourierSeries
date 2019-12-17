@@ -1,0 +1,164 @@
+        -:    0:Source:../src/CFSData.hpp
+        -:    0:Graph:tc.gcno
+        -:    0:Data:tc.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:#ifndef FSL_CFSDATA_H
+        -:    2:#define FSL_CFSDATA_H
+        -:    3:
+        -:    4:#include <vector>
+        -:    5:#include <exception>
+        -:    6:#include <string>
+        -:    7:#include <iostream>
+        -:    8:
+        -:    9:namespace FSL{
+        -:   10:template <class FLOAT>
+        5:   11:class CFST
+        -:   12:{
+        -:   13:    using seq=std::vector<FLOAT>;
+        -:   14:    private:
+        -:   15:        size_t n;
+        -:   16:        FLOAT omega;
+        -:   17:        seq A;
+        -:   18:        seq B;
+        -:   19:        //static const FLOAT zero=0;
+        -:   20:    public:
+        -:   21:
+       11:   22:        const size_t& getn() const
+        -:   23:        {
+       11:   24:            return n;
+        -:   25:        }
+        5:   26:        void setn(const size_t& n_in)
+        -:   27:        {
+        5:   28:            n = n_in;
+        5:   29:            A.resize(n+1);
+        5:   30:            B.resize(n);
+        5:   31:            std::fill(A.begin(), A.end(), 0.0);
+        5:   32:            std::fill(B.begin(), B.end(), 0.0);
+        5:   33:        }
+        -:   34:
+        7:   35:        const FLOAT& getomega() const
+        -:   36:        {
+        7:   37:            return omega;
+        -:   38:        }
+        5:   39:        void setomega(const FLOAT& omega_in)
+        -:   40:        {
+        5:   41:            if(omega_in<=0)
+        -:   42:            {
+    #####:   43:                throw(std::invalid_argument("setomega: omega<=0"));
+        -:   44:            }
+        5:   45:            omega = omega_in;
+        5:   46:        }
+        -:   47:
+        -:   48:        const seq& getA() const
+        -:   49:        {
+        -:   50:            return A;
+        -:   51:        }
+        3:   52:        void setA(const seq& A_in)
+        -:   53:        {
+        3:   54:            if (A_in.size()!=(n+1))
+        -:   55:            {
+    #####:   56:                throw(std::invalid_argument("setA: mismatch A.size() and n+1"));
+        -:   57:            }
+        3:   58:            A = A_in;
+        3:   59:        }
+        -:   60:
+        -:   61:        const seq& getB() const
+        -:   62:        {
+        -:   63:            return B;
+        -:   64:        }
+        3:   65:        void setB(const seq& B_in)
+        -:   66:        {
+        3:   67:            if (B_in.size()!=(n))
+        -:   68:            {
+    #####:   69:                throw(std::invalid_argument("setB: mismatch B.size() and n"));
+        -:   70:            }
+        3:   71:            B = B_in;
+        3:   72:        }
+        -:   73:
+       42:   74:        FLOAT getAi(size_t i) const
+        -:   75:        {
+        -:   76:            if(i<0)
+        -:   77:            {
+        -:   78:                throw std::out_of_range("getAi: i<0, i=" + std::to_string(i));
+        -:   79:            }
+       42:   80:            if(i>n)
+        -:   81:            {
+    #####:   82:                throw std::out_of_range("getAi: i>n, i=" + std::to_string(i) + ",n="+std::to_string(n));
+        -:   83:            }
+       42:   84:            return A[i];
+        -:   85:        }
+        6:   86:        void setAi(size_t i, const FLOAT& Ai_in)
+        -:   87:        {
+        -:   88:            if(i<0)
+        -:   89:            {
+        -:   90:                throw std::out_of_range("setAi: i<0, i=" + std::to_string(i));
+        -:   91:            }
+        6:   92:            if(i>n)
+        -:   93:            {
+    #####:   94:                throw std::out_of_range("setAi: i>n, i=" + std::to_string(i) + ",n="+std::to_string(n));
+        -:   95:            }
+        6:   96:            A[i] = Ai_in;
+        6:   97:        }
+       39:   98:        FLOAT getBi(size_t i) const
+        -:   99:        {
+        -:  100:            if(i<0)
+        -:  101:            {
+        -:  102:                throw std::out_of_range("getBi: i<0, i=" + std::to_string(i));
+        -:  103:            }
+       39:  104:            if(i>n)
+        -:  105:            {
+    #####:  106:                throw std::out_of_range("getBi: i>n, i=" + std::to_string(i) + ",n="+std::to_string(n));
+        -:  107:            }
+       39:  108:            if (i==0)
+       13:  109:                return FLOAT(0);
+       26:  110:            return B[i-1];
+        -:  111:        }
+        6:  112:        void setBi(size_t i, const FLOAT& Bi_in)
+        -:  113:        {            
+        -:  114:            if(i<0)
+        -:  115:            {
+        -:  116:                throw std::out_of_range("setBi: i<0, i=" + std::to_string(i));
+        -:  117:            }
+        6:  118:            if(i>n)
+        -:  119:            {
+    #####:  120:                throw std::out_of_range("setBi: i>n, i=" + std::to_string(i) + ",n="+std::to_string(n));
+        -:  121:            }
+        6:  122:            if (i!=0)
+        4:  123:                B[i-1]=Bi_in;
+        6:  124:        }
+        2:  125:        CFST(size_t n_in, FLOAT omega_in)
+        2:  126:        {
+        2:  127:            setn(n_in);
+        2:  128:            setomega(omega_in);
+        2:  129:        }
+        3:  130:        CFST(size_t n_in, FLOAT omega_in, const std::vector<FLOAT>& A_in, const std::vector<FLOAT>& B_in)
+        3:  131:        {
+        3:  132:            setn(n_in);
+        3:  133:            setomega(omega_in);
+        3:  134:            setA(A_in);
+        3:  135:            setB(B_in);
+        3:  136:        }
+        -:  137:};
+        -:  138:
+        -:  139:template <class FLOAT>
+        1:  140:std::ostream& operator<<(std::ostream& os, const CFST<FLOAT>& f)
+        -:  141:{
+        1:  142:    os<<f.getn()<<", ";
+        1:  143:    os<<f.getomega()<<", ";
+        1:  144:    size_t n = f.getn();
+        1:  145:    os<<"{";
+        3:  146:    for (size_t i = 0; i<n; ++i)
+        -:  147:    {
+        2:  148:        os<<f.getAi(i)<<", ";
+        -:  149:    }
+        1:  150:    os<<f.getAi(n)<<"}, {";
+        2:  151:    for (size_t i = 1; i<n; ++i)
+        -:  152:    {
+        1:  153:        os<<f.getBi(i)<<", ";
+        -:  154:    }
+        1:  155:    os<<f.getBi(n)<<"}";
+        1:  156:    return os;
+        -:  157:}
+        -:  158:}
+        -:  159:#endif

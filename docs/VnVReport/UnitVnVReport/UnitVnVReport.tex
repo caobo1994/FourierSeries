@@ -11,7 +11,7 @@
     urlcolor=blue
 }
 \usepackage[round]{natbib}
-
+\input{../../Common}
 \input{../../Comments}
 
 \begin{document}
@@ -61,15 +61,15 @@ Date 2 & 1.1 & Notes\\
 
 \pagenumbering{arabic}
 
-This document ...
+This document introduces the result of the Unit VnV procedure.
 
-\section{Functional Requirements Evaluation}
-
-\section{Nonfunctional Requirements Evaluation}
-
-\subsection{Usability}
-		
-\subsection{Performance}
+\section{Functional Requirements Evaluation}\label{Sc:FR}
+All the functional requirements have been met, except for the division function.
+\section{Nonfunctional Requirements Evaluation}\label{Sc:NFR}
+All the requirements have been met.
+\subsection{Usability}\label{Sc:Use}
+During implementation, we find out that function name of \licpp{ToleratedEquality} is too long to use. For the sake of compatibility, we introduce another function same as this one, only with the name shortened to \licpp{TolEq}. This function is essentially a wrapper to the original one, and the structure is too simple, so we do not test it.		
+\subsection{Performance}\label{Sc:Perf}
 
 \subsection{etc.}
 	

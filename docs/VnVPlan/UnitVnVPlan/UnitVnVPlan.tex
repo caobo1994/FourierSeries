@@ -3,6 +3,7 @@
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{hyperref}
+\usepackage{mathtools}
 \hypersetup{
     colorlinks,
     citecolor=black,
@@ -15,7 +16,6 @@
 \input{../../Comments}
 \input{../../Common}
 
-\newcommand{\li}[1]{\texttt{#1}\xspace}
 
 \begin{document}
 
@@ -45,7 +45,7 @@ Date 2 & 1.1 & Notes\\
 
 \section{Symbols, Abbreviations and Acronyms}
 
-Some symbols, abbreviations and acronyms are defined in the Common Analysis (CA) document \footnote{This document is available at \url{https://github.com/caobo1994/FourierSeries/blob/master/docs/SRS/CA.pdf}.}. For simplicity and maintainability, they are not redefined here. Readers shall refer to the CA documents when a certain item is not defined here.
+Some symbols, abbreviations and acronyms are defined in the Software Requirement and Specification (SRS) document \footnote{This document is available at \url{https://github.com/caobo1994/FourierSeries/blob/master/docs/SRS/SRS.pdf}.}. For simplicity and maintainability, they are not redefined here. Readers shall refer to the SRS documents when a certain item is not defined here.
 
 \renewcommand{\arraystretch}{1.2}
 \begin{tabular}{l l} 
@@ -71,17 +71,18 @@ The library to be tested is called the Fourier Series Library (FSL). This librar
 
 \subsection{Scope}
 
-The intended objective of the VnV procedure is to verify that this library has generally met the requirements described in the CA document. These requirements include the functional requirements (FRs) and the non-functional requirements (NFRs).
+The intended objective of the VnV procedure is to verify that this library has generally met the requirements described in the SRS document. These requirements include the functional requirements (FRs) and the non-functional requirements (NFRs).
 
 Note that if a small part of the NFRs has not been met, the library is still acceptable when the not-met NFRs' impact has been analyzed and deemed non-essential.
 
-The transformation from a function to its CFS involves numerical integration, and we plan to use existing libraries for it. Instead of test these libraries, we will trust them on the ground of their developers' and other users' through testing.
+The transformation from a function to its CFS involves numerical integration, and the division operation of CFS's contain solving of linear equations. We plan to use existing libraries for these tasks. Instead of test these libraries, we will trust them on the ground of their developers' and other users' through testing.
 
 \section{Plan}
 	
 \subsection{Verification and Validation Team}
 
-The major member of the team is the author himself. Other contributors might assist in the VnV procedure, but their contributions are not guaranteed.
+The author of this library, Bo Cao, will do all the Unit VnV, including the design, coding and execution of the Automated Testing.
+
 
 \subsection{Automated Testing and Verification Tools}
 
@@ -93,7 +94,7 @@ The static analysis will be done by \li{cpplint}. This is a classic \li{C++} pro
 
 The code coverage of the designed unit test cases will be tested by \li{gcov}. This is the standard code coverage tool that is assisted by the GNU program/library family's \li{C++} compiler, \li{g++}. An detailed introduction can be found in \url{https://gcc.gnu.org/onlinedocs/gcc/Gcov.html}.
 
-The (pseudo-)oracles for unit testing come from manual computation and/or the results computed by MATLAB.
+The (pseudo-)oracles for unit testing come from manual computation and/or the results computed by MATLAB's Fourier Transformation library.
 
 \subsection{Non-Testing Based Verification}
 
@@ -101,239 +102,171 @@ We will have a code inspection and walkthrough of some functions in this library
 
 \section{Unit Test Description}
 
-The general principle for selecting test cases is to reach maximum coverage with minimum number of test cases and minimum test time.
-
-To achieve this goal, the length of CFS's shall be neither too small nor too large. For simplicity, we choose an uniform $n=2$ for all test cases.
-
-
+The unit test cases of this library will be based on the system test cases of this library, with the following additions and modifications.
 \subsection{Tests for Functional Requirements}
+Due to the nature of the library, the test of most functions are defined in the System VnV. We will not elaborate on these defined functions.
 
-\subsubsection{Module 1: Basic comparison function}
+We should also notice that these three functions must be tested in order, and these functions must be tested before other functions: \licpp{Subtraction}, \li{Amplitude}, \li{ToleratedEquality}.
 
-The tests here are selected to cover the tolerated comparison function and its base, subtraction operation and amplitude function. The tolerated comparison function will be used in later tests to compare the resulted CFS of the tested function with its (pseudo-)oracle counterpart, so we need to test this function first to ensure that the following test results are reliable.
-
-\textbf{NOTE: Do not proceed with other modules unless you have succeed in this module. For each round of test, the result of other modules is trustworthy if and only if the test results of this module are all successes.}
-
+\subsubsection{Module 1: Linear Solver}
 \begin{enumerate}
-
-\item{Test of subtraction: \\}
-
-Type: Automatic
-					
-Initial State: The subtract function of the loaded FSL library.
-					
-Input: $\mathit{CFSf}=[n=2, \omega=1.0, A=\{1.0, 0.0, 0.0\}, B=\{0.0, 1.0\}]$ and 
-	$\mathit{CFSg}=[n=2, \omega=1.0, A=\{0.0, 2.0, 1.0\}, B=\{1.0, 0.0\}]$	 
-					
-Output: $\mathit{CFSf}-\mathit{CFSg}$, which should be $[n=2, \omega=1.0, A=\{1.0, -2.0, -1.0\}, B=\{-1.0, 1.0\}]$
-
-Test Case Derivation: Manual computation
-
-How test will be performed: Feed function with the aforementioned input, and compare the function output to the aforementioned standard output by comparing its $n$, $\omega$, $A_i$'s and $B_i$'s variable-by-variable.
-					
-\item{Test of amplitude function: \\}					
-
-Type: Automatic
-
-Initial State: None.
-
-Input: $\mathit{CFSf}=[n=2, \omega=1.0, A=\{1.0, 0.0, 2.0\}, B=\{2.0, 0.0\}]$ and $\epsilon=10^{-6}$.
-
-Output: $|\mathit{Amp}(\mathit{CFSf})-3.0|\leq\epsilon$, which should be \li{True}.
-
-Test Case Derivation: Manual computation
-
-How test will be performed: Compute and compare.
-
-					
-\item{Test of tolerated comparison  (\li{True} result): \\}
-
-Type: Automatic
-					
-Initial State: Verified amplitude function.
-					
-Input: $\mathit{CFSf}=[n=2, \omega=1.0, A=\{1.0, 0.0, 0.0\}, B=\{0.0, 1.0\}]$, 
-$\mathit{CFSg}=[n=2, \omega=1.0, A=\{0.0, 2.0, 1.0\}, B=\{1.0, 0.0\}]$, and error $\epsilon=10.0$
-					
-Output: Comparison result which should be \li{True}
-
-Test Case Derivation: Manual computation
-
-How test will be performed: Compute and compare.
-
-\item{Test of tolerated comparison  (\li{False} result):\\}
-
-Same as \textit{Test of tolerated comparison  (\li{True} result)}, but with $\epsilon=1.0$ and Output as \li{False}.    
+	\item Test of \licpp{LinSolve}:\\
+	
+	Type: Automatic\\
+	Initial State: Loaded library\\
+	Input: $m=2, M=\begin{bsmallmatrix}
+	1 & 1\\0 & 1
+	\end{bsmallmatrix}, b=\begin{bsmallmatrix}
+	3\\1
+	\end{bsmallmatrix}$
+	Output: $a$, whose oracle is$\begin{bsmallmatrix}
+	2\\1
+	\end{bsmallmatrix}$
+	Test Case Derivation: output shall match oracle exactly.
+	How the test will be performed: Unit Test will call the function with the input, and compare the output with the oracle. 
 \end{enumerate}
 
-\subsubsection{Module 2: Fourier transformation and approximation}
-This module tests the functions that compute Fourier transformation and approximated values of functions.
-
+\subsubsection{Module 2: Integral}
 \begin{enumerate}
-	\item{Test of coefficient (even function):\\}
+	\item Test of \licpp{Integral}:\\
 	
-	Type: Automatic
-	
-	Initial State: Verified tolerated equality function.
-	
-	Input: $f(t)=t^2$, $\omega=1$, $n=2$, $\epsilon=10^{-6}$, $\mathit{CFSstd}=[n=2,\omega=1, A=\{\pi^2/3, -4.0, 1.0\}, B=\{0.0, 0.0\}]$
-	
-	Output: $\mathit{TolEq}(\mathit{CFSf}, \mathit{CFSstd}, \epsilon)$, which should be \li{True}.
-	
-	Test Case Derivation: Manual Computation, verified by MATLAB computation.
-	
-	How test will be performed: Compute and compare.
-	
-	\item{Test of coefficient (odd function):\\}
-	
-	Type: Automatic	
-	
-	Initial State: Verified tolerated equality function.
-	
-	Input: $f(t)=t$, $\omega=1$, $n=2$, $\epsilon=10^{-6}$, $\mathit{CFSstd}=[n=2,\omega=1, A=\{0.0, 0.0, 0.0\}, B=\{-2.0, 1.0\}]$
-	
-	Output: $\mathit{TolEq}(\mathit{CFSf}, \mathit{CFSstd}, \epsilon)$, which should be \li{True}.
-
-	Test Case Derivation: Manual Computation, verified by MATLAB computation.
-
-	How test will be performed: Compute and compare.
-	
-	\item{Test of approximated function value: \\}
-	
-	Type: Automatic
-	
-	Initial State: None.
-	
-	Input: $\mathit{CFSf}=[n=2,\omega=1, A=\{0.0, 2.0, 0.0\}, B=\{-2.0, 1.0\}]$, $t=\pi/4$, $\epsilon=10^{-6}$.
-	
-	Output: $|\mathit{App}(\mathit{CFSf}, t)-(2+\sqrt{2}/2)|\leq\epsilon$, which should be \li{True}.
-	
-	Test Case Derivation: Manual Computation, verified by MATLAB computation.
-
-	How test will be performed: Compute and compare.
-
+	Type: Automatic\\
+	Initial State: Loaded library\\
+	Input: $f=t\rightarrow t, a=0, b=1$
+	Output: $\textit{res}$, whose oracle is 0.5.
+	Test Case Derivation: difference between oracle and output shall be smaller than $\epsilon=10^{-6}$.
+	How the test will be performed: Unit Test will call the function with the input, and compare the output with the oracle (called Compare later.) 
 \end{enumerate}
 
-\subsubsection{Module 3: Operations and functions}
+\subsubsection{Module 3: Conversion}
+The unit test is the same as the system test, and we give a table describing which system test is for which function.
+\begin{table}[h]
+	\centering
+	\begin{tabular}{c c}
+		\hline
+		Test name & Function\\
+		\hline
+		Test of conversion from other data format&\licpp{ConvertFrom}\\
+		Test of conversion to other data format&\licpp{ConvertTo}\\
+		\hline
+	\end{tabular}
+\end{table}
+\subsubsection{Module 4: Transformation}
+The unit test is the same as the system test, and we give a table describing which system test is for which function.
+\begin{table}[h]
+	\centering
+	\begin{tabular}{c c}
+		\hline
+		Test name & Function\\
+		\hline
+		Test of coefficient (even function)&\licpp{Transform}\\
+		Test of coefficient (odd function)&\\
+		Test of approximated function value&\licpp{FunctionValue}\\
+		\hline
+	\end{tabular}
+\end{table}
+\subsubsection{Module 5: Basic Operation}
+The unit test is the same as the system test except for the \li{CFSMatch} function, and we give a table describing which system test is for which function.
 
+\begin{table}[h]
+	\centering
+	\begin{tabular}{c c}
+		\hline
+		Test name & Function\\
+		\hline
+		Test of addition&\licpp{Addition}\\
+		Test of subtraction&\licpp{Subtraction}\\
+		Test of multiplication
+		&\licpp{Multiplication}\\
+		Test of division&\licpp{Division}\\
+		Test of amplitude&\licpp{Amplitude}\\
+		\hline
+	\end{tabular}
+\end{table}
+
+The test template for the \licpp{CFSMatch} function is
 \begin{enumerate}
-	\item{Test of addition: \\}
+	\item Test of \licpp{CFSMatch}:\\
 	
-	Type: Automatic
-	
-	Initial State: Verified tolerated equality function.
-	
-	Input: $\mathit{CFSf}=[n=2,\omega=1, A=\{0.0, 2.0, 0.0\}, B=\{-2.0, 0.0\}]$, $\mathit{CFSg}=[n=2,\omega=1, A=\{1.0, 0.0, 2.0\}, B=\{0.0, 1.0\}]$,
-	$\mathit{CFSstd}=[n=2,\omega=1, A=\{1.0, 2.0, 1.0\}, B=\{-2.0, 1.0\}]$,
-	$\epsilon=10^{-6}$
-	
-	Output: $\mathit{TolEq}(\mathit{CFSf}+\mathit{CFSg}, \mathit{CFSstd}, \epsilon)$, which should be \li{True}.
-	
-	Test Case Derivation: Manual Computation.
-
-	How test will be performed: Compute and compare.
-	
-	\item{Test of multiplication:\\}
-	
-	Type: Automatic
-	
-	Initial State: Verified tolerated equality function.
-	
-	Input: $\mathit{CFSf}=[n=2, \omega=1, A=\{1.0, 0.0, 1.0\}, B=\{1.0, 0.0\}]$,
-	$\mathit{CFSg}=[n=2, \omega=1, A=\{1.0, 1.0, 0.0\}, B=\{1.0, 0.0\}]$, 
-	$\mathit{CFSstd}=[n=2, \omega=1, A=\{2.0, 2.0, 0.0\}, B=\{2.0, 1.0\}]$,
-	$\epsilon=10^{-6}$
-	
-	Output: $\mathit{TolEq}(\mathit{CFSf}*\mathit{CFSg}, \mathit{CFSstd}, \epsilon)$, which should be \li{True}.
-	
-	Test Case Derivation: Manual Computation.
-	
-	How test will be performed: Compute and compare.
-	
-	\item{Test of division: \\}
-	
-	Same as \textit{Test of multiplication}, but swap $\mathit{CFSf}$ and $\mathit{CFSstd}$, while change $*$ to $/$.
-	
-	\item{Test of function of CFS: \\}
-	
-	Type: Automatic
-	
-	Initial State: Verified tolerated equality, addition and multiplication function.
-	
-	Input: $\mathit{CFSf}=[n=2, \omega=1, A=\{1.0, 0.0, 1.0\}, B=\{1.0, 0.0\}]$, $g(t)=e^t$, and $\epsilon=10^{-6}$.
-	
-	Output: $\mathit{TolEq}(g(\mathit{CFSf}), 1+\mathit{CFSf}+0.5\mathit{CFSf}^2, \epsilon)$, which should be \li{True}.
-	
-	Test Case Derivation: Manual Computation.
-
-	How test will be performed: Compute and compare.
-	
+	Type: Automatic\\
+	Initial State: Loaded library\\
+	Input: $CFSf=[n=2, \omega=1.0, A=\{0, 0, 0\}, B=\{0, 0\}]$, $CFSg=[n=a, \omega=b, A=\{...\}, B=\{...\}]$. The length of $A$ and $B$ in $CFSg$ shall be  decided in accordance with $n$, and the values of elements in $A$ and $B$ shall all be $0$.\\
+	Output: $\textit{res}$, whose oracle is $c$.\\
+	Test Case Derivation: output shall fully match the oracle.\\
+	How the test will be performed: Unit Test will call the function with the input, and compare the output with the oracle. 
 \end{enumerate}
+We generate test cases from this template by doing the following replacements.
+\begin{table}[h]
+	\centering
+	\begin{tabular}{c|c c c}
+		\hline
+		Case No.&$a$&$b$&$c$\\
+		\hline
+		1&2&1.0&\licpp{true}\\
+		2&2&0.5&\licpp{false}\\
+		3&1&1.0&\licpp{false}\\
+		4&1&0.5&\licpp{false}\\
+		\hline
+	\end{tabular}
+\end{table}
 
-\subsubsection{Test of conversion}
+\textbf{Note: For the sake of clarity, we can also choose other sets of data for the test of multiplication. For each set of data described below, users can generate a test case by replacing the data in the original test case with the data in each set.}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{c|c c c c c c}
+		\hline
+		Case No.& A of CFSf&B of CFSf&A of CFSg&B of CFSg& A of CFSres & B of CFSres\\
+		\hline
+		1&$\{1, 0, 0\}$&$\{0, 0\}$&$\{1, 0, 0\}$&$\{0, 0\}$&$\{0.5, 0, 0.5\}$&$\{0, 0\}$\\
+		2&$\{1, 0, 0\}$&$\{0, 0\}$&$\{0, 0, 0\}$&$\{0, 1\}$&$\{0, 0, 0\}$&$\{0.5, 0\}$\\		
+		3&$\{0, 1, 0\}$&$\{0, 0\}$&$\{0, 0, 0\}$&$\{1, 0\}$&$\{0, 0, 0\}$&$\{-0.5, 0\}$\\		
+		4&$\{0, 0, 0\}$&$\{1, 0\}$&$\{0, 0, 0\}$&$\{1, 0\}$&$\{0.5, 0, -0.5\}$&$\{0, 0\}$\\
+	\end{tabular}
+\end{table}
+\subsubsection{Module 6: Advanced Operations}
+The unit test is the same as the system test except for the \licpp{Power} function, and we give a table describing which system test is for which function.
 
+\begin{table}[h]
+	\centering
+	\begin{tabular}{c c}
+		\hline
+		Test name & Function\\
+		\hline
+		Test of tolerated equality function \li{TolEq} (\li{True} result)&\licpp{ToleratedEquality}\\
+		Test of tolerated equality function \li{TolEq} (\li{False} result)&\\
+		Test of function of CFS
+		&\licpp{Function}\\
+		\hline
+	\end{tabular}
+\end{table}
+Note: $e^\textit{CFS}$ is \licpp{Function(CFS, expDeriv)}.
+
+The test case template for the \licpp{Power} function is  
 \begin{enumerate}
-	\item{Test of conversion from other data format:\\}
-	
-	Type: Automatic
-	
-	Initial State: Verified tolerated equality function
-	
-	Input: $n=2$, $\omega=1$, $A={1.0, 0.0, 2.0}$, $B={2.0, 0.0}$.
-	
-	Output: constructed CFS
-	
-	Test Case Derivation: None
-	
-	How the test will be performed: convert and compare the result with a standard CFS using tolerated equality and $\epsilon=10^{-6}$.
-	
-	\item{Test of conversion to other data format:\\}
-	
-	Same as \textit{Test of conversion from other data format}, while exchanging input and output, and compare each coefficients with tolerance as $\epsilon$.
-	
+	\item Test of \li{Power}:\\
+	Input: $\textit{CFSf}=[n=3, \omega=1.0, A=a, B=b]$, $m=3$\\
+	Output: \licpp{Power(CFSf, m)}, whose oracle is $\textit{CFSstd}=[n=3, \omega=1.0, A=a_o, B=b_o]$\\
+	Test Case Derivation: \licpp{ToleratedEquality(Power(CFSf, m), CFSstd, err)}, which should be \licpp{true} when $\textit{err}=10^{-6}$. 
 \end{enumerate}
+We generate two test cases from this template with the following sets of values.
+\begin{table}[h]
+	\centering
+	\begin{tabular}{c|c c c c}
+	\hline
+	Case No.&$A$&$B$&$A_o$&$B_o$\\
+	\hline
+	1&$\{0, 1, 0, 0\}$&$\{0, 0, 0\}$&$\{0, 0.75, 0, 0.25\}$&$\{0, 0, 0\}$\\
+	2&$\{0, 0, 0, 0\}$&$\{1, 0, 0\}$&$\{0, 0, 0, 0\}$&$\{0,75, 0, -0.25, 0\}$\\
+	\hline	
+	\end{tabular}
+\end{table}
 
 \subsection{Tests for Nonfunctional Requirements}
 
-
-\subsubsection{Speed evaluation}
-We test the speed of IM1, IM3, IM4, IM5, IM8 and IM9.	
-		
-For each test, generate random CFS's with same $\omega$ and various $n$, clock the execution time with the generated CFS's as input, and check whether the relationship between $n$ and the execution time follows the requirements in the NFR. 		
-
-We will demonstrate how the test is performed by showing one example.
-\begin{enumerate}
-	
-	\item{Test the speed of addition\\}
-	
-	Type: Automatic
-	
-	Initial State: Addition
-	
-	Input/Condition: Various pair of CFS's, with the same $\omega$, $n=100:100:1000$ respectively, and $A_i$'s and $B_i$'s generated from a random number generator. In this test, this generator is chosen as the uniform random number generator on $[-1.0, 1.0]$. 
-	
-	Output/Result: Whether the execution time of addition is linear in regards to $n$.
-	
-	How test will be performed: For each $n$, generate 10 pairs of CFS's, clock their execution time to take average value as the execution time for CFS's of size $n$, find the $r$ value of a linear fitting between $n$ and the execution time. This test succeeds when $|r|>0.9$, otherwise fails. 
-		
-\end{enumerate}
+Same as the System VnV.
 
 \subsection{Traceability Between Test Cases and Modules}
-We show each instance module's covering tests.
-
-\begin{itemize}
-	\item IM1: \textit{Test of transformation (even function)} and \textit{Test of transformation (odd function)}.
-	\item IM2: \textit{Test of approximated function value}
-	\item IM3: \textit{Test of addition}
-	\item IM4: \textit{Test of subtraction}
-	\item IM5: \textit{Test of multiplication}
-	\item IM6: \textit{Test of division}
-	\item IM7: \textit{Test of function of CFS}
-	\item IM8: \textit{Test of amplitude}
-	\item IM9: \textit{Test of tolerated equality}
-	\item IM10: \textit{Test of conversion from other data format}
-	\item IM11: \textit{Test of conversion to other data format}
-\end{itemize}
+Since the test cases are already grouped in accordance with their module, this section is not necessary.
 
 
 

@@ -1,0 +1,52 @@
+        -:    0:Source:../src/CFSMatch.hpp
+        -:    0:Graph:tc.gcno
+        -:    0:Data:tc.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/*
+        -:    2: * Introduction to the header template.
+        -:    3: * For each function FUNC, the file name shall be FUNC.hpp in src/DeemaAlomair folder.
+        -:    4: * Every FUNC shall be replaced with implemented function name.
+        -:    5: * The type of a CFS with FLOAT is CFST<FLOAT>
+        -:    6: * The code shall follow c++17 standard.
+        -:    7: * Only the c++ standard libraries are allowed.
+        -:    8: * C-style code is highly not recommended.
+        -:    9: */
+        -:   10:
+        -:   11:#ifndef FSL_CFSMATCH_HPP
+        -:   12:#define FSL_CFSMATCH_HPP
+        -:   13:
+        -:   14:#include "CFSData.hpp"
+        -:   15:#include <exception>
+        -:   16:/*Other library inclusion is here*/
+        -:   17:
+        -:   18:namespace FSL{
+        -:   19:template<class FLOAT>
+        2:   20:bool CFSMatch(const CFST<FLOAT>& CFSf, const CFST<FLOAT>& CFSg)
+        -:   21:{
+        2:   22:    if (CFSf.getn()!=CFSg.getn())
+        -:   23:    {
+    #####:   24:    	return false;
+        -:   25:    }
+        2:   26:    if (CFSf.getomega()!=CFSg.getomega())
+        -:   27:    {
+    #####:   28:    	return false;
+        -:   29:    }
+        2:   30:    return true;
+        -:   31:}
+        -:   32:
+        -:   33:template <class FLOAT>
+        2:   34:void CFSMatchThrow(const CFST<FLOAT>& CFSf, const CFST<FLOAT>& CFSg)
+        -:   35:{
+        2:   36:	if (!CFSMatch<FLOAT>(CFSf, CFSg))
+        -:   37:	{
+    #####:   38:		throw std::invalid_argument("CFS not match!");
+        -:   39:	}
+        2:   40:}
+        -:   41:}
+        -:   42:#endif
+        -:   43:
+        -:   44:/*
+        -:   45: * Type N in MIS shall be translated to size_t in C++. 
+        -:   46: * This type is already introduced in CFSData.h
+        -:   47: */

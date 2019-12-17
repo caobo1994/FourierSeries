@@ -1,0 +1,584 @@
+File 'testDivision.hpp'
+Lines executed:100.00% of 10
+Creating 'testDivision.hpp.gcov'
+
+File '/usr/include/c++/7/ext/new_allocator.h'
+Lines executed:92.86% of 14
+Creating 'new_allocator.h.gcov'
+
+File '/usr/include/c++/7/bits/shared_ptr_base.h'
+Lines executed:92.62% of 149
+Creating 'shared_ptr_base.h.gcov'
+
+File '/usr/include/c++/7/bits/alloc_traits.h'
+Lines executed:81.48% of 27
+Creating 'alloc_traits.h.gcov'
+
+File 'catch.hpp'
+Lines executed:34.76% of 4580
+Creating 'catch.hpp.gcov'
+
+File '/usr/include/c++/7/ext/aligned_buffer.h'
+Lines executed:100.00% of 12
+Creating 'aligned_buffer.h.gcov'
+
+File '/usr/include/c++/7/bits/shared_ptr.h'
+Lines executed:80.00% of 30
+Creating 'shared_ptr.h.gcov'
+
+File '/usr/include/c++/7/bits/move.h'
+Lines executed:100.00% of 13
+Creating 'move.h.gcov'
+
+File '/usr/include/c++/7/bits/stl_iterator.h'
+Lines executed:61.25% of 80
+Creating 'stl_iterator.h.gcov'
+
+File '/usr/include/c++/7/tuple'
+Lines executed:68.00% of 50
+Creating 'tuple.gcov'
+
+File '/usr/include/c++/7/bits/stl_construct.h'
+Lines executed:100.00% of 15
+Creating 'stl_construct.h.gcov'
+
+File '/usr/include/c++/7/bits/allocated_ptr.h'
+Lines executed:100.00% of 14
+Creating 'allocated_ptr.h.gcov'
+
+File '/usr/include/c++/7/bits/unique_ptr.h'
+Lines executed:51.43% of 70
+Creating 'unique_ptr.h.gcov'
+
+File '/usr/include/c++/7/bits/stl_uninitialized.h'
+Lines executed:79.07% of 43
+Creating 'stl_uninitialized.h.gcov'
+
+File '/usr/include/c++/7/bits/allocator.h'
+Lines executed:55.56% of 9
+Creating 'allocator.h.gcov'
+
+File '/usr/include/c++/7/bits/stl_vector.h'
+Lines executed:78.60% of 215
+Creating 'stl_vector.h.gcov'
+
+File '/usr/include/c++/7/bits/predefined_ops.h'
+Lines executed:41.03% of 39
+Creating 'predefined_ops.h.gcov'
+
+File '/usr/include/c++/7/bits/stl_algo.h'
+Lines executed:26.96% of 204
+Creating 'stl_algo.h.gcov'
+
+File '/usr/include/c++/7/bits/vector.tcc'
+Lines executed:40.53% of 227
+Creating 'vector.tcc.gcov'
+
+File '/usr/include/c++/7/ext/alloc_traits.h'
+Lines executed:60.00% of 10
+Creating 'alloc_traits.h.gcov'
+
+File '/usr/include/c++/7/bits/stl_iterator_base_types.h'
+Lines executed:100.00% of 2
+Creating 'stl_iterator_base_types.h.gcov'
+
+File '/usr/include/c++/7/bits/regex_automaton.h'
+Lines executed:0.00% of 108
+Creating 'regex_automaton.h.gcov'
+
+File '/usr/include/c++/7/iostream'
+Lines executed:100.00% of 1
+Creating 'iostream.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/AssignEvaluator.h'
+Lines executed:70.71% of 140
+Creating 'AssignEvaluator.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/DenseBase.h'
+Lines executed:80.00% of 15
+Creating 'DenseBase.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/MatrixBase.h'
+Lines executed:100.00% of 5
+Creating 'MatrixBase.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/EigenBase.h'
+Lines executed:100.00% of 7
+Creating 'EigenBase.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/CoreEvaluators.h'
+Lines executed:90.91% of 121
+Creating 'CoreEvaluators.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/Block.h'
+Lines executed:100.00% of 49
+Creating 'Block.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/Transpose.h'
+Lines executed:60.61% of 33
+Creating 'Transpose.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/util/BlasUtil.h'
+Lines executed:47.50% of 40
+Creating 'BlasUtil.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/GenericPacketMath.h'
+Lines executed:61.54% of 13
+Creating 'GenericPacketMath.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/DenseStorage.h'
+Lines executed:83.08% of 65
+Creating 'DenseStorage.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/MapBase.h'
+Lines executed:72.50% of 40
+Creating 'MapBase.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/Map.h'
+Lines executed:100.00% of 15
+Creating 'Map.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/DenseCoeffsBase.h'
+Lines executed:91.89% of 37
+Creating 'DenseCoeffsBase.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/PlainObjectBase.h'
+Lines executed:71.01% of 69
+Creating 'PlainObjectBase.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/functors/AssignmentFunctors.h'
+Lines executed:75.00% of 20
+Creating 'AssignmentFunctors.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/CwiseBinaryOp.h'
+Lines executed:100.00% of 21
+Creating 'CwiseBinaryOp.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/CwiseNullaryOp.h'
+Lines executed:88.89% of 18
+Creating 'CwiseNullaryOp.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/Diagonal.h'
+Lines executed:0.00% of 11
+Creating 'Diagonal.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/util/XprHelper.h'
+Lines executed:71.43% of 7
+Creating 'XprHelper.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/VectorBlock.h'
+Lines executed:100.00% of 3
+Creating 'VectorBlock.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/Assign.h'
+Lines executed:100.00% of 6
+Creating 'Assign.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/products/GeneralMatrixVector.h'
+Lines executed:22.77% of 224
+Creating 'GeneralMatrixVector.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/plugins/BlockMethods.h'
+Lines executed:76.92% of 26
+Creating 'BlockMethods.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/Redux.h'
+Lines executed:88.00% of 50
+Creating 'Redux.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/plugins/CommonCwiseBinaryOps.h'
+Lines executed:100.00% of 2
+Creating 'CommonCwiseBinaryOps.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/products/TriangularMatrixVector.h'
+Lines executed:0.00% of 83
+Creating 'TriangularMatrixVector.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/products/TriangularMatrixMatrix.h'
+Lines executed:0.00% of 61
+Creating 'TriangularMatrixMatrix.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/util/Memory.h'
+Lines executed:25.00% of 184
+Creating 'Memory.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/MathFunctions.h'
+Lines executed:100.00% of 20
+Creating 'MathFunctions.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/TriangularMatrix.h'
+Lines executed:60.00% of 20
+Creating 'TriangularMatrix.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/Matrix.h'
+Lines executed:78.57% of 28
+Creating 'Matrix.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/Stride.h'
+Lines executed:87.50% of 16
+Creating 'Stride.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/ProductEvaluators.h'
+Lines executed:86.15% of 65
+Creating 'ProductEvaluators.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/plugins/MatrixCwiseBinaryOps.h'
+Lines executed:100.00% of 2
+Creating 'MatrixCwiseBinaryOps.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/util/Meta.h'
+Lines executed:50.00% of 4
+Creating 'Meta.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/products/GeneralBlockPanelKernel.h'
+Lines executed:0.00% of 385
+Creating 'GeneralBlockPanelKernel.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/Product.h'
+Lines executed:100.00% of 10
+Creating 'Product.h.gcov'
+
+File '/usr/include/c++/7/bits/stl_algobase.h'
+Lines executed:38.89% of 108
+Creating 'stl_algobase.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/products/GeneralMatrixMatrix.h'
+Lines executed:0.00% of 23
+Creating 'GeneralMatrixMatrix.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/functors/BinaryFunctors.h'
+Lines executed:100.00% of 20
+Creating 'BinaryFunctors.h.gcov'
+
+File '/usr/include/c++/7/bits/cpp_type_traits.h'
+Lines executed:100.00% of 2
+Creating 'cpp_type_traits.h.gcov'
+
+File '/usr/include/c++/7/bits/basic_string.h'
+Lines executed:58.93% of 336
+Creating 'basic_string.h.gcov'
+
+File '/usr/include/c++/7/bits/stl_iterator_base_funcs.h'
+Lines executed:33.33% of 15
+Creating 'stl_iterator_base_funcs.h.gcov'
+
+File '/usr/include/c++/7/ext/type_traits.h'
+Lines executed:50.00% of 4
+Creating 'type_traits.h.gcov'
+
+File '/usr/include/c++/7/bits/basic_string.tcc'
+Lines executed:48.06% of 283
+Creating 'basic_string.tcc.gcov'
+
+File '/usr/include/c++/7/bits/stl_heap.h'
+Lines executed:0.00% of 48
+Creating 'stl_heap.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/GeneralProduct.h'
+Lines executed:94.12% of 17
+Creating 'GeneralProduct.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/functors/NullaryFunctors.h'
+Lines executed:100.00% of 4
+Creating 'NullaryFunctors.h.gcov'
+
+File '/usr/include/c++/7/bits/stl_pair.h'
+Lines executed:36.36% of 22
+Creating 'stl_pair.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/arch/SSE/PacketMath.h'
+Lines executed:47.06% of 34
+Creating 'PacketMath.h.gcov'
+
+File '/usr/lib/gcc/x86_64-linux-gnu/7/include/emmintrin.h'
+Lines executed:75.00% of 20
+Creating 'emmintrin.h.gcov'
+
+File '/usr/lib/gcc/x86_64-linux-gnu/7/include/xmmintrin.h'
+Lines executed:0.00% of 2
+Creating 'xmmintrin.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/NoAlias.h'
+Lines executed:100.00% of 9
+Creating 'NoAlias.h.gcov'
+
+File '/usr/include/c++/7/bits/regex.h'
+Lines executed:0.00% of 72
+Creating 'regex.h.gcov'
+
+File '/usr/include/c++/7/bitset'
+Lines executed:0.00% of 34
+Creating 'bitset.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/util/Macros.h'
+Lines executed:100.00% of 1
+Creating 'Macros.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/CwiseUnaryOp.h'
+Lines executed:100.00% of 7
+Creating 'CwiseUnaryOp.h.gcov'
+
+File '/usr/include/c++/7/bits/stl_tree.h'
+Lines executed:66.30% of 276
+Creating 'stl_tree.h.gcov'
+
+File '/usr/include/c++/7/bits/regex_compiler.h'
+Lines executed:0.00% of 117
+Creating 'regex_compiler.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/SelfCwiseBinaryOp.h'
+Lines executed:100.00% of 3
+Creating 'SelfCwiseBinaryOp.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Householder/HouseholderSequence.h'
+Lines executed:80.00% of 50
+Creating 'HouseholderSequence.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Householder/BlockHouseholder.h'
+Lines executed:0.00% of 23
+Creating 'BlockHouseholder.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/plugins/CommonCwiseUnaryOps.h'
+Lines executed:0.00% of 2
+Creating 'CommonCwiseUnaryOps.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/functors/UnaryFunctors.h'
+Lines executed:100.00% of 4
+Creating 'UnaryFunctors.h.gcov'
+
+File '/usr/include/c++/7/bits/stl_deque.h'
+Lines executed:0.00% of 129
+Creating 'stl_deque.h.gcov'
+
+File '/usr/include/c++/7/bits/deque.tcc'
+Lines executed:0.00% of 50
+Creating 'deque.tcc.gcov'
+
+File '/usr/include/c++/7/bits/stl_function.h'
+Lines executed:100.00% of 6
+Creating 'stl_function.h.gcov'
+
+File '/usr/include/c++/7/bits/regex.tcc'
+Lines executed:0.00% of 67
+Creating 'regex.tcc.gcov'
+
+File '/usr/include/c++/7/bits/std_function.h'
+Lines executed:0.00% of 90
+Creating 'std_function.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/products/TriangularSolverVector.h'
+Lines executed:81.82% of 22
+Creating 'TriangularSolverVector.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Householder/Householder.h'
+Lines executed:100.00% of 30
+Creating 'Householder.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/Swap.h'
+Lines executed:100.00% of 8
+Creating 'Swap.h.gcov'
+
+File '/usr/include/c++/7/bits/regex_compiler.tcc'
+Lines executed:0.00% of 295
+Creating 'regex_compiler.tcc.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/SolveTriangular.h'
+Lines executed:87.50% of 16
+Creating 'SolveTriangular.h.gcov'
+
+File '/usr/include/c++/7/bits/stl_map.h'
+Lines executed:25.81% of 31
+Creating 'stl_map.h.gcov'
+
+File '/usr/include/c++/7/bits/regex_executor.h'
+Lines executed:0.00% of 42
+Creating 'regex_executor.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/QR/ColPivHouseholderQR.h'
+Lines executed:97.73% of 88
+Creating 'ColPivHouseholderQR.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/PermutationMatrix.h'
+Lines executed:100.00% of 24
+Creating 'PermutationMatrix.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/plugins/MatrixCwiseUnaryOps.h'
+Lines executed:100.00% of 1
+Creating 'MatrixCwiseUnaryOps.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/Visitor.h'
+Lines executed:96.88% of 32
+Creating 'Visitor.h.gcov'
+
+File '/usr/include/c++/7/bits/regex_executor.tcc'
+Lines executed:0.00% of 204
+Creating 'regex_executor.tcc.gcov'
+
+File '/usr/include/c++/7/bits/stl_stack.h'
+Lines executed:0.00% of 16
+Creating 'stl_stack.h.gcov'
+
+File '/usr/include/c++/7/bits/regex_automaton.tcc'
+Lines executed:0.00% of 50
+Creating 'regex_automaton.tcc.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/Solve.h'
+Lines executed:93.33% of 15
+Creating 'Solve.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/Dot.h'
+Lines executed:100.00% of 4
+Creating 'Dot.h.gcov'
+
+File '/usr/include/c++/7/bits/regex_scanner.tcc'
+Lines executed:0.00% of 214
+Creating 'regex_scanner.tcc.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/arch/SSE/MathFunctions.h'
+Lines executed:100.00% of 1
+Creating 'MathFunctions.h.gcov'
+
+File '/usr/include/eigen3/Eigen/src/Core/NumTraits.h'
+Lines executed:100.00% of 4
+Creating 'NumTraits.h.gcov'
+
+File '/usr/include/c++/7/bits/regex_scanner.h'
+Lines executed:0.00% of 35
+Creating 'regex_scanner.h.gcov'
+
+File '/usr/include/c++/7/bits/locale_classes.tcc'
+Lines executed:0.00% of 6
+Creating 'locale_classes.tcc.gcov'
+
+File '/usr/include/c++/7/bits/ptr_traits.h'
+Lines executed:100.00% of 2
+Creating 'ptr_traits.h.gcov'
+
+File '../src/Amplitude.hpp'
+Lines executed:100.00% of 8
+Creating 'Amplitude.hpp.gcov'
+
+File '../src/CFSMatch.hpp'
+Lines executed:70.00% of 10
+Creating 'CFSMatch.hpp.gcov'
+
+File '/usr/include/c++/7/bits/uniform_int_dist.h'
+Lines executed:0.00% of 35
+Creating 'uniform_int_dist.h.gcov'
+
+File '../src/Subtraction.hpp'
+Lines executed:100.00% of 8
+Creating 'Subtraction.hpp.gcov'
+
+File '../src/CFSData.hpp'
+Lines executed:90.28% of 72
+Creating 'CFSData.hpp.gcov'
+
+File '../src/LinSolve.hpp'
+Lines executed:100.00% of 13
+Creating 'LinSolve.hpp.gcov'
+
+File '/usr/include/c++/7/initializer_list'
+Lines executed:100.00% of 3
+Creating 'initializer_list.gcov'
+
+File '/usr/include/c++/7/bits/stl_set.h'
+Lines executed:84.21% of 19
+Creating 'stl_set.h.gcov'
+
+File '/usr/include/c++/7/string_view'
+Lines executed:0.00% of 4
+Creating 'string_view.gcov'
+
+File '/usr/include/c++/7/chrono'
+Lines executed:100.00% of 10
+Creating 'chrono.gcov'
+
+File '../src/ToleratedEquality.hpp'
+Lines executed:100.00% of 4
+Creating 'ToleratedEquality.hpp.gcov'
+
+File '../src/Division.hpp'
+Lines executed:100.00% of 48
+Creating 'Division.hpp.gcov'
+
+File '/usr/include/c++/7/iomanip'
+Lines executed:0.00% of 6
+Creating 'iomanip.gcov'
+
+File '/usr/include/c++/7/stdexcept'
+Lines executed:0.00% of 1
+Creating 'stdexcept.gcov'
+
+File '/usr/include/c++/7/ext/string_conversions.h'
+Lines executed:0.00% of 6
+Creating 'string_conversions.h.gcov'
+
+File '/usr/include/c++/7/bits/char_traits.h'
+Lines executed:34.85% of 66
+Creating 'char_traits.h.gcov'
+
+File '/usr/include/c++/7/cstddef'
+Lines executed:0.00% of 2
+Creating 'cstddef.gcov'
+
+File '/usr/include/c++/7/bits/range_access.h'
+Lines executed:50.00% of 8
+Creating 'range_access.h.gcov'
+
+File '/usr/include/c++/7/bits/regex_error.h'
+Lines executed:0.00% of 5
+Creating 'regex_error.h.gcov'
+
+File '/usr/include/c++/7/bits/regex_constants.h'
+Lines executed:0.00% of 12
+Creating 'regex_constants.h.gcov'
+
+File '/usr/include/c++/7/cmath'
+Lines executed:0.00% of 8
+Creating 'cmath.gcov'
+
+File '/usr/include/x86_64-linux-gnu/c++/7/bits/ctype_inline.h'
+Lines executed:0.00% of 2
+Creating 'ctype_inline.h.gcov'
+
+File '/usr/include/c++/7/bits/locale_facets.h'
+Lines executed:0.00% of 18
+Creating 'locale_facets.h.gcov'
+
+File '/usr/include/c++/7/bits/ios_base.h'
+Lines executed:0.00% of 45
+Creating 'ios_base.h.gcov'
+
+File '/usr/include/c++/7/bits/std_abs.h'
+Lines executed:66.67% of 3
+Creating 'std_abs.h.gcov'
+
+File '/usr/include/c++/7/limits'
+Lines executed:40.00% of 5
+Creating 'limits.gcov'
+
+File '/usr/include/c++/7/ext/atomicity.h'
+Lines executed:68.42% of 19
+Creating 'atomicity.h.gcov'
+
+File '/usr/include/x86_64-linux-gnu/c++/7/bits/gthr-default.h'
+Lines executed:100.00% of 2
+Creating 'gthr-default.h.gcov'
+
+File '/usr/include/c++/7/bits/exception_ptr.h'
+Lines executed:0.00% of 6
+Creating 'exception_ptr.h.gcov'
+
+File '/usr/include/c++/7/new'
+Lines executed:50.00% of 4
+Creating 'new.gcov'
+
+File '/usr/include/c++/7/typeinfo'
+Lines executed:100.00% of 4
+Creating 'typeinfo.gcov'
+
+File '/usr/include/c++/7/bits/exception.h'
+Lines executed:0.00% of 1
+Creating 'exception.h.gcov'
+

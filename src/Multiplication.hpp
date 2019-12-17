@@ -18,7 +18,7 @@ namespace FSL{
 template<class FLOAT>
 CFST<FLOAT> Multiplication(const CFST<FLOAT>& f, const CFST<FLOAT>& g)
 {
-    CFSMatch(f, g);
+    CFSMatchThrow(f, g);
    	CFST<FLOAT> CFSres(f.getn(), f.getomega());
 	size_t n = CFSres.getn();
 	std::vector<FLOAT> A(n+1, 0.0);

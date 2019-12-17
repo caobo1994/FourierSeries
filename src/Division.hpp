@@ -13,13 +13,14 @@
 
 #include "CFSData.hpp"
 #include "LinSolve.hpp"
+#include "CFSMatch.hpp"
 
 /*Other library inclusion is here*/
 namespace FSL{
 template<class FLOAT>
-CFST<FLOAT> FUNC(const CFST<FLOAT>& f, const CFST<FLOAT>& g)
+CFST<FLOAT> Division(const CFST<FLOAT>& f, const CFST<FLOAT>& g)
 {
-   	CFSMatch<FLOAT>(f, g);
+   	CFSMatchThrow<FLOAT>(f, g);
    	size_t n = f.getn();
    	CFST<FLOAT> res(f.getn(), f.getomega());
     std::vector<std::vector<FLOAT>> M(2*n+1);
@@ -29,6 +30,7 @@ CFST<FLOAT> FUNC(const CFST<FLOAT>& f, const CFST<FLOAT>& g)
     }
     std::vector<FLOAT> x(2*n+1, 0.0);
     std::vector<FLOAT> y(2*n+1, 0.0);
+    /*
     for (size_t i = 0; i <= n; ++i)
     {
     	for(size_t j = 0; j <= (n-i); ++j)
@@ -63,7 +65,80 @@ CFST<FLOAT> FUNC(const CFST<FLOAT>& f, const CFST<FLOAT>& g)
 		}
 		y[n+1+i] = f.getBi(i);
     }
-    LinSolve<FLOAT>(2*n+1, M, x, y); 
+    */
+    std::cout<<"1"<<endl;
+    for(size_t i = 0; i <= n; ++i)
+    {   
+        for (size_t j = 0; j <= n; ++j)
+        {
+            //FLOAT count;
+            std::cout<<"a1"<<i<<j<<endl;
+            if (i>j)
+            {       
+                //count = 0.5 * (f.getAi(i) * g.getAi(j) + f.getBi(i) * g.getBi(j));
+                //A[i-j] += count;
+                M[i-j][i] += g.getAi(j);
+                M[i-j][n+i] += g.getBi(j);
+                //count = 0.5 * (f.getBi(i) * g.getAi(j) - f.getAi(i) * g.getBi(j));
+                //B[i-j] += count;
+                M[n+i-j][n+i] += g.getAi(j);
+                M[n+i-j][i] -= g.getBi(j);
+            }
+            else
+            {
+                //count = 0.5 * (f.getAi(i) * g.getAi(j) + f.getBi(i) * g.getBi(j));
+                //A[j-i] += count;
+                M[j-i][i] += g.getAi(j);
+                M[j-i][n+i] += g.getBi(j);
+                //count = 0.5 * (-f.getBi(i) * g.getAi(j) + f.getAi(i) * g.getBi(j));
+                //B[j-i] += count;
+                if (i!=j)
+                    {
+                        M[n+j-i][n+i] -= g.getAi(j);
+                        M[n+j-i][i] += g.getBi(j);
+                    }    
+            }
+            std::cout<<"a2"<<endl;
+            if ((i+j) <= n)
+            {
+                //count = 0.5 * (f.getAi(i) * g.getAi(j) - f.getBi(i) * g.getBi(j));
+                //A[i+j] += count;
+                M[i+j][i] += g.getAi(j);
+                M[i+j][n+i] -= g.getBi(j);
+                //count = 0.5 * (f.getAi(i) * g.getBi(j) + f.getBi(i) * g.getAi(j));
+                //B[i+j] += count;
+                M[n+i+j][i] += g.getBi(j);
+                M[n+i+j][n+i] += g.getAi(j);
+            }
+        }
+        std::cout<<"a3"<<endl;
+        y[i] = 2*f.getAi(i);
+        if (i!=0)
+            y[n+i] = 2*f.getBi(i);
+    }
+    std::cout<<"2"<<endl;
+    LinSolve<FLOAT>(2*n+1, M, y, x);
+    for (size_t i = 0; i<=2*n;++i)
+    {
+        for (size_t j = 0; j <=2*n; ++j)
+        {
+            std::cout << M[i][j]<<" ";
+        }
+        std::cout<<endl;
+    }
+    for (size_t i = 0; i<=2*n; ++i)
+    {
+        std::cout<<y[i]<<" ";
+    }
+    std::cout<<endl;
+    std::cout<<"3"<<endl; 
+    for(size_t i = 0; i <= n; ++i)
+    {
+        res.setAi(i, x[i]);
+        res.setBi(i, x[n+1+i]);
+    }
+    std::cout<<"4"<<endl;
+    return res;
 }
 }
 #endif

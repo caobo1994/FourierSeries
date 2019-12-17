@@ -24,6 +24,12 @@ bool ToleratedEquality(const CFST<FLOAT>& f, const CFST<FLOAT>& g, FLOAT tol)
     FLOAT amp = Amplitude<FLOAT>(diff);
     return (amp <= tol);
 }
+
+template<class FLOAT>
+bool TolEq(const CFST<FLOAT>& f, const CFST<FLOAT>& g, FLOAT tol)
+{
+	return ToleratedEquality(f, g, tol)
+}
 }
 #endif
 

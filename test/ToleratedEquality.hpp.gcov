@@ -1,0 +1,38 @@
+        -:    0:Source:../src/ToleratedEquality.hpp
+        -:    0:Graph:tc.gcno
+        -:    0:Data:tc.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/*
+        -:    2: * Introduction to the header template.
+        -:    3: * For each function FUNC, the file name shall be FUNC.hpp in src/DeemaAlomair folder.
+        -:    4: * Every FUNC shall be replaced with implemented function name.
+        -:    5: * The type of a CFS with FLOAT is CFST<FLOAT>
+        -:    6: * The code shall follow c++17 standard.
+        -:    7: * Only the c++ standard libraries are allowed.
+        -:    8: * C-style code is highly not recommended.
+        -:    9: */
+        -:   10:
+        -:   11:#ifndef FSL_TOLERATEDEQUALITY_HPP
+        -:   12:#define FSL_TOLERATEDEQUALITY_HPP
+        -:   13:
+        -:   14:#include "CFSData.hpp"
+        -:   15:#include "Subtraction.hpp"
+        -:   16:#include "Amplitude.hpp"
+        -:   17:
+        -:   18:/*Other library inclusion is here*/
+        -:   19:namespace FSL{
+        -:   20:template<class FLOAT>
+        1:   21:bool ToleratedEquality(const CFST<FLOAT>& f, const CFST<FLOAT>& g, FLOAT tol)
+        -:   22:{
+        2:   23:    auto diff = Subtraction<FLOAT>(f, g);
+        1:   24:    FLOAT amp = Amplitude<FLOAT>(diff);
+        2:   25:    return (amp <= tol);
+        -:   26:}
+        -:   27:}
+        -:   28:#endif
+        -:   29:
+        -:   30:/*
+        -:   31: * Type N in MIS shall be translated to size_t in C++. 
+        -:   32: * This type is already introduced in CFSData.h
+        -:   33: */
