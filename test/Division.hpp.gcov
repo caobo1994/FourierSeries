@@ -71,84 +71,64 @@
         -:   66:		y[n+1+i] = f.getBi(i);
         -:   67:    }
         -:   68:    */
-        1:   69:    std::cout<<"1"<<endl;
-        4:   70:    for(size_t i = 0; i <= n; ++i)
-        -:   71:    {   
-       12:   72:        for (size_t j = 0; j <= n; ++j)
-        -:   73:        {
-        -:   74:            //FLOAT count;
-        9:   75:            std::cout<<"a1"<<i<<j<<endl;
-        9:   76:            if (i>j)
-        -:   77:            {       
-        -:   78:                //count = 0.5 * (f.getAi(i) * g.getAi(j) + f.getBi(i) * g.getBi(j));
-        -:   79:                //A[i-j] += count;
-        3:   80:                M[i-j][i] += g.getAi(j);
-        3:   81:                M[i-j][n+i] += g.getBi(j);
-        -:   82:                //count = 0.5 * (f.getBi(i) * g.getAi(j) - f.getAi(i) * g.getBi(j));
-        -:   83:                //B[i-j] += count;
-        3:   84:                M[n+i-j][n+i] += g.getAi(j);
-        3:   85:                M[n+i-j][i] -= g.getBi(j);
-        -:   86:            }
-        -:   87:            else
-        -:   88:            {
-        -:   89:                //count = 0.5 * (f.getAi(i) * g.getAi(j) + f.getBi(i) * g.getBi(j));
-        -:   90:                //A[j-i] += count;
-        6:   91:                M[j-i][i] += g.getAi(j);
-        6:   92:                M[j-i][n+i] += g.getBi(j);
-        -:   93:                //count = 0.5 * (-f.getBi(i) * g.getAi(j) + f.getAi(i) * g.getBi(j));
-        -:   94:                //B[j-i] += count;
-        6:   95:                if (i!=j)
-        -:   96:                    {
-        3:   97:                        M[n+j-i][n+i] -= g.getAi(j);
-        3:   98:                        M[n+j-i][i] += g.getBi(j);
-        -:   99:                    }    
-        -:  100:            }
-        9:  101:            std::cout<<"a2"<<endl;
-        9:  102:            if ((i+j) <= n)
-        -:  103:            {
-        -:  104:                //count = 0.5 * (f.getAi(i) * g.getAi(j) - f.getBi(i) * g.getBi(j));
-        -:  105:                //A[i+j] += count;
-        6:  106:                M[i+j][i] += g.getAi(j);
-        6:  107:                M[i+j][n+i] -= g.getBi(j);
-        -:  108:                //count = 0.5 * (f.getAi(i) * g.getBi(j) + f.getBi(i) * g.getAi(j));
-        -:  109:                //B[i+j] += count;
-        6:  110:                M[n+i+j][i] += g.getBi(j);
-        6:  111:                M[n+i+j][n+i] += g.getAi(j);
-        -:  112:            }
-        -:  113:        }
-        3:  114:        std::cout<<"a3"<<endl;
-        3:  115:        y[i] = 2*f.getAi(i);
-        3:  116:        if (i!=0)
-        2:  117:            y[n+i] = 2*f.getBi(i);
-        -:  118:    }
-        1:  119:    std::cout<<"2"<<endl;
-        1:  120:    LinSolve<FLOAT>(2*n+1, M, y, x);
-        6:  121:    for (size_t i = 0; i<=2*n;++i)
-        -:  122:    {
-       30:  123:        for (size_t j = 0; j <=2*n; ++j)
-        -:  124:        {
-       25:  125:            std::cout << M[i][j]<<" ";
-        -:  126:        }
-        5:  127:        std::cout<<endl;
-        -:  128:    }
-        6:  129:    for (size_t i = 0; i<=2*n; ++i)
-        -:  130:    {
-        5:  131:        std::cout<<y[i]<<" ";
-        -:  132:    }
-        1:  133:    std::cout<<endl;
-        1:  134:    std::cout<<"3"<<endl; 
-        4:  135:    for(size_t i = 0; i <= n; ++i)
-        -:  136:    {
-        3:  137:        res.setAi(i, x[i]);
-        3:  138:        res.setBi(i, x[n+1+i]);
-        -:  139:    }
-        1:  140:    std::cout<<"4"<<endl;
-        2:  141:    return res;
-        -:  142:}
-        -:  143:}
-        -:  144:#endif
-        -:  145:
-        -:  146:/*
-        -:  147: * Type N in MIS shall be translated to size_t in C++. 
-        -:  148: * This type is already introduced in CFSData.h
-        -:  149: */
+        4:   69:    for(size_t i = 0; i <= n; ++i)
+        -:   70:    {   
+       12:   71:        for (size_t j = 0; j <= n; ++j)
+        -:   72:        {
+        -:   73:            //FLOAT count;
+        9:   74:            if (i>j)
+        -:   75:            {       
+        -:   76:                //count = 0.5 * (f.getAi(i) * g.getAi(j) + f.getBi(i) * g.getBi(j));
+        -:   77:                //A[i-j] += count;
+        3:   78:                M[i-j][i] += g.getAi(j);
+        3:   79:                M[i-j][n+i] += g.getBi(j);
+        -:   80:                //count = 0.5 * (f.getBi(i) * g.getAi(j) - f.getAi(i) * g.getBi(j));
+        -:   81:                //B[i-j] += count;
+        3:   82:                M[n+i-j][n+i] += g.getAi(j);
+        3:   83:                M[n+i-j][i] -= g.getBi(j);
+        -:   84:            }
+        -:   85:            else
+        -:   86:            {
+        -:   87:                //count = 0.5 * (f.getAi(i) * g.getAi(j) + f.getBi(i) * g.getBi(j));
+        -:   88:                //A[j-i] += count;
+        6:   89:                M[j-i][i] += g.getAi(j);
+        6:   90:                M[j-i][n+i] += g.getBi(j);
+        -:   91:                //count = 0.5 * (-f.getBi(i) * g.getAi(j) + f.getAi(i) * g.getBi(j));
+        -:   92:                //B[j-i] += count;
+        6:   93:                if (i!=j)
+        -:   94:                    {
+        3:   95:                        M[n+j-i][n+i] -= g.getAi(j);
+        3:   96:                        M[n+j-i][i] += g.getBi(j);
+        -:   97:                    }    
+        -:   98:            }
+        9:   99:            if ((i+j) <= n)
+        -:  100:            {
+        -:  101:                //count = 0.5 * (f.getAi(i) * g.getAi(j) - f.getBi(i) * g.getBi(j));
+        -:  102:                //A[i+j] += count;
+        6:  103:                M[i+j][i] += g.getAi(j);
+        6:  104:                M[i+j][n+i] -= g.getBi(j);
+        -:  105:                //count = 0.5 * (f.getAi(i) * g.getBi(j) + f.getBi(i) * g.getAi(j));
+        -:  106:                //B[i+j] += count;
+        6:  107:                M[n+i+j][i] += g.getBi(j);
+        6:  108:                M[n+i+j][n+i] += g.getAi(j);
+        -:  109:            }
+        -:  110:        }
+        3:  111:        y[i] = 2*f.getAi(i);
+        3:  112:        if (i!=0)
+        2:  113:            y[n+i] = 2*f.getBi(i);
+        -:  114:    }
+        1:  115:    LinSolve<FLOAT>(2*n+1, M, y, x);
+        4:  116:    for(size_t i = 0; i <= n; ++i)
+        -:  117:    {
+        3:  118:        res.setAi(i, x[i]);
+        3:  119:        res.setBi(i, x[n+1+i]);
+        -:  120:    }
+        2:  121:    return res;
+        -:  122:}
+        -:  123:}
+        -:  124:#endif
+        -:  125:
+        -:  126:/*
+        -:  127: * Type N in MIS shall be translated to size_t in C++. 
+        -:  128: * This type is already introduced in CFSData.h
+        -:  129: */

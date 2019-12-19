@@ -12,7 +12,7 @@ WARNINGS=-fpermissive -Wno-missing-declarations -Wall -Wextra \
 -Wpedantic -pedantic-errors -Wno-unused-parameter
 
 
-COMPFLAGS = $(WARNINGS) $(CODE_COVERAGE) -g  -std=c++17 -fPIC
+COMPFLAGS = $(WARNINGS) $(CODE_COVERAGE) -g  -std=c++17 -fPIC -O0
 
 #-fsanitize=address -fsanitize-memory-track-origins -fno-omit-frame-pointer  #
 #-DDENSE #-DPROJECT_DEBUG

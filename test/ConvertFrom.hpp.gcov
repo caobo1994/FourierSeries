@@ -1,0 +1,37 @@
+        -:    0:Source:../src/ConvertFrom.hpp
+        -:    0:Graph:tc.gcno
+        -:    0:Data:tc.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/*
+        -:    2: * Introduction to the header template.
+        -:    3: * For each function FUNC, the file name shall be FUNC.hpp in src/DeemaAlomair folder.
+        -:    4: * Every FUNC shall be replaced with implemented function name.
+        -:    5: * The type of a CFS with FLOAT is CFST<FLOAT>
+        -:    6: * The code shall follow c++17 standard.
+        -:    7: * Only the c++ standard libraries are allowed.
+        -:    8: * C-style code is highly not recommended.
+        -:    9: */
+        -:   10:
+        -:   11:#ifndef FSL_CONVERTFROM_HPP
+        -:   12:#define FSL_CONVERTFROM_HPP
+        -:   13:
+        -:   14:#include "CFSData.hpp"
+        -:   15:
+        -:   16:/*Other library inclusion is here*/
+        -:   17:namespace FSL{
+        -:   18:template<class FLOAT>
+        1:   19:CFST<FLOAT> ConvertFrom(size_t n, FLOAT omega, const std::vector<FLOAT>& A, const std::vector<FLOAT>& B)
+        -:   20:{
+        1:   21: 	CFST<FLOAT> res(n, omega);
+        1:   22: 	res.setA(A);
+        1:   23: 	res.setB(B);
+        1:   24: 	return res;   
+        -:   25:}
+        -:   26:}
+        -:   27:#endif
+        -:   28:
+        -:   29:/*
+        -:   30: * Type N in MIS shall be translated to size_t in C++. 
+        -:   31: * This type is already introduced in CFSData.h
+        -:   32: */

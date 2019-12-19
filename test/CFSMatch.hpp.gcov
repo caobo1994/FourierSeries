@@ -22,27 +22,27 @@
         -:   17:
         -:   18:namespace FSL{
         -:   19:template<class FLOAT>
-        2:   20:bool CFSMatch(const CFST<FLOAT>& CFSf, const CFST<FLOAT>& CFSg)
+       46:   20:bool CFSMatch(const CFST<FLOAT>& CFSf, const CFST<FLOAT>& CFSg)
         -:   21:{
-        2:   22:    if (CFSf.getn()!=CFSg.getn())
+       46:   22:    if (CFSf.getn()!=CFSg.getn())
         -:   23:    {
-    #####:   24:    	return false;
+        2:   24:    	return false;
         -:   25:    }
-        2:   26:    if (CFSf.getomega()!=CFSg.getomega())
+       44:   26:    if (CFSf.getomega()!=CFSg.getomega())
         -:   27:    {
-    #####:   28:    	return false;
+        1:   28:    	return false;
         -:   29:    }
-        2:   30:    return true;
+       43:   30:    return true;
         -:   31:}
         -:   32:
         -:   33:template <class FLOAT>
-        2:   34:void CFSMatchThrow(const CFST<FLOAT>& CFSf, const CFST<FLOAT>& CFSg)
+       42:   34:void CFSMatchThrow(const CFST<FLOAT>& CFSf, const CFST<FLOAT>& CFSg)
         -:   35:{
-        2:   36:	if (!CFSMatch<FLOAT>(CFSf, CFSg))
+       42:   36:	if (!CFSMatch<FLOAT>(CFSf, CFSg))
         -:   37:	{
     #####:   38:		throw std::invalid_argument("CFS not match!");
         -:   39:	}
-        2:   40:}
+       42:   40:}
         -:   41:}
         -:   42:#endif
         -:   43:

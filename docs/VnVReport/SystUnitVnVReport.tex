@@ -173,7 +173,7 @@ Test can now be done via the \li{r} script file. This file contains commands for
 The following lines of code are reported by \li{gcov} as being not covered.
 \begin{enumerate}
 	\item All the exception-throwing lines in \li{CFSData.hpp}
-	\item All the \licpp{return false;} in \li{CFSMatch.hpp}. This is strange, since there are test cases that requires the function to return \licpp{false}, and these test cases are success.
+	\item All the \licpp{return false;} in \li{CFSMatch.hpp}. This is strange, since there are test cases that requires the function to return \licpp{false}, and these test cases are success. Later, we change the compiler flag from "-O3" meaning maximum optimization to "-O0" meaning no optimization, and these codes are shown covered in our test. We thus conclude that these codes are optimized when "-O3" flag is used.
 \end{enumerate}
 These codes are examined manually by us to be right, and we will produces test cases for these un-covered codes in the future.
 

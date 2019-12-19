@@ -1,0 +1,107 @@
+        -:    0:Source:../src/Multiplication.hpp
+        -:    0:Graph:tc.gcno
+        -:    0:Data:tc.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/*
+        -:    2: * Introduction to the header template.
+        -:    3: * For each function FUNC, the file name shall be FUNC.hpp in src/DeemaAlomair folder.
+        -:    4: * Every FUNC shall be replaced with implemented function name.
+        -:    5: * The type of a CFS with FLOAT is CFST<FLOAT>
+        -:    6: * The code shall follow c++17 standard.
+        -:    7: * Only the c++ standard libraries are allowed.
+        -:    8: * C-style code is highly not recommended.
+        -:    9: */
+        -:   10:
+        -:   11:#ifndef FSL_MULTIPLICATION_HPP
+        -:   12:#define FSL_MULTIPLICATION_HPP
+        -:   13:
+        -:   14:#include "CFSData.hpp"
+        -:   15:#include "CFSMatch.hpp"
+        -:   16:
+        -:   17:/*Other library inclusion is here*/
+        -:   18:namespace FSL{
+        -:   19:template<class FLOAT>
+       21:   20:CFST<FLOAT> Multiplication(const CFST<FLOAT>& f, const CFST<FLOAT>& g)
+        -:   21:{
+       21:   22:    CFSMatchThrow(f, g);
+       21:   23:   	CFST<FLOAT> CFSres(f.getn(), f.getomega());
+       21:   24:	size_t n = CFSres.getn();
+       42:   25:	std::vector<FLOAT> A(n+1, 0.0);
+       42:   26:	std::vector<FLOAT> B(n+1, 0.0);
+       90:   27:	for(size_t i = 0; i <= n; ++i)
+        -:   28:	{	
+      300:   29:		for (size_t j = 0; j <= n; ++j)
+        -:   30:		{
+        -:   31:			FLOAT count;
+      231:   32:			if (i>j)
+        -:   33:			{		
+       81:   34:				count = 0.5 * (f.getAi(i) * g.getAi(j) + f.getBi(i) * g.getBi(j));
+       81:   35:				A[i-j] += count;
+       81:   36:				count = 0.5 * (f.getBi(i) * g.getAi(j) - f.getAi(i) * g.getBi(j));
+       81:   37:				B[i-j] += count;
+        -:   38:			}
+        -:   39:			else
+        -:   40:			{
+      150:   41:				count = 0.5 * (f.getAi(i) * g.getAi(j) + f.getBi(i) * g.getBi(j));
+      150:   42:				A[j-i] += count;
+      150:   43:				count = 0.5 * (-f.getBi(i) * g.getAi(j) + f.getAi(i) * g.getBi(j));
+      150:   44:				B[j-i] += count;	
+        -:   45:			}
+      231:   46:			if ((i+j) <= n)
+        -:   47:			{
+      150:   48:				count = 0.5 * (f.getAi(i) * g.getAi(j) - f.getBi(i) * g.getBi(j));
+      150:   49:				A[i+j] += count;
+      150:   50:				count = 0.5 * (f.getAi(i) * g.getBi(j) + f.getBi(i) * g.getAi(j));
+      150:   51:				B[i+j] += count;
+        -:   52:			}
+        -:   53:		}
+        -:   54:	}
+       90:   55:	for (size_t i = 0; i <= n; ++i)
+        -:   56:	{
+       69:   57:		CFSres.setAi(i, A[i]);
+       69:   58:		CFSres.setBi(i, B[i]);
+        -:   59:	}/*
+        -:   60:	for (size_t i = 0; i <= n; ++i)
+        -:   61:	{
+        -:   62:		FLOAT resA=0;
+        -:   63:		for (size_t j = 0; j <= (n-i); ++j)
+        -:   64:		{
+        -:   65:			resA += f.getAi(j)*g.getAi(i+j);
+        -:   66:			resA += g.getAi(j)*f.getAi(i+j);
+        -:   67:			resA += f.getBi(j)*g.getBi(i+j);
+        -:   68:			resA += g.getBi(j)*f.getBi(i+j);
+        -:   69:		}
+        -:   70:		for (size_t j = 0; j <= i; ++j)
+        -:   71:		{
+        -:   72:			resA += f.getAi(j)*g.getAi(i-j);
+        -:   73:			resA -= f.getBi(j)*g.getBi(i-j);
+        -:   74:		}
+        -:   75:		CFSres.setAi(i, 0.5*resA);
+        -:   76:	}
+        -:   77:	for (size_t i = 1; i <= n; ++i)
+        -:   78:	{
+        -:   79:		FLOAT resB=0;
+        -:   80:		for (size_t j = 0; j < (n-i); ++j)
+        -:   81:		{
+        -:   82:			resB += f.getAi(j)*g.getBi(i+j);
+        -:   83:			resB += g.getAi(j)*f.getBi(i+j);
+        -:   84:			resB += f.getBi(j)*g.getAi(i+j);
+        -:   85:			resB += g.getBi(j)*f.getAi(i+j);			
+        -:   86:		}
+        -:   87:		for (size_t j = 0; j <= i; ++j)
+        -:   88:		{
+        -:   89:			resB += f.getAi(j)*g.getBi(i-j);
+        -:   90:			resB += f.getBi(j)*g.getAi(i-j);
+        -:   91:		}
+        -:   92:		CFSres.setBi(i, 0.5*resB);
+        -:   93:	}*/
+       42:   94:	return CFSres;
+        -:   95:}
+        -:   96:}
+        -:   97:#endif
+        -:   98:
+        -:   99:/*
+        -:  100: * Type N in MIS shall be translated to size_t in C++. 
+        -:  101: * This type is already introduced in CFSData.h
+        -:  102: */

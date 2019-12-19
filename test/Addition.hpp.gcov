@@ -1,0 +1,44 @@
+        -:    0:Source:../src/Addition.hpp
+        -:    0:Graph:tc.gcno
+        -:    0:Data:tc.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/*
+        -:    2: * Introduction to the header template.
+        -:    3: * For each function FUNC, the file name shall be FUNC.hpp in src/DeemaAlomair folder.
+        -:    4: * Every FUNC shall be replaced with implemented function name.
+        -:    5: * The type of a CFS with FLOAT is CFST<FLOAT>
+        -:    6: * The code shall follow c++17 standard.
+        -:    7: * Only the c++ standard libraries are allowed.
+        -:    8: * C-style code is highly not recommended.
+        -:    9: */
+        -:   10:
+        -:   11:#ifndef FSL_ADDITION_HPP
+        -:   12:#define FSL_ADDITION_HPP
+        -:   13:
+        -:   14:#include "CFSData.hpp"
+        -:   15:#include "CFSMatch.hpp"
+        -:   16:
+        -:   17:/*Other library inclusion is here*/
+        -:   18:namespace FSL{
+        -:   19:template<class FLOAT>
+        6:   20:CFST<FLOAT> Addition(const CFST<FLOAT>& CFSf, const CFST<FLOAT>& CFSg)
+        -:   21:{
+        6:   22:	CFSMatchThrow<FLOAT>(CFSf, CFSg);
+        6:   23:	CFST<FLOAT> CFSres(CFSf.getn(), CFSf.getomega());
+        6:   24:	size_t n = CFSres.getn();
+        -:   25:	//CFSres.setAi(CFSf.getAi(0)+CFSg.getAi(0), 0);
+       24:   26:	for (size_t i = 0; i<=n; ++i)
+        -:   27:	{
+       18:   28:		CFSres.setAi(i, CFSf.getAi(i)+CFSg.getAi(i));
+       18:   29:		CFSres.setBi(i, CFSf.getBi(i)+CFSg.getBi(i));
+        -:   30:	}    
+        6:   31:	return CFSres;
+        -:   32:}
+        -:   33:}
+        -:   34:#endif
+        -:   35:
+        -:   36:/*
+        -:   37: * Type N in MIS shall be translated to size_t in C++. 
+        -:   38: * This type is already introduced in CFSData.h
+        -:   39: */

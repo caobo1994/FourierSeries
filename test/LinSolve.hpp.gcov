@@ -21,28 +21,28 @@
         -:   16:/*Other library inclusion is here*/
         -:   17:namespace FSL{
         -:   18:    template <class FLOAT>
-        1:   19:    void LinSolve(size_t n, const std::vector<std::vector<FLOAT>>& M, const std::vector<FLOAT>& y, std::vector<FLOAT>& x)
+        2:   19:    void LinSolve(size_t n, const std::vector<std::vector<FLOAT>>& M, const std::vector<FLOAT>& y, std::vector<FLOAT>& x)
         -:   20:    {
-        2:   21:        Eigen::Matrix<FLOAT, Eigen::Dynamic, Eigen::Dynamic> ME(n, n);
-        6:   22:        for(size_t i = 0; i < n; ++i)
+        4:   21:        Eigen::Matrix<FLOAT, Eigen::Dynamic, Eigen::Dynamic> ME(n, n);
+        9:   22:        for(size_t i = 0; i < n; ++i)
         -:   23:        {
-       30:   24:            for(size_t j = 0; j < n; ++j)
+       36:   24:            for(size_t j = 0; j < n; ++j)
         -:   25:            {
-       25:   26:                ME(i, j) = M[i][j];
+       29:   26:                ME(i, j) = M[i][j];
         -:   27:            }
         -:   28:        }
-        2:   29:        Eigen::Matrix<FLOAT, Eigen::Dynamic, 1> xE(n), yE(n);
-        6:   30:        for(size_t i =0; i<n; ++i)
+        4:   29:        Eigen::Matrix<FLOAT, Eigen::Dynamic, 1> xE(n), yE(n);
+        9:   30:        for(size_t i =0; i<n; ++i)
         -:   31:        {
-        5:   32:            yE(i) = y[i];
+        7:   32:            yE(i) = y[i];
         -:   33:        }
-        1:   34:        xE = ME.colPivHouseholderQr().solve(yE);
-        1:   35:        x.resize(n);
-        6:   36:        for (size_t i=0; i< n; ++i)
+        2:   34:        xE = ME.colPivHouseholderQr().solve(yE);
+        2:   35:        x.resize(n);
+        9:   36:        for (size_t i=0; i< n; ++i)
         -:   37:        {
-        5:   38:            x[i]=xE(i);
+        7:   38:            x[i]=xE(i);
         -:   39:        }
-        1:   40:    }
+        2:   40:    }
         -:   41:}
         -:   42:#endif
         -:   43:

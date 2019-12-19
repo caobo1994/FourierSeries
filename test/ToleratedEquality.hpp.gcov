@@ -23,16 +23,22 @@
         -:   18:/*Other library inclusion is here*/
         -:   19:namespace FSL{
         -:   20:template<class FLOAT>
-        1:   21:bool ToleratedEquality(const CFST<FLOAT>& f, const CFST<FLOAT>& g, FLOAT tol)
+       13:   21:bool ToleratedEquality(const CFST<FLOAT>& f, const CFST<FLOAT>& g, FLOAT tol)
         -:   22:{
-        2:   23:    auto diff = Subtraction<FLOAT>(f, g);
-        1:   24:    FLOAT amp = Amplitude<FLOAT>(diff);
-        2:   25:    return (amp <= tol);
+       26:   23:    auto diff = Subtraction<FLOAT>(f, g);
+       13:   24:    FLOAT amp = Amplitude<FLOAT>(diff);
+       26:   25:    return (amp <= tol);
         -:   26:}
-        -:   27:}
-        -:   28:#endif
-        -:   29:
-        -:   30:/*
-        -:   31: * Type N in MIS shall be translated to size_t in C++. 
-        -:   32: * This type is already introduced in CFSData.h
-        -:   33: */
+        -:   27:
+        -:   28:template<class FLOAT>
+        -:   29:bool TolEq(const CFST<FLOAT>& f, const CFST<FLOAT>& g, FLOAT tol)
+        -:   30:{
+        -:   31:	return ToleratedEquality(f, g, tol);
+        -:   32:}
+        -:   33:}
+        -:   34:#endif
+        -:   35:
+        -:   36:/*
+        -:   37: * Type N in MIS shall be translated to size_t in C++. 
+        -:   38: * This type is already introduced in CFSData.h
+        -:   39: */

@@ -1,0 +1,52 @@
+        -:    0:Source:../src/TransformTo.hpp
+        -:    0:Graph:tc.gcno
+        -:    0:Data:tc.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/*
+        -:    2: * Introduction to the header template.
+        -:    3: * For each function FUNC, the file name shall be FUNC.hpp in src/DeemaAlomair folder.
+        -:    4: * Every FUNC shall be replaced with implemented function name.
+        -:    5: * The type of a CFS with FLOAT is CFST<FLOAT>
+        -:    6: * The code shall follow c++17 standard.
+        -:    7: * Only the c++ standard libraries are allowed.
+        -:    8: * C-style code is highly not recommended.
+        -:    9: */
+        -:   10:
+        -:   11:#ifndef FSL_TRANSFORMTO_H
+        -:   12:#define FSL_TRANSFORMTO_H
+        -:   13:
+        -:   14:#include "CFSData.hpp"
+        -:   15:#include "Integration.hpp"
+        -:   16:#include <cmath>
+        -:   17:
+        -:   18:/*Other library inclusion is here*/
+        -:   19:namespace FSL{
+        -:   20:template<class FLOAT, class FUNC>
+        2:   21:CFST<FLOAT> TransformTo(FUNC f, size_t n, FLOAT omega)
+        -:   22:{
+        -:   23:    static FLOAT pi = M_PI;
+        2:   24:    if (omega<=0)
+        -:   25:    {
+    #####:   26:    	throw(std::invalid_argument("TransformTo: omega<=0"));
+        -:   27:    }
+        2:   28:    CFST<FLOAT> res(n, omega);
+        -:   29:    FLOAT inte;
+        2:   30:    inte = omega/(2*pi)*Integral(f, -pi/omega, pi/omega);
+        2:   31:    res.setAi(0, inte);
+        6:   32:    for (size_t i = 1; i <= n; ++i)
+        -:   33:    {
+     1048:   34:    	inte = (omega/pi)*Integral([f, i, omega](FLOAT t){return f(t)*cos(i*omega*t);}, -pi/omega, pi/omega);
+        4:   35:        res.setAi(i, inte);
+     1048:   36:        inte = (omega/pi)*Integral([f, i, omega](FLOAT t){return f(t)*sin(i*omega*t);}, -pi/omega, pi/omega);
+        4:   37:        res.setBi(i, inte);
+        -:   38:    }
+        2:   39:    return res;
+        -:   40:}
+        -:   41:}
+        -:   42:#endif
+        -:   43:
+        -:   44:/*
+        -:   45: * Type N in MIS shall be translated to size_t in C++. 
+        -:   46: * This type is already introduced in CFSData.h
+        -:   47: */

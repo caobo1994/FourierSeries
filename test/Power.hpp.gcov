@@ -1,0 +1,41 @@
+        -:    0:Source:../src/Power.hpp
+        -:    0:Graph:tc.gcno
+        -:    0:Data:tc.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/*
+        -:    2: * Introduction to the header template.
+        -:    3: * For each function FUNC, the file name shall be FUNC.hpp in src/DeemaAlomair folder.
+        -:    4: * Every FUNC shall be replaced with implemented function name.
+        -:    5: * The type of a CFS with FLOAT is CFST<FLOAT>
+        -:    6: * The code shall follow c++17 standard.
+        -:    7: * Only the c++ standard libraries are allowed.
+        -:    8: * C-style code is highly not recommended.
+        -:    9: */
+        -:   10:
+        -:   11:#ifndef FSL_POWER_HPP
+        -:   12:#define FSL_POWER_HPP
+        -:   13:
+        -:   14:#include "CFSData.hpp"
+        -:   15:#include "Multiplication.hpp"
+        -:   16:
+        -:   17:/*Other library inclusion is here*/
+        -:   18:namespace FSL{
+        -:   19:template<class FLOAT>
+        2:   20:CFST<FLOAT> Power(const CFST<FLOAT>& f, size_t n)
+        -:   21:{
+        2:   22:    CFST<FLOAT> res(f.getn(), f.getomega());
+        2:   23:    res.setAi(0, 1.0);
+        8:   24:    for (size_t i = 1; i <= n; ++i)
+        -:   25:    {
+        6:   26:    	res = Multiplication(res, f);
+        -:   27:    }
+        2:   28:    return res;
+        -:   29:}
+        -:   30:}
+        -:   31:#endif
+        -:   32:
+        -:   33:/*
+        -:   34: * Type N in MIS shall be translated to size_t in C++. 
+        -:   35: * This type is already introduced in CFSData.h
+        -:   36: */

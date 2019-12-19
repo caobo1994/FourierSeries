@@ -66,13 +66,11 @@ CFST<FLOAT> Division(const CFST<FLOAT>& f, const CFST<FLOAT>& g)
 		y[n+1+i] = f.getBi(i);
     }
     */
-    std::cout<<"1"<<endl;
     for(size_t i = 0; i <= n; ++i)
     {   
         for (size_t j = 0; j <= n; ++j)
         {
             //FLOAT count;
-            std::cout<<"a1"<<i<<j<<endl;
             if (i>j)
             {       
                 //count = 0.5 * (f.getAi(i) * g.getAi(j) + f.getBi(i) * g.getBi(j));
@@ -98,7 +96,6 @@ CFST<FLOAT> Division(const CFST<FLOAT>& f, const CFST<FLOAT>& g)
                         M[n+j-i][i] += g.getBi(j);
                     }    
             }
-            std::cout<<"a2"<<endl;
             if ((i+j) <= n)
             {
                 //count = 0.5 * (f.getAi(i) * g.getAi(j) - f.getBi(i) * g.getBi(j));
@@ -111,33 +108,16 @@ CFST<FLOAT> Division(const CFST<FLOAT>& f, const CFST<FLOAT>& g)
                 M[n+i+j][n+i] += g.getAi(j);
             }
         }
-        std::cout<<"a3"<<endl;
         y[i] = 2*f.getAi(i);
         if (i!=0)
             y[n+i] = 2*f.getBi(i);
     }
-    std::cout<<"2"<<endl;
     LinSolve<FLOAT>(2*n+1, M, y, x);
-    for (size_t i = 0; i<=2*n;++i)
-    {
-        for (size_t j = 0; j <=2*n; ++j)
-        {
-            std::cout << M[i][j]<<" ";
-        }
-        std::cout<<endl;
-    }
-    for (size_t i = 0; i<=2*n; ++i)
-    {
-        std::cout<<y[i]<<" ";
-    }
-    std::cout<<endl;
-    std::cout<<"3"<<endl; 
     for(size_t i = 0; i <= n; ++i)
     {
         res.setAi(i, x[i]);
         res.setBi(i, x[n+1+i]);
     }
-    std::cout<<"4"<<endl;
     return res;
 }
 }

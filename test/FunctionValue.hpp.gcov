@@ -1,0 +1,44 @@
+        -:    0:Source:../src/FunctionValue.hpp
+        -:    0:Graph:tc.gcno
+        -:    0:Data:tc.gcda
+        -:    0:Runs:1
+        -:    0:Programs:1
+        -:    1:/*
+        -:    2: * Introduction to the header template.
+        -:    3: * For each function FUNC, the file name shall be FUNC.hpp in src/DeemaAlomair folder.
+        -:    4: * Every FUNC shall be replaced with implemented function name.
+        -:    5: * The type of a CFS with FLOAT is CFST<FLOAT>
+        -:    6: * The code shall follow c++17 standard.
+        -:    7: * Only the c++ standard libraries are allowed.
+        -:    8: * C-style code is highly not recommended.
+        -:    9: */
+        -:   10:
+        -:   11:#ifndef FSL_FUNCTIONVALUE_HPP
+        -:   12:#define FSL_FUNCTIONVALUE_HPP
+        -:   13:
+        -:   14:#include "CFSData.hpp"
+        -:   15:#include <cmath>
+        -:   16:
+        -:   17:/*Other library inclusion is here*/
+        -:   18:namespace FSL{
+        -:   19:template<class FLOAT>
+        1:   20:FLOAT FunctionValue(const CFST<FLOAT>& CFS, FLOAT t)
+        -:   21:{
+        1:   22:    FLOAT result = 0;
+        1:   23:    result += CFS.getAi(0);
+        1:   24:    size_t n = CFS.getn();
+        1:   25:    FLOAT omega = CFS.getomega();
+        3:   26:    for (size_t i = 1; i <= n; ++i)
+        -:   27:    {
+        2:   28:        result += CFS.getAi(i)*cos(i*omega*t);
+        2:   29:        result += CFS.getBi(i)*sin(i*omega*t);
+        -:   30:    }
+        1:   31:    return result;
+        -:   32:}
+        -:   33:}
+        -:   34:#endif
+        -:   35:
+        -:   36:/*
+        -:   37: * Type N in MIS shall be translated to size_t in C++. 
+        -:   38: * This type is already introduced in CFSData.h
+        -:   39: */

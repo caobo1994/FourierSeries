@@ -22,21 +22,21 @@
         -:   17:namespace FSL{
         -:   18:
         -:   19:template<class FLOAT>
-        5:   20:inline FLOAT sqr(FLOAT x)
+       74:   20:inline FLOAT sqr(FLOAT x)
         -:   21:{
-        5:   22:	return x*x;
+       74:   22:	return x*x;
         -:   23:}
         -:   24:
         -:   25:template<class FLOAT>
-        1:   26:FLOAT Amplitude(const CFST<FLOAT>& f)
+       14:   26:FLOAT Amplitude(const CFST<FLOAT>& f)
         -:   27:{
-        1:   28:    FLOAT ressq = sqr(f.getAi(0));
-        1:   29:    size_t n = f.getn();
-        3:   30:    for (size_t i = 1; i <= n; ++i)
+       14:   28:    FLOAT ressq = sqr(f.getAi(0));
+       14:   29:    size_t n = f.getn();
+       44:   30:    for (size_t i = 1; i <= n; ++i)
         -:   31:    {
-        2:   32:    	ressq += 0.5*(sqr(f.getAi(i))+sqr(f.getBi(i)));
+       30:   32:    	ressq += 0.5*(sqr(f.getAi(i))+sqr(f.getBi(i)));
         -:   33:    }
-        1:   34:    return sqrt(ressq);
+       14:   34:    return sqrt(ressq);
         -:   35:}
         -:   36:
         -:   37:}
