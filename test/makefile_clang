@@ -6,7 +6,7 @@ CC  = $(CCOMPILER)
 CXX = $(CXXCOMPILER)
 
 
-CODE_COVERAGE= -fprofile-arcs -ftest-coverage
+#CODE_COVERAGE= -fprofile-arcs -ftest-coverage
 
 WARNINGS=-fpermissive -Wno-missing-declarations -Wall -Wextra \
 -Wpedantic -pedantic-errors -Wno-unused-parameter
@@ -26,7 +26,7 @@ INCLUDES += -I../src/ -I/usr/include/eigen3
 
 LDFLAGS += -L/usr/lib/gcc/x86_64-linux-gnu/7/
 
-LDLIBS  += -lgcov -llapack -lblas -lm
+LDLIBS  += -llapack -lblas -lm -lc++
 
 
 CXXFLAGS += $(COMPFLAGS)  $(INCLUDES)

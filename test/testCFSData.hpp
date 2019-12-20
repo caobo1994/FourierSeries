@@ -94,7 +94,7 @@ SCENARIO("Setters", "[CFSData]")
 		{
 			auto f1 = f;
 			f1.setB({4.0, 3.0});
-			THEN("A shall be set accordingly");
+			THEN("A shall be set accordingly")
 			{
 				REQUIRE(f1.getB()==SEQ{4.0, 3.0});
 			}
