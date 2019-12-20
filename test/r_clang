@@ -1,0 +1,5 @@
+#!/bin/bash
+
+make -f makefile_clang clean
+make -f makefile_clang
+./tc

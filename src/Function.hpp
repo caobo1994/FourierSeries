@@ -81,7 +81,7 @@ FLOAT lnDeriv(size_t i)
 		return 0;
 	}
 	FLOAT res = 1;
-	for (int j = 1; j <= i; ++j)
+	for (size_t j = 1; j <= i; ++j)
 	{
 		res *= FLOAT(-j);
 	}
